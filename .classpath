@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="gen"/>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry kind="lib" path="libs/jetty-6.1.26.jar"/>
+	<classpathentry kind="lib" path="libs/jetty-util-6.1.26.jar"/>
+	<classpathentry kind="lib" path="libs/servlet-api-2.5-20081211.jar"/>
+	<classpathentry kind="output" path="bin/classes"/>
+</classpath>
