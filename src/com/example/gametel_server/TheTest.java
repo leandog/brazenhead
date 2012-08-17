@@ -100,6 +100,7 @@ public class TheTest extends ActivityInstrumentationTestCase2 {
 
             if (request.getPathInfo().equals("/kill")) {
                 try {
+                    response.flushBuffer();
                     server.stop();
                 } catch (Exception e) {
                     e.printStackTrace();
