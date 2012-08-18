@@ -1,7 +1,7 @@
-#BigShitFancy / gametel-server Spike
+#gametel-driver
 
 ###Command To Execute
-`adb shell am instrument -e packageName com.example.android.apis -e fullLauncherName com.example.android.apis.ApiDemos -e class com.example.gametel_server.TheTest com.example.gametel_server/com.example.gametel_server.ServerInstrumentation`
+`adb shell am instrument -e packageName com.example.android.apis -e fullLauncherName com.example.android.apis.ApiDemos -e class com.leandog.gametel.driver.TheTest com.leandog.gametel.driver/com.leandog.gametel.driver.GametelInstrumentation`
 
 ###Then...
 `adb forward tcp:<local port> tcp:54767`
