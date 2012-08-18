@@ -1,4 +1,4 @@
-package com.example.gametel_server;
+package com.leandog.gametel.driver;
 
 import android.os.Bundle;
 import android.test.InstrumentationTestRunner;

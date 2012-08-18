@@ -1,4 +1,4 @@
-package com.example.gametel_server;
+package com.leandog.gametel.driver;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,18 +22,9 @@ import com.jayway.android.robotium.solo.Solo;
 @SuppressWarnings("rawtypes")
 public class TheTest extends ActivityInstrumentationTestCase2 {
 
-    private static Class<?> launcherActivityClass;
-    static {
-        try {
-            launcherActivityClass = Class.forName(TestRunInformation.getFullLauncherName());
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     @SuppressWarnings("unchecked")
     public TheTest() throws ClassNotFoundException {
-        super(TestRunInformation.getPackageName(), launcherActivityClass);
+        super(TestRunInformation.getPackageName(), Class.forName(TestRunInformation.getFullLauncherName()));
     }
 
     private Solo solo;
@@ -44,7 +35,7 @@ public class TheTest extends ActivityInstrumentationTestCase2 {
         solo = new Solo(getInstrumentation(), getActivity());
     }
 
-    public void testCanOpenSettings() {
+    public void testAllTheThings() {
         server = new Server();
         try {
             server.setHandler(new HelloWorld());
@@ -117,6 +108,5 @@ public class TheTest extends ActivityInstrumentationTestCase2 {
     @Override
     public void tearDown() throws Exception {
         solo.finishOpenedActivities();
-
     }
 }
