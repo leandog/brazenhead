@@ -4,7 +4,7 @@
     android:versionName="1.0" >
 
     <instrumentation
-        android:name="com.leandog.gametel.driver.ServerInstrumentation"
+        android:name="com.leandog.gametel.driver.GametelInstrumentation"
         android:targetPackage="com.example.android.apis" />
     
     <uses-permission android:name="android.permission.INTERNET" />

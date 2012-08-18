@@ -3,7 +3,7 @@ package com.leandog.gametel.driver;
 import android.os.Bundle;
 import android.test.InstrumentationTestRunner;
 
-public class ServerInstrumentation extends InstrumentationTestRunner {
+public class GametelInstrumentation extends InstrumentationTestRunner {
 
     @Override
     public void onCreate(Bundle arguments) {
