@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="gametel-driver" default="help">
 
-    <!-- The local.properties file is created and updated by the 'android' tool.
+  <property environment="env" />
+  <property name="test.dir" value="../units/src" />
+  <property name="out.test.dir" value="./tests" />
+  <property name="fail.on.broken.tests" value="true" />
+
+  <!-- The local.properties file is created and updated by the 'android' tool.
          It contains the path to the SDK. It should *NOT* be checked into
          Version Control Systems. -->
     <property file="local.properties" />
@@ -41,9 +46,9 @@
 
     <!-- quick check on sdk.dir -->
     <fail
-            message="sdk.dir is missing. Make sure to generate local.properties using 'android update project' or to inject it through an env var"
-            unless="sdk.dir"
-    />
+      message="sdk.dir is missing. Make sure to generate local.properties using 'android update project' or to inject it through an env var"
+      unless="sdk.dir"
+      />
 
     <!--
         Import per project custom build rules if present at the root of the project.
@@ -80,4 +85,37 @@
     <!-- version-tag: 1 -->
     <import file="${sdk.dir}/tools/ant/build.xml" />
 
-</project>
+    <path id="classpath.test">
+      <pathelement location="../units/libs/junit-4.10.jar" />
+      <pathelement location="../units/libs/android.jar" />
+      <pathelement location="../units/libs/maps.jar" />
+      <pathelement location="../units/libs/mockito-all-1.9.0.jar" />
+      <pathelement location="libs/servlet-api-2.5-20081211.jar" />
+      <pathelement location="libs/jetty-6.1.26.jar" />
+      <pathelement location="libs/jetty-util-6.1.26.jar" />
+      <pathelement location="libs/robotium-solo-3.3.jar" />
+      <pathelement location="../units/libs/robolectric-1.2-SNAPSHOT-jar-with-dependencies.jar" />
+      <pathelement location="${out.test.dir}" />
+      <pathelement location="./bin/classes" />
+    </path>
+
+    <target name="compile-tests" depends="debug">
+      <mkdir dir="${out.test.dir}" />
+      <javac srcdir="${test.dir}" destdir="${out.test.dir}" includeantruntime="false" verbose="false">
+        <classpath refid="classpath.test" />
+      </javac>
+    </target>
+
+    <target name="units" depends="compile-tests">
+      <mkdir dir="${reports.tests}" />
+      <junit fork="yes" forkmode="once" printsummary="yes" haltonfailure="${fail.on.broken.tests}">
+        <formatter type="xml" />
+        <formatter type="plain" usefile="false" />
+        <classpath refid="classpath.test" />
+        <batchtest todir="${reports.tests}">
+          <fileset dir="${test.dir}" includes="**/*Test.java **/*Tests.java" />
+        </batchtest>
+      </junit>
+    </target>
+
+  </project>

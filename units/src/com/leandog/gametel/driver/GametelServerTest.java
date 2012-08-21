@@ -2,8 +2,8 @@ package com.leandog.gametel.driver;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +11,6 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mortbay.jetty.Connector;
 import org.mortbay.jetty.bio.SocketConnector;
 
 import com.jayway.android.robotium.solo.Solo;

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="gametel_driver">
+  <property name="emma.dir" value="${sdk.dir}/tools/lib" />
+  <property environment="env" />
+
+  <macrodef name="ant-for-all-projects">
+    <attribute name="target" default="NOT SET" />
+    <attribute name="failonerror" default="true" />
+    <sequential>
+      <ant dir="./driver" target="@{target}" />
+    </sequential>
+  </macrodef>
+
+  <target name="clean">
+    <ant-for-all-projects target="clean" />
+  </target>
+
+  <target name="deploy" depends="clean">
+    <ant dir="./driver" target="uninstall" />
+    <ant dir="./driver" target="test" />
+    <ant dir="./driver" target="install" />
+  </target>
+
+  <target name="release" depends="clean">
+    <ant dir="./driver" target="release" />
+  </target>
+
+  <target name="test">
+    <exec executable="ant" dir="./driver">
+      <arg value="units" />
+    </exec>
+  </target>
+
+</project>
