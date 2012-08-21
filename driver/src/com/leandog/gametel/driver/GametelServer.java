@@ -11,11 +11,11 @@ import com.jayway.android.robotium.solo.Solo;
 public class GametelServer {
     Server server;
 
-    public GametelServer(final Solo solo) {
+    public GametelServer(final Solo solo, final Server server) {
+        this.server = server;
     }
 
     public void start() throws Exception {
-        server = new Server();
         server.setHandler(new GametelRequestHandler(this));
         server.addConnector(createConnector());
         server.start();
