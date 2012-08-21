@@ -1,10 +1,9 @@
 package com.leandog.gametel.driver;
 
-import org.mortbay.jetty.Server;
-
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.jayway.android.robotium.solo.Solo;
+import com.leandog.gametel.driver.server.JettyServer;
 
 @SuppressWarnings("rawtypes")
 public class TheTest extends ActivityInstrumentationTestCase2 {
@@ -20,7 +19,7 @@ public class TheTest extends ActivityInstrumentationTestCase2 {
     @Override
     protected void setUp() throws Exception {
         solo = new Solo(getInstrumentation(), getActivity());
-        gametelServer = new GametelServer(solo, new Server());
+        gametelServer = new GametelServer(solo, new JettyServer());
     }
 
     public void testAllTheThings() throws Exception {

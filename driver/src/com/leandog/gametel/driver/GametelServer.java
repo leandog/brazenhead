@@ -1,17 +1,17 @@
 package com.leandog.gametel.driver;
 
 import org.mortbay.jetty.Connector;
-import org.mortbay.jetty.Server;
 import org.mortbay.jetty.bio.SocketConnector;
 
 import android.util.Log;
 
 import com.jayway.android.robotium.solo.Solo;
+import com.leandog.gametel.driver.server.JettyServer;
 
 public class GametelServer {
-    Server server;
+    JettyServer server;
 
-    public GametelServer(final Solo solo, final Server server) {
+    public GametelServer(final Solo solo, final JettyServer server) {
         this.server = server;
     }
 
