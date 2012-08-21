@@ -1,7 +1,5 @@
 package com.leandog.gametel.driver;
 
-
-
 import org.mortbay.jetty.Connector;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.bio.SocketConnector;
