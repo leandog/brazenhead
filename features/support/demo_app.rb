@@ -13,7 +13,7 @@ class DemoApp
   end
 
   def teardown
-    [@app, @test_app].each do |app|
+    all_apks do |app|
       puts "Removing #{app[:package]}..."
       uninstall app[:package]
     end
@@ -21,7 +21,7 @@ class DemoApp
 
   private
   def install_app
-    [@app, @test_app].each do |app|
+    all_apks do |app|
       puts "Installing #{app[:apk]}..."
       install app[:apk]
     end
@@ -32,6 +32,12 @@ class DemoApp
     host = 'tcp:54767'
     puts "Forwarding #{local} to #{host}..."
     forward local, host
+  end
+
+  def all_apks(&block)
+    [@app, @test_app].each do |app|
+      block.call app
+    end
   end
 
   def start
