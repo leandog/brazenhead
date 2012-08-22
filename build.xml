@@ -15,12 +15,6 @@
     <ant-for-all-projects target="clean" />
   </target>
 
-  <target name="deploy" depends="clean">
-    <ant dir="./driver" target="uninstall" />
-    <ant dir="./driver" target="test" />
-    <ant dir="./driver" target="install" />
-  </target>
-
   <target name="release" depends="clean">
     <ant dir="./driver" target="release" />
   </target>

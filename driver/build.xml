@@ -99,7 +99,23 @@
       <pathelement location="./bin/classes" />
     </path>
 
-    <target name="compile-tests" depends="debug">
+    <macrodef name="quietly-build">
+      <attribute name="target" default="NOT SET" />
+      <attribute name="quiet" default="true" />
+      <attribute name="verbose" default="false" />
+      <sequential>
+        <ant target="@{target}" />
+      </sequential>
+    </macrodef>
+
+    <target name="-quiet-debug">
+      <exec executable="ant">
+        <arg value="debug" />
+        <arg value="-q" />
+      </exec>
+    </target>
+
+    <target name="compile-tests" depends="-quiet-debug">
       <mkdir dir="${out.test.dir}" />
       <javac srcdir="${test.dir}" destdir="${out.test.dir}" includeantruntime="false" verbose="false">
         <classpath refid="classpath.test" />
@@ -108,7 +124,7 @@
 
     <target name="units" depends="compile-tests">
       <mkdir dir="${reports.tests}" />
-      <junit fork="yes" forkmode="once" printsummary="yes" haltonfailure="${fail.on.broken.tests}">
+      <junit fork="yes" forkmode="once" printsummary="withOutAndErr" haltonfailure="${fail.on.broken.tests}">
         <formatter type="xml" />
         <formatter type="plain" usefile="false" />
         <classpath refid="classpath.test" />
@@ -116,6 +132,7 @@
           <fileset dir="${test.dir}" includes="**/*Test.java **/*Tests.java" />
         </batchtest>
       </junit>
+      <delete dir="${reports.tests}" />
     </target>
 
   </project>
