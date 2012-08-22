@@ -62,7 +62,7 @@ public class GametelRequestHandler extends AbstractHandler {
     }
 
     private void writeResultTo(HttpServletResponse response) throws IOException {
-        response.getWriter().println(new Gson().toJson(commandRunner.theLastResult()));
+        response.getWriter().print(new Gson().toJson(commandRunner.theLastResult()));
     }
 
     private List<Command> getCommands(HttpServletRequest request) {

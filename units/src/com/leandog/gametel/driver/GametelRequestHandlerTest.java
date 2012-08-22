@@ -65,7 +65,7 @@ public class GametelRequestHandlerTest {
     public void itCanReturnPrimitiveResults() {
         when(commandRunner.theLastResult()).thenReturn(1234);
         post(new Command());
-        verify(responseWriter).println("1234");
+        verify(responseWriter).print("1234");
     }
 
     private void initMocks() throws IOException {
