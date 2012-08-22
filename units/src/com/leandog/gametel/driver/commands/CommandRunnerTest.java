@@ -1,6 +1,9 @@
 package com.leandog.gametel.driver.commands;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -26,6 +29,13 @@ public class CommandRunnerTest {
     public void itCanInvokeParameterlessSoloMethod() {
         commandRunner.execute(new Command("goBack"));
         verify(solo).goBack();
+    }
+    
+    @Test
+    public void itCanGiveTheLastResult() {
+        when(solo.scrollDown()).thenReturn(true);
+        commandRunner.execute(new Command("scrollDown"));
+        assertThat(commandRunner.theLastResult(), equalTo((Object)true));
     }
 
     private void initMocks() {
