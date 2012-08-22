@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+
+require 'gametel_driver'
+GametelDriver::CLI.start
