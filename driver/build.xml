@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="gametel-driver" default="help">
+<project name="gametel_driver" default="help">
 
   <property environment="env" />
   <property name="test.dir" value="../units/src" />
