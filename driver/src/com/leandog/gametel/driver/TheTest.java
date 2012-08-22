@@ -9,7 +9,6 @@ import com.leandog.gametel.driver.server.JettyServer;
 public class TheTest extends ActivityInstrumentationTestCase2 {
 
     private GametelServer gametelServer;
-    private Solo solo;
 
     @SuppressWarnings("unchecked")
     public TheTest() throws ClassNotFoundException {
@@ -18,8 +17,8 @@ public class TheTest extends ActivityInstrumentationTestCase2 {
 
     @Override
     protected void setUp() throws Exception {
-        solo = new Solo(getInstrumentation(), getActivity());
-        gametelServer = new GametelServer(solo, new JettyServer());
+        TestRunInformation.setSolo(new Solo(getInstrumentation(), getActivity()));
+        gametelServer = new GametelServer(new JettyServer());
     }
 
     public void testAllTheThings() throws Exception {
@@ -29,7 +28,7 @@ public class TheTest extends ActivityInstrumentationTestCase2 {
 
     @Override
     public void tearDown() throws Exception {
-        solo.finishOpenedActivities();
+        TestRunInformation.getSolo().finishOpenedActivities();
     }
 
 }

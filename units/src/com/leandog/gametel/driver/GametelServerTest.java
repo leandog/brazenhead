@@ -12,21 +12,19 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mortbay.jetty.bio.SocketConnector;
 
-import com.jayway.android.robotium.solo.Solo;
 import com.leandog.gametel.driver.server.JettyServer;
 import com.leandog.gametel.driver.test.GametelTestRunner;
 
 @RunWith(GametelTestRunner.class)
 public class GametelServerTest {
 
-    @Mock Solo solo;
     @Mock JettyServer server;
 
     private GametelServer gametelServer;
 
     @Before
     public void setUp() {
-        gametelServer = new GametelServer(solo, server);
+        gametelServer = new GametelServer(server);
     }
 
     @Test

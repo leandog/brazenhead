@@ -5,13 +5,12 @@ import org.mortbay.jetty.bio.SocketConnector;
 
 import android.util.Log;
 
-import com.jayway.android.robotium.solo.Solo;
 import com.leandog.gametel.driver.server.JettyServer;
 
 public class GametelServer {
     JettyServer server;
 
-    public GametelServer(final Solo solo, final JettyServer server) {
+    public GametelServer(final JettyServer server) {
         this.server = server;
     }
 
