@@ -2,7 +2,7 @@
 require File.expand_path('../lib/gametel_driver/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.authors       = ["Levi Winson", "Jeffrey S. Morgan"]
+  gem.authors       = ["Levi Wilson", "Jeffrey S. Morgan"]
   gem.email         = ["levi@leandog.com", "jeff.morgan@leandog.com"]
   gem.description   = %q{Driver that accepts remote json requests and invokes methods inside Android emulator / device.}
   gem.summary       = %q{Driver that accepts remote json requests and invokes methods inside Android emulator / device.}
