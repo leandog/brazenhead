@@ -29,6 +29,8 @@ public class GametelRequestHandler extends AbstractHandler {
     
     @Override
     public void handle(String target, HttpServletRequest request, HttpServletResponse response, int dispatch) throws IOException, ServletException {
+        setHandled(request);
+        
         if (isKillCommand(request)) {
             stopServer(response);
             return;
@@ -39,7 +41,6 @@ public class GametelRequestHandler extends AbstractHandler {
         }
         
         response.setStatus(HttpServletResponse.SC_OK);
-        setHandled(request);
     }
 
     private boolean isKillCommand(HttpServletRequest request) {
