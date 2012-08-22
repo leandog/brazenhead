@@ -23,7 +23,7 @@ public class GametelRequestHandler extends AbstractHandler {
         response.setContentType("application/json;charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
         response.getWriter().println("{hello: 'World'}");
-        ((Request) request).setHandled(true);
+        setHandled(request);
 
         if (request.getPathInfo().equals("/kill")) {
             try {
@@ -33,6 +33,10 @@ public class GametelRequestHandler extends AbstractHandler {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void setHandled(HttpServletRequest request) {
+        ((Request) request).setHandled(true);
     }
 
 }
