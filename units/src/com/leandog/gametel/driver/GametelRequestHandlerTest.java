@@ -29,6 +29,12 @@ public class GametelRequestHandlerTest {
         handler = new GametelRequestHandler(gametelServer);
     }
     
+    @Test(expected = RuntimeException.class)
+    public void itRequiresACommandsParameter() {
+        when(request.getParameter("commands")).thenReturn(null);
+        handle();
+    }
+    
     @Test
     public void itStopsTheServerWhenAskedTo() throws Exception {
         when(request.getPathInfo()).thenReturn("/kill");
