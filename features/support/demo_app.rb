@@ -15,7 +15,11 @@ class DemoApp
   def teardown
     all_apks do |app|
       puts "Removing #{app[:package]}..."
-      uninstall app[:package]
+      begin
+        uninstall app[:package]
+      rescue ADBError => e
+        fail "#{e}:  #{last_stderr}"
+      end
     end
   end
 
@@ -23,7 +27,11 @@ class DemoApp
   def install_app
     all_apks do |app|
       puts "Installing #{app[:apk]}..."
-      install app[:apk]
+      begin
+        install app[:apk]
+      rescue ADBError => e
+        fail "#{e}:  #{last_stderr}"
+      end
     end
   end
 
