@@ -30,7 +30,7 @@ public class CommandRunnerTest {
         }
 
         @Test
-        public void itCanInvokeParameterlessSoloMethod() {
+        public void itCanInvokeParameterless() {
             commandRunner.execute(new Command("goBack"));
             verify(solo).goBack();
         }
@@ -43,9 +43,15 @@ public class CommandRunnerTest {
         }
 
         @Test
-        public void itCanCallSoloMethodsThatTakeIntegers() {
+        public void itCanInvokeMethodsTakingIntegers() {
             commandRunner.execute(new Command("clearEditText", 3));
             verify(solo).clearEditText(3);
+        }
+        
+        @Test
+        public void itCanInvokeMethodsTakingFloats() {
+            commandRunner.execute(new Command("clickLongOnScreen", 1.0f, 2.0f));
+            verify(solo).clickLongOnScreen(1.0f, 2.0f);
         }
 
         private void initMocks() {

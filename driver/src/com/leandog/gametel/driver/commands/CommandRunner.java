@@ -29,8 +29,11 @@ public class CommandRunner {
 
     private Class<? extends Object> typeFor(final Object argument) {
         Class<? extends Object> argumentType = argument.getClass();
+        
         if( argumentType.equals(Integer.class) ) {
             argumentType = int.class;
+        } else if( argumentType.equals(Float.class)) {
+            argumentType = float.class;
         }
         return argumentType;
     }
