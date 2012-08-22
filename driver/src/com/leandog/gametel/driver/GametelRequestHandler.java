@@ -28,20 +28,20 @@ public class GametelRequestHandler extends AbstractHandler {
     }
     
     @Override
-    public void handle(String target, HttpServletRequest request, HttpServletResponse response, int dispatch) throws IOException, ServletException {
-        setHandled(request);
+    public void handle(String target, HttpServletRequest theRequest, HttpServletResponse theResponse, int dispatch) throws IOException, ServletException {
+        setHandled(theRequest);
         
-        if (isKillCommand(request)) {
-            stopServer(response);
+        if (isKillCommand(theRequest)) {
+            stopServer(theResponse);
             return;
         }
         
-        for(final Command command : getCommands(request)) {
+        for(final Command command : getCommands(theRequest)) {
             commandRunner.execute(command);
         }
         
-        response.getWriter().println(new Gson().toJson(commandRunner.theLastResult()));
-        response.setStatus(HttpServletResponse.SC_OK);
+        writeResultTo(theResponse);
+        theResponse.setStatus(HttpServletResponse.SC_OK);
     }
 
     private boolean isKillCommand(HttpServletRequest request) {
@@ -59,6 +59,10 @@ public class GametelRequestHandler extends AbstractHandler {
 
     private void setHandled(HttpServletRequest request) {
         ((Request) request).setHandled(true);
+    }
+
+    private void writeResultTo(HttpServletResponse response) throws IOException {
+        response.getWriter().println(new Gson().toJson(commandRunner.theLastResult()));
     }
 
     private List<Command> getCommands(HttpServletRequest request) {
