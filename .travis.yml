@@ -6,6 +6,7 @@ notifications:
     - levi@leviwilson.com
 script:
   - ant test
+  - rake features
 before_install:
   - wget http://dl.google.com/android/android-sdk_r18-linux.tgz
   - tar -zxf android-sdk_r18-linux.tgz
@@ -14,3 +15,9 @@ before_install:
   - android update sdk -s --filter 1,2 --no-ui --force
   - android update sdk -s --filter 5,10,25,29,33 --no-ui --force
   - android update project -p ./driver
+  - echo no | android create avd -n android-15 -t 3
+  - tail ~/.android/avd/android-15.avd/config.ini
+  - sed -i 's/ramSize=[0-9]+/ramSize=1024/g' ~/.android/avd/android-15.avd/config.ini
+  - sed -i 's/heapSize=[0-9]+/heapSize=256/g' ~/.android/avd/android-15.avd/config.ini
+  - emulator-arm -avd android-15 -no-window -no-audio -gpu on 1>&2 &
+  - sh wait_for_emulator.sh
