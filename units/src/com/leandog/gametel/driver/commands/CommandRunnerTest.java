@@ -37,6 +37,12 @@ public class CommandRunnerTest {
         commandRunner.execute(new Command("scrollDown"));
         assertThat(commandRunner.theLastResult(), equalTo((Object)true));
     }
+    
+    @Test
+    public void itCanCallSoloMethodsThatTakeIntegers() {
+        commandRunner.execute(new Command("clearEditText", 3));
+        verify(solo).clearEditText(3);
+    }
 
     private void initMocks() {
         MockitoAnnotations.initMocks(this);
