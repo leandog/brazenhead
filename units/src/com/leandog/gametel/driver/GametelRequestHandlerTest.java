@@ -57,10 +57,15 @@ public class GametelRequestHandlerTest {
     
     @Test
     public void itCanInvokeCommands() {
-        when(request.getParameter("commands"))
-            .thenReturn(jsonCommands(new Command(), new Command()));
-        handle();
+        post(new Command(), new Command());
         verify(commandRunner, times(2)).execute((Command)any());
+    }
+
+    @Test
+    public void itCanReturnPrimitiveResults() {
+        when(commandRunner.theLastResult()).thenReturn(1234);
+        post(new Command());
+        verify(responseWriter).println("1234");
     }
 
     private void initMocks() throws IOException {
@@ -76,6 +81,12 @@ public class GametelRequestHandlerTest {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void post(Command... commands) {
+        when(request.getParameter("commands"))
+            .thenReturn(jsonCommands(commands));
+        handle();
     }
 
     private String jsonCommands(final Command... commands) {

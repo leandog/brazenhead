@@ -40,6 +40,7 @@ public class GametelRequestHandler extends AbstractHandler {
             commandRunner.execute(command);
         }
         
+        response.getWriter().println(new Gson().toJson(commandRunner.theLastResult()));
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
