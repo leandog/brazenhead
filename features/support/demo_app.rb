@@ -16,7 +16,7 @@ class DemoApp
     all_apks do |app|
       puts "Removing #{app[:package]}..."
       begin
-        uninstall app[:package]
+        uninstall app[:package], {}, 60
       rescue ADBError => e
         fail "#{e}:  #{last_stderr}"
       end
@@ -28,7 +28,7 @@ class DemoApp
     all_apks do |app|
       puts "Installing #{app[:apk]}..."
       begin
-        install app[:apk]
+        install app[:apk], {}, 60
       rescue ADBError => e
         fail "#{e}:  #{last_stderr}"
       end
