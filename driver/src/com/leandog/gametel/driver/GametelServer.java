@@ -5,6 +5,7 @@ import org.mortbay.jetty.bio.SocketConnector;
 
 import android.util.Log;
 
+import com.leandog.gametel.driver.commands.CommandRunner;
 import com.leandog.gametel.driver.server.JettyServer;
 
 public class GametelServer {
@@ -15,7 +16,7 @@ public class GametelServer {
     }
 
     public void start() throws Exception {
-        server.setHandler(new GametelRequestHandler(this));
+        server.setHandler(new GametelRequestHandler(this, new CommandRunner()));
         server.addConnector(createConnector());
         server.start();
         log("Started the server..");
