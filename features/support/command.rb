@@ -17,7 +17,14 @@ module Command
   end
 
   def execute(*commands)
-    @last_response = @http.post '/', "commands=#{commands.to_json}"
+    retries = 0
+    begin
+      @last_response = @http.post '/', "commands=#{commands.to_json}"
+    rescue
+      retries += 1
+      sleep 1
+      retry unless retries > 20
+    end
   end
 
 end
