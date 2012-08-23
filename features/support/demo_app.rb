@@ -34,8 +34,8 @@ class DemoApp
   def port_forward
     local = 'tcp:7777'
     host = 'tcp:54767'
+    `adb forward #{local} #{host}`
     puts "Forwarding #{local} to #{host}..."
-    forward local, host
   end
 
   def all_apks(&block)
