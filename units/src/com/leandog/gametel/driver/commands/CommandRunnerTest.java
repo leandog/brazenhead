@@ -19,8 +19,7 @@ import com.leandog.gametel.driver.TestRunInformation;
 public class CommandRunnerTest {
 
     public static class ExecutingAgainstRobotium {
-        @Mock
-        Solo solo;
+        @Mock Solo solo;
         private CommandRunner commandRunner;
 
         @Before
@@ -52,6 +51,18 @@ public class CommandRunnerTest {
         public void itCanInvokeMethodsTakingFloats() {
             commandRunner.execute(new Command("clickLongOnScreen", 1.0f, 2.0f));
             verify(solo).clickLongOnScreen(1.0f, 2.0f);
+        }
+        
+        @Test
+        public void itCanInvokeMethodsTakingAString() {
+            commandRunner.execute(new Command("clickLongOnText", "someText"));
+            verify(solo).clickLongOnText("someText");
+        }
+        
+        @Test
+        public void itCanInvokeMethodsTakingABoolean() {
+            commandRunner.execute(new Command("clickOnText", "someText", 123, true));
+            verify(solo).clickOnText("someText", 123, true);
         }
 
         private void initMocks() {
