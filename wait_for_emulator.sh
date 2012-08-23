@@ -4,5 +4,5 @@ do
   sleep 10
 done
 echo "emulator ready.  waiting a sec because emulators are fickle beasts..."
-sleep 45
+sleep 180
 echo "Ready to roll"
