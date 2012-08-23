@@ -23,6 +23,7 @@ module Command
     rescue Exception => err
       retries += 1
       sleep 1
+      puts "Retrying to send the commands #{commands.to_json}..."
       retry unless retries > 20
       raise err
     end
