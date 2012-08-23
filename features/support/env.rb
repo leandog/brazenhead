@@ -15,7 +15,8 @@ AfterConfiguration do
 end
 
 Before do
-  connect
+  app.start_and_wait
+  connect unless connected?
 end
 
 After do

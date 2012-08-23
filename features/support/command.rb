@@ -8,6 +8,10 @@ module Command
     @http = Net::HTTP.new server, port
   end
 
+  def connected?
+    !@http.nil?
+  end
+
   def kill
     @http.post '/kill', {}.to_json
   end

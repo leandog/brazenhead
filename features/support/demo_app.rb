@@ -8,7 +8,6 @@ class DemoApp
 
   def setup
     install_app
-    start
     port_forward
   end
 
@@ -17,6 +16,11 @@ class DemoApp
       puts "Removing #{app[:package]}..."
       `adb uninstall #{app[:package]}`
     end
+  end
+
+  def start_and_wait(wait=5)
+    shell "am instrument -e packageName #{@app[:package]} -e fullLauncherName #{@app[:package]}.ApiDemos -e class com.leandog.gametel.driver.TheTest #{@test_app[:package]}/com.leandog.gametel.driver.GametelInstrumentation"
+    sleep wait
   end
 
   private
@@ -38,10 +42,5 @@ class DemoApp
     [@app, @test_app].each do |app|
       block.call app
     end
-  end
-
-  def start
-    shell "am instrument -e packageName #{@app[:package]} -e fullLauncherName #{@app[:package]}.ApiDemos -e class com.leandog.gametel.driver.TheTest #{@test_app[:package]}/com.leandog.gametel.driver.GametelInstrumentation"
-    sleep 2
   end
 end
