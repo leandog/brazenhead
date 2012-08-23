@@ -20,10 +20,11 @@ module Command
     retries = 0
     begin
       @last_response = @http.post '/', "commands=#{commands.to_json}"
-    rescue
+    rescue Exception => err
       retries += 1
       sleep 1
       retry unless retries > 20
+      raise err
     end
   end
 
