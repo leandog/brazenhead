@@ -29,22 +29,7 @@ public class CommandDeserializer implements JsonDeserializer<Command> {
         Object[] arguments = new Object[jsonArray.size()];
         for (int index = 0; index < jsonArray.size(); index++) {
             final JsonElement element = jsonArray.get(index);
-
-            Object argument = null;
-            if (element.isJsonPrimitive()) {
-                JsonPrimitive primitive = (JsonPrimitive) element;
-                if (primitive.isBoolean())
-                    argument = primitive.getAsBoolean();
-                if (primitive.isString())
-                    argument = primitive.getAsString();
-                if (primitive.isNumber()) {
-                    argument = getNumberValue(primitive);
-                }
-            } else {
-                argument = context.deserialize(argumentElement, Object.class);
-            }
-
-            arguments[index] = argument;
+            arguments[index] = asPrimitive(element);
         }
 
         return arguments;
@@ -54,17 +39,36 @@ public class CommandDeserializer implements JsonDeserializer<Command> {
         return null == argumentElement || argumentElement.isJsonNull() || !argumentElement.isJsonArray();
     }
 
-    private Object getNumberValue(JsonPrimitive primitive) {
+    private Object asPrimitive(final JsonElement element) {
+        if( !element.isJsonPrimitive() ) return null;
+        
+        JsonPrimitive primitive = (JsonPrimitive) element;
+
+        if (primitive.isBoolean())
+            return primitive.getAsBoolean();
+        if (primitive.isString())
+            return primitive.getAsString();
+        if (primitive.isNumber())
+            return asNumber(primitive);
+
+        throw new IllegalArgumentException();
+    }
+
+    private Object asNumber(JsonPrimitive primitive) {
         Object argument;
         try {
             argument = primitive.getAsInt();
         } catch (Exception e) {
             argument = primitive.getAsFloat();
-            if ((Float) argument == Float.POSITIVE_INFINITY) {
+            if (isProbablyADouble(argument)) {
                 argument = primitive.getAsDouble();
             }
         }
         return argument;
+    }
+
+    private boolean isProbablyADouble(Object argument) {
+        return (Float) argument == Float.POSITIVE_INFINITY;
     }
 
 }

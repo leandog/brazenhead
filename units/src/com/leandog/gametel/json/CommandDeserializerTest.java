@@ -17,7 +17,9 @@ public class CommandDeserializerTest {
 
     @Before
     public void setUp() {
-        gson = new GsonBuilder().registerTypeAdapter(Command.class, new CommandDeserializer()).create();
+        gson = new GsonBuilder()
+            .registerTypeAdapter(Command.class, new CommandDeserializer())
+            .create();
     }
 
     @Test
@@ -38,7 +40,7 @@ public class CommandDeserializerTest {
         Command actualCommand = deserialize("{arguments: null}");
         assertThat(actualCommand.getArguments(), is(new Object[0]));
     }
-    
+
     @Test
     public void itCanHandleIfArgumentsIsNotAnArray() {
         Command actualCommand = deserialize("{arguments: 3}");
@@ -50,26 +52,26 @@ public class CommandDeserializerTest {
         Command actualCommand = deserialize("{arguments: [3]}");
         assertThat(actualCommand.getArguments(), is(new Object[] { 3 }));
     }
-    
+
     @Test
     public void itCanGetABooleanArgument() {
         Command actualCommand = deserialize("{arguments: [true]}");
         assertThat(actualCommand.getArguments(), is(new Object[] { true }));
     }
-    
+
     @Test
     public void itCanGetAFloatArgument() {
         Command actualCommand = deserialize("{arguments: [3.0]}");
         assertThat(actualCommand.getArguments(), is(new Object[] { 3.0f }));
     }
-    
+
     @Test
     public void itCanGetADoubleArgument() {
         Double maxDouble = Double.MAX_VALUE;
         Command actualCommand = deserialize("{arguments: [" + maxDouble.toString() + "]}");
         assertThat(actualCommand.getArguments(), is(new Object[] { maxDouble }));
     }
-    
+
     @Test
     public void itCanGetAStringArgument() {
         Command actualCommand = deserialize("{arguments: [\"some string\"]}");
