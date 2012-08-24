@@ -13,9 +13,11 @@ import org.mortbay.jetty.Request;
 import org.mortbay.jetty.handler.AbstractHandler;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.leandog.gametel.driver.commands.Command;
 import com.leandog.gametel.driver.commands.CommandRunner;
+import com.leandog.gametel.json.CommandDeserializer;
 
 public class GametelRequestHandler extends AbstractHandler {
 
@@ -62,12 +64,18 @@ public class GametelRequestHandler extends AbstractHandler {
     }
 
     private void writeResultTo(HttpServletResponse response) throws IOException {
-        response.getWriter().print(new Gson().toJson(commandRunner.theLastResult()));
+        response.getWriter().print(gson().toJson(commandRunner.theLastResult()));
+    }
+
+    private Gson gson() {
+        return new GsonBuilder()
+            .registerTypeAdapter(Command.class, new CommandDeserializer())
+            .create();
     }
 
     private List<Command> getCommands(HttpServletRequest request) {
         Type collectionType = new TypeToken<Collection<Command>>(){}.getType();
-        return new Gson().fromJson(commandsParameter(request), collectionType);
+        return gson().fromJson(commandsParameter(request), collectionType);
     }
 
     private String commandsParameter(HttpServletRequest request) {
