@@ -12,12 +12,15 @@ import javax.servlet.http.HttpServletResponse;
 import org.mortbay.jetty.Request;
 import org.mortbay.jetty.handler.AbstractHandler;
 
+import android.view.View;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.leandog.gametel.driver.commands.Command;
 import com.leandog.gametel.driver.commands.CommandRunner;
 import com.leandog.gametel.json.CommandDeserializer;
+import com.leandog.gametel.json.ViewTypeHeirarchyAdapter;
 
 public class GametelRequestHandler extends AbstractHandler {
 
@@ -70,6 +73,7 @@ public class GametelRequestHandler extends AbstractHandler {
     private Gson gson() {
         return new GsonBuilder()
             .registerTypeAdapter(Command.class, new CommandDeserializer())
+            .registerTypeHierarchyAdapter(View.class, new ViewTypeHeirarchyAdapter())
             .create();
     }
 

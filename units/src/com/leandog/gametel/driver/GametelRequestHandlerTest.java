@@ -1,32 +1,34 @@
 package com.leandog.gametel.driver;
 
-import static org.mockito.Matchers.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 
-import javax.servlet.http.HttpServletResponse;
+import org.junit.*;
+import org.junit.runner.RunWith;
+import org.mockito.*;
+import org.mortbay.jetty.*;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
-import org.mortbay.jetty.Request;
+import android.content.Context;
+import android.view.View;
 
 import com.google.gson.Gson;
 import com.jayway.android.robotium.solo.Solo;
-import com.leandog.gametel.driver.commands.Command;
-import com.leandog.gametel.driver.commands.CommandRunner;
+import com.leandog.gametel.driver.commands.*;
+import com.leandog.gametel.driver.test.GametelTestRunner;
 
+@RunWith(GametelTestRunner.class)
 public class GametelRequestHandlerTest {
     
     @Mock GametelServer gametelServer;
     @Mock Request request;
-    @Mock HttpServletResponse response;
+    @Mock Response response;
     @Mock PrintWriter responseWriter;
     @Mock Solo solo;
+    @Mock Context context;
     @Spy CommandRunner commandRunner;
     
     private GametelRequestHandler handler;
@@ -71,6 +73,17 @@ public class GametelRequestHandlerTest {
     }
     
     @Test
+    public void itCanReturnViewResultsAsJson() {
+        when(commandRunner.theLastResult()).thenReturn(new View(context));
+        
+        post(new Command("getCurrentViews"));
+        
+        ArgumentCaptor<String> jsonArg = ArgumentCaptor.forClass(String.class);
+        verify(responseWriter).print(jsonArg.capture());
+        assertThat(jsonArg.getValue().matches("\\{.*\\}"), is(true));
+    }
+    
+    @Test
     public void itCanInvokeCommandsWithIntegers() {
         post(new Command("clickInList", 7));
         verify(solo).clickInList(7);
@@ -89,7 +102,6 @@ public class GametelRequestHandlerTest {
     }
 
     private void initMocks() throws IOException {
-        MockitoAnnotations.initMocks(this);
         when(response.getWriter()).thenReturn(responseWriter);
         when(request.getParameter("commands")).thenReturn("[]");
         when(request.getPathInfo()).thenReturn("/");
