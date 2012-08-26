@@ -31,24 +31,29 @@ public class GametelRequestHandler extends AbstractHandler {
         this.gametelServer = gametelServer;
         this.commandRunner = commandRunner;
     }
-    
+
     @Override
     public void handle(String target, HttpServletRequest theRequest, HttpServletResponse theResponse, int dispatch) throws IOException, ServletException {
         setHandled(theRequest);
-        
+
         if (isKillCommand(theRequest)) {
             stopServer(theResponse);
             return;
         }
-        
-        for(final Command command : getCommands(theRequest)) {
-            commandRunner.execute(command);
-        }
-        
-        writeResultTo(theResponse);
-        theResponse.setStatus(HttpServletResponse.SC_OK);
-    }
 
+        try {
+            for (final Command command : getCommands(theRequest)) {
+                commandRunner.execute(command);
+            }
+
+            writeResultTo(theResponse);
+            theResponse.setStatus(HttpServletResponse.SC_OK);
+        } catch (Throwable e) {
+            writeTo(theResponse, new GametelException(e));
+            theResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+    }
+    
     private boolean isKillCommand(HttpServletRequest request) {
         return request.getPathInfo().equals("/kill");
     }
@@ -67,7 +72,11 @@ public class GametelRequestHandler extends AbstractHandler {
     }
 
     private void writeResultTo(HttpServletResponse response) throws IOException {
-        response.getWriter().print(gson().toJson(commandRunner.theLastResult()));
+        writeTo(response, commandRunner.theLastResult());
+    }
+
+    private void writeTo(HttpServletResponse response, Object theValue) throws IOException {
+        response.getWriter().print(gson().toJson(theValue));
     }
 
     private Gson gson() {
@@ -78,13 +87,13 @@ public class GametelRequestHandler extends AbstractHandler {
     }
 
     private List<Command> getCommands(HttpServletRequest request) {
-        Type collectionType = new TypeToken<Collection<Command>>(){}.getType();
+        Type collectionType = new TypeToken<Collection<Command>>() {}.getType();
         return gson().fromJson(commandsParameter(request), collectionType);
     }
 
     private String commandsParameter(HttpServletRequest request) {
         final String commands = request.getParameter("commands");
-        if( null == commands ) {
+        if (null == commands) {
             throw new IllegalArgumentException("gametel-driver requires a \"commands\" parameter");
         }
         return commands;

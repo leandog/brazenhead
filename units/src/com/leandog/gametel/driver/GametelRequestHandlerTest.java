@@ -18,6 +18,7 @@ import android.view.View;
 import com.google.gson.Gson;
 import com.jayway.android.robotium.solo.Solo;
 import com.leandog.gametel.driver.commands.*;
+import com.leandog.gametel.driver.exceptions.CommandNotFoundException;
 import com.leandog.gametel.driver.test.GametelTestRunner;
 
 @RunWith(GametelTestRunner.class)
@@ -39,10 +40,10 @@ public class GametelRequestHandlerTest {
         handler = new GametelRequestHandler(gametelServer, commandRunner);
     }
     
-    @Test(expected = RuntimeException.class)
     public void itRequiresACommandsParameter() {
         when(request.getParameter("commands")).thenReturn(null);
         handle();
+        verify(response).setStatus(Response.SC_INTERNAL_SERVER_ERROR);
     }
     
     @Test
@@ -59,7 +60,7 @@ public class GametelRequestHandlerTest {
     }
     
     @Test
-    public void itCanInvokeCommands() {
+    public void itCanInvokeCommands() throws Exception {
         post(new Command("scrollDown"), new Command("booleanValue"));
         verify(commandRunner, times(2)).execute((Command)any());
     }
@@ -98,6 +99,17 @@ public class GametelRequestHandlerTest {
     public void itCanInvokeCommandsWithStrings() {
         post(new Command("clickOnMenuItem", "something"));
         verify(solo).clickOnMenuItem("something");
+    }
+    
+    @Test
+    public void itCanHandleErrorsThrownFromCommands() {
+        post(new Command("shouldNotExist"));
+        
+        ArgumentCaptor<String> responseArg = ArgumentCaptor.forClass(String.class);
+        verify(responseWriter).print(responseArg.capture());
+        
+        final GametelException gametelException = new Gson().fromJson(responseArg.getValue(), GametelException.class);
+        assertThat(gametelException.exception, is(CommandNotFoundException.class.getName()));
     }
 
     private void initMocks() throws IOException {

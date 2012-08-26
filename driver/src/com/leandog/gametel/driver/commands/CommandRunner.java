@@ -4,18 +4,15 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 import com.leandog.gametel.driver.TestRunInformation;
+import com.leandog.gametel.driver.exceptions.CommandNotFoundException;
 
 public class CommandRunner {
 
     private Object theLastResult;
 
-    public void execute(final Command command) {
-        try {
-            final Method method = findMethodFor(command);
-            theLastResult = method.invoke(theTarget(), command.getArguments());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public void execute(final Command command) throws Exception {
+        final Method method = findMethodFor(command);
+        theLastResult = method.invoke(theTarget(), command.getArguments());
     }
 
     public Object theLastResult() {
@@ -25,9 +22,14 @@ public class CommandRunner {
     private Object theTarget() {
         return (theLastResult == null) ? TestRunInformation.getSolo() : theLastResult;
     }
-
-    private Method findMethodFor(final Command command) throws NoSuchMethodException {
-        return theTarget().getClass().getMethod(command.getName(), argumentTypesFor(command));
+    
+    private Method findMethodFor(final Command command) throws Exception {
+        try {
+            Class<? extends Object> targetClass = theTarget().getClass();
+            return targetClass.getMethod(command.getName(), argumentTypesFor(command));
+        } catch (NoSuchMethodException e) {
+            throw new CommandNotFoundException(command, theTarget(), argumentTypesFor(command));
+        }
     }
 
     private static Map<Class<?>, Class<?>> primitiveMap = new HashMap<Class<?>, Class<?>>();
