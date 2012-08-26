@@ -19,8 +19,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.leandog.gametel.driver.commands.Command;
 import com.leandog.gametel.driver.commands.CommandRunner;
-import com.leandog.gametel.json.CommandDeserializer;
-import com.leandog.gametel.json.ViewTypeHeirarchyAdapter;
+import com.leandog.gametel.json.*;
 
 public class GametelRequestHandler extends AbstractHandler {
 
@@ -49,7 +48,7 @@ public class GametelRequestHandler extends AbstractHandler {
             writeResultTo(theResponse);
             theResponse.setStatus(HttpServletResponse.SC_OK);
         } catch (Throwable e) {
-            writeTo(theResponse, new GametelException(e));
+            writeTo(theResponse, e);
             theResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
@@ -82,12 +81,13 @@ public class GametelRequestHandler extends AbstractHandler {
     private Gson gson() {
         return new GsonBuilder()
             .registerTypeAdapter(Command.class, new CommandDeserializer())
+            .registerTypeHierarchyAdapter(Exception.class, new ExceptionTypeHierarchyAdapter())
             .registerTypeHierarchyAdapter(View.class, new ViewTypeHeirarchyAdapter())
             .create();
     }
 
     private List<Command> getCommands(HttpServletRequest request) {
-        Type collectionType = new TypeToken<Collection<Command>>() {}.getType();
+        Type collectionType = new TypeToken<Collection<Command>>(){}.getType();
         return gson().fromJson(commandsParameter(request), collectionType);
     }
 

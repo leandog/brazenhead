@@ -20,6 +20,7 @@ import com.jayway.android.robotium.solo.Solo;
 import com.leandog.gametel.driver.commands.*;
 import com.leandog.gametel.driver.exceptions.CommandNotFoundException;
 import com.leandog.gametel.driver.test.GametelTestRunner;
+import com.leandog.gametel.json.ExceptionTypeHierarchyAdapter.ExceptionSummary;
 
 @RunWith(GametelTestRunner.class)
 public class GametelRequestHandlerTest {
@@ -108,8 +109,8 @@ public class GametelRequestHandlerTest {
         ArgumentCaptor<String> responseArg = ArgumentCaptor.forClass(String.class);
         verify(responseWriter).print(responseArg.capture());
         
-        final GametelException gametelException = new Gson().fromJson(responseArg.getValue(), GametelException.class);
-        assertThat(gametelException.exception, is(CommandNotFoundException.class.getName()));
+        final ExceptionSummary summary = new Gson().fromJson(responseArg.getValue(), ExceptionSummary.class);
+        assertThat(summary.exception, is(CommandNotFoundException.class.getName()));
     }
 
     private void initMocks() throws IOException {
