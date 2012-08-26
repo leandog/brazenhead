@@ -24,3 +24,8 @@ Feature:  Calling Robotium methods
     When I get the first "Text" View I find
     Then I should receive a successful result
     And the view should have some basic information
+
+  Scenario: Chaining method calls
+    When I call "getCurrentListViews" and then I call "size"
+    Then I should receive a successful result
+    And the result should be "1"
