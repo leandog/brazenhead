@@ -32,7 +32,6 @@ public class GametelRequestHandlerTest {
     @Spy CommandRunner commandRunner;
     
     private GametelRequestHandler handler;
-    private Command defaultCommand = new Command("scrollDown");
     
     @Before
     public void setUp() throws IOException {
@@ -61,7 +60,7 @@ public class GametelRequestHandlerTest {
     
     @Test
     public void itCanInvokeCommands() {
-        post(defaultCommand, defaultCommand);
+        post(new Command("scrollDown"), new Command("booleanValue"));
         verify(commandRunner, times(2)).execute((Command)any());
     }
 

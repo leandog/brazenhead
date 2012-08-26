@@ -2,13 +2,10 @@ package com.leandog.gametel.driver.commands;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.junit.*;
+import org.mockito.*;
 
 import com.jayway.android.robotium.solo.Solo;
 import com.leandog.gametel.driver.TestRunInformation;
@@ -53,6 +50,13 @@ public class CommandRunnerTest {
     public void itCanInvokeMethodsTakingAString() {
         commandRunner.execute(new Command("clickLongOnText", "someText"));
         verify(solo).clickLongOnText("someText");
+    }
+    
+    @Test
+    public void itCanChainMethodCallsFromTheLastResult() {
+        commandRunner.execute(new Command("getClass"));
+        commandRunner.execute(new Command("getName"));
+        assertThat(commandRunner.theLastResult(), equalTo((Object)solo.getClass().getName()));
     }
 
     @Test
