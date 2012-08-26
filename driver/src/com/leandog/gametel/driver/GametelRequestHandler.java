@@ -81,8 +81,8 @@ public class GametelRequestHandler extends AbstractHandler {
     private Gson gson() {
         return new GsonBuilder()
             .registerTypeAdapter(Command.class, new CommandDeserializer())
-            .registerTypeHierarchyAdapter(Exception.class, new ExceptionTypeHierarchyAdapter())
-            .registerTypeHierarchyAdapter(View.class, new ViewTypeHeirarchyAdapter())
+            .registerTypeHierarchyAdapter(Exception.class, new ExceptionJsonSerializer())
+            .registerTypeHierarchyAdapter(View.class, new ViewJsonSerializer())
             .create();
     }
 

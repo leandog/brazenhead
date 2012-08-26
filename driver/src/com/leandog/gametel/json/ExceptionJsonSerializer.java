@@ -4,7 +4,7 @@ import java.lang.reflect.Type;
 
 import com.google.gson.*;
 
-public class ExceptionTypeHierarchyAdapter implements JsonSerializer<Exception> {
+public class ExceptionJsonSerializer implements JsonSerializer<Exception> {
 
     public class ExceptionSummary {
 

@@ -6,7 +6,7 @@ import android.view.View;
 
 import com.google.gson.*;
 
-public class ViewTypeHeirarchyAdapter implements JsonSerializer<View> {
+public class ViewJsonSerializer implements JsonSerializer<View> {
 
     @SuppressWarnings("unused")
     public class JsonView {

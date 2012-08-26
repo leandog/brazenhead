@@ -20,7 +20,7 @@ import com.jayway.android.robotium.solo.Solo;
 import com.leandog.gametel.driver.commands.*;
 import com.leandog.gametel.driver.exceptions.CommandNotFoundException;
 import com.leandog.gametel.driver.test.GametelTestRunner;
-import com.leandog.gametel.json.ExceptionTypeHierarchyAdapter.ExceptionSummary;
+import com.leandog.gametel.json.ExceptionJsonSerializer.ExceptionSummary;
 
 @RunWith(GametelTestRunner.class)
 public class GametelRequestHandlerTest {

@@ -14,14 +14,14 @@ import com.google.gson.*;
 import com.leandog.gametel.driver.test.GametelTestRunner;
 
 @RunWith(GametelTestRunner.class)
-public class ViewTypeHierarchyAdapterTest {
+public class ViewJsonSerializerTest {
     
     @Mock View theView;
-    ViewTypeHeirarchyAdapter viewAdapter;
+    ViewJsonSerializer viewAdapter;
     
     @Before
     public void setUp() {
-        viewAdapter = new ViewTypeHeirarchyAdapter();
+        viewAdapter = new ViewJsonSerializer();
     }
     
     @Test
