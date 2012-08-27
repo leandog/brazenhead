@@ -11,9 +11,4 @@ public class GametelInstrumentation extends InstrumentationTestRunner {
         super.onCreate(arguments);
     }
 
-    @Override
-    public void onStart() {
-       super.onStart();
-    }
-
 }
