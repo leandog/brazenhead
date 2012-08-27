@@ -1,6 +1,6 @@
 language: ruby
 jdk:
-  - openjdk6
+  - oraclejdk7
 notifications:
   email:
     - levi@leviwilson.com
