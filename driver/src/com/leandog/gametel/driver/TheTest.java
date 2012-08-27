@@ -8,7 +8,7 @@ import com.leandog.gametel.driver.server.JettyServer;
 @SuppressWarnings("rawtypes")
 public class TheTest extends ActivityInstrumentationTestCase2 {
 
-    private GametelServer gametelServer;
+    GametelServer gametelServer;
 
     @SuppressWarnings("unchecked")
     public TheTest() throws ClassNotFoundException {
