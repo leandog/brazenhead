@@ -34,7 +34,7 @@ public class Command {
     
     @Override
     public int hashCode() {
-        return Objects.hashCode(name, arguments);
+        return name.hashCode() + Arrays.hashCode(arguments);
     }
     
     @Override
