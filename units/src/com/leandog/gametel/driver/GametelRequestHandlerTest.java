@@ -2,7 +2,6 @@ package com.leandog.gametel.driver;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
 import java.io.*;
@@ -62,8 +61,10 @@ public class GametelRequestHandlerTest {
     
     @Test
     public void itCanInvokeCommands() throws Exception {
-        post(new Command("scrollDown"), new Command("booleanValue"));
-        verify(commandRunner, times(2)).execute((Command)any());
+        Command firstCommand = new Command("scrollDown");
+        Command lastCommand = new Command("booleanValue");
+        post(firstCommand, lastCommand);
+        verify(commandRunner).execute(firstCommand, lastCommand);
     }
 
     @Test

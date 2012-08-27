@@ -54,8 +54,7 @@ public class CommandRunnerTest {
     
     @Test
     public void itCanChainMethodCallsFromTheLastResult() throws Exception {
-        commandRunner.execute(new Command("getClass"));
-        commandRunner.execute(new Command("getName"));
+        commandRunner.execute(new Command("getClass"), new Command("getName"));
         assertThat(commandRunner.theLastResult(), equalTo((Object)solo.getClass().getName()));
     }
 
@@ -63,6 +62,13 @@ public class CommandRunnerTest {
     public void itCanInvokeMethodsTakingABoolean() throws Exception {
         commandRunner.execute(new Command("clickOnText", "someText", 123, true));
         verify(solo).clickOnText("someText", 123, true);
+    }
+    
+    @Test
+    public void itClearsTheLastResultBeforeExecutingAgain() throws Exception {
+        commandRunner.execute(new Command("scrollDown"));
+        commandRunner.execute(new Command("scrollDown"));
+        verify(solo, times(2)).getClass();
     }
 
     private void initMocks() {

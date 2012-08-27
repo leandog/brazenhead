@@ -1,24 +1,17 @@
 package com.leandog.gametel.driver;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.Collection;
-import java.util.List;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 
 import org.mortbay.jetty.Request;
 import org.mortbay.jetty.handler.AbstractHandler;
 
 import android.view.View;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import com.leandog.gametel.driver.commands.Command;
-import com.leandog.gametel.driver.commands.CommandRunner;
+import com.google.gson.*;
+import com.leandog.gametel.driver.commands.*;
 import com.leandog.gametel.json.*;
 
 public class GametelRequestHandler extends AbstractHandler {
@@ -41,10 +34,7 @@ public class GametelRequestHandler extends AbstractHandler {
         }
 
         try {
-            for (final Command command : getCommands(theRequest)) {
-                commandRunner.execute(command);
-            }
-
+            commandRunner.execute(getCommands(theRequest));
             writeResultTo(theResponse);
             theResponse.setStatus(HttpServletResponse.SC_OK);
         } catch (Throwable e) {
@@ -52,7 +42,7 @@ public class GametelRequestHandler extends AbstractHandler {
             theResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
-    
+
     private boolean isKillCommand(HttpServletRequest request) {
         return request.getPathInfo().equals("/kill");
     }
@@ -86,9 +76,8 @@ public class GametelRequestHandler extends AbstractHandler {
             .create();
     }
 
-    private List<Command> getCommands(HttpServletRequest request) {
-        Type collectionType = new TypeToken<Collection<Command>>(){}.getType();
-        return gson().fromJson(commandsParameter(request), collectionType);
+    private Command[] getCommands(HttpServletRequest request) {
+        return gson().fromJson(commandsParameter(request), Command[].class);
     }
 
     private String commandsParameter(HttpServletRequest request) {

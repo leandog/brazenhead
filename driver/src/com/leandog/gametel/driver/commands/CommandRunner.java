@@ -10,13 +10,21 @@ public class CommandRunner {
 
     private Object theLastResult;
 
-    public void execute(final Command command) throws Exception {
-        final Method method = findMethodFor(command);
-        theLastResult = method.invoke(theTarget(), command.getArguments());
+    public void execute(final Command... commands) throws Exception {
+        resetLastResult();
+        
+        for (final Command command : commands) {
+            final Method method = findMethodFor(command);
+            theLastResult = method.invoke(theTarget(), command.getArguments());
+        }
     }
 
     public Object theLastResult() {
         return theLastResult;
+    }
+
+    private void resetLastResult() {
+        theLastResult = null;
     }
 
     private Object theTarget() {

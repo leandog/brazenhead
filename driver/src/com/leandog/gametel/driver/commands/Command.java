@@ -1,5 +1,9 @@
 package com.leandog.gametel.driver.commands;
 
+import java.util.Arrays;
+
+import com.leandog.gametel.util.Objects;
+
 public class Command {
     
     private final String name;
@@ -26,5 +30,21 @@ public class Command {
 
     public Object[] getArguments() {
         return arguments;
+    }
+    
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(name, arguments);
+    }
+    
+    @Override
+    public boolean equals(Object other) {
+        if( null == other || !(other instanceof Command)) {
+            return false;
+        }
+        
+        final Command otherCommand = (Command)other;
+        return Objects.equal(name, otherCommand.getName()) &&
+               Arrays.equals(arguments, otherCommand.getArguments());
     }
 }
