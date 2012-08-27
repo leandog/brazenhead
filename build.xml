@@ -20,7 +20,7 @@
   </target>
 
   <target name="test">
-    <exec executable="ant" dir="./driver">
+    <exec executable="ant" dir="./driver" failonerror="true">
       <arg value="units" />
     </exec>
   </target>
