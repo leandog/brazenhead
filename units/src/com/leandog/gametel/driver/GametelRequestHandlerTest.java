@@ -23,7 +23,7 @@ import com.leandog.gametel.json.ExceptionJsonSerializer.ExceptionSummary;
 
 @RunWith(GametelTestRunner.class)
 public class GametelRequestHandlerTest {
-    
+
     @Mock GametelServer gametelServer;
     @Mock Request request;
     @Mock Response response;
@@ -31,34 +31,35 @@ public class GametelRequestHandlerTest {
     @Mock Solo solo;
     @Mock Context context;
     @Spy CommandRunner commandRunner;
-    
+
     private GametelRequestHandler handler;
-    
+
     @Before
     public void setUp() throws IOException {
         initMocks();
         handler = new GametelRequestHandler(gametelServer, commandRunner);
     }
-    
-    public void itRequiresACommandsParameter() {
+
+    @Test
+    public void itRequiresACommandsParameter() throws Exception {
         when(request.getParameter("commands")).thenReturn(null);
         handle();
         verify(response).setStatus(Response.SC_INTERNAL_SERVER_ERROR);
     }
-    
+
     @Test
     public void itStopsTheServerWhenAskedTo() throws Exception {
         when(request.getPathInfo()).thenReturn("/kill");
         handle();
         verify(gametelServer).stop();
     }
-    
+
     @Test
-    public void itIndicatesTheRequestWasHandled() {
+    public void itIndicatesTheRequestWasHandled() throws Exception {
         handle();
         verify(request).setHandled(true);
     }
-    
+
     @Test
     public void itCanInvokeCommands() throws Exception {
         Command firstCommand = new Command("scrollDown");
@@ -68,48 +69,48 @@ public class GametelRequestHandlerTest {
     }
 
     @Test
-    public void itCanReturnPrimitiveResults() {
+    public void itCanReturnPrimitiveResults() throws Exception {
         when(commandRunner.theLastResult()).thenReturn(1234);
         post(new Command("scrollDown"));
         verify(responseWriter).print("1234");
     }
-    
+
     @Test
-    public void itCanReturnViewResultsAsJson() {
+    public void itCanReturnViewResultsAsJson() throws Exception {
         when(commandRunner.theLastResult()).thenReturn(new View(context));
-        
+
         post(new Command("getCurrentViews"));
-        
+
         ArgumentCaptor<String> jsonArg = ArgumentCaptor.forClass(String.class);
         verify(responseWriter).print(jsonArg.capture());
         assertThat(jsonArg.getValue().matches("\\{.*\\}"), is(true));
     }
-    
+
     @Test
-    public void itCanInvokeCommandsWithIntegers() {
+    public void itCanInvokeCommandsWithIntegers() throws Exception {
         post(new Command("clickInList", 7));
         verify(solo).clickInList(7);
     }
-    
+
     @Test
-    public void itCanInvokeCommandsWithFloats() {
+    public void itCanInvokeCommandsWithFloats() throws Exception {
         post(new Command("clickLongOnScreen", 1.23f, 4.56f));
         verify(solo).clickLongOnScreen(1.23f, 4.56f);
     }
-    
+
     @Test
-    public void itCanInvokeCommandsWithStrings() {
+    public void itCanInvokeCommandsWithStrings() throws Exception {
         post(new Command("clickOnMenuItem", "something"));
         verify(solo).clickOnMenuItem("something");
     }
-    
+
     @Test
-    public void itCanHandleErrorsThrownFromCommands() {
+    public void itCanHandleErrorsThrownFromCommands() throws Exception {
         post(new Command("shouldNotExist"));
-        
+
         ArgumentCaptor<String> responseArg = ArgumentCaptor.forClass(String.class);
         verify(responseWriter).print(responseArg.capture());
-        
+
         final ExceptionSummary summary = new Gson().fromJson(responseArg.getValue(), ExceptionSummary.class);
         assertThat(summary.exception, is(CommandNotFoundException.class.getName()));
     }
@@ -121,17 +122,12 @@ public class GametelRequestHandlerTest {
         TestRunInformation.setSolo(solo);
     }
 
-    private void handle() {
-        try {
-            handler.handle(null, request, response, 0);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    private void handle() throws Exception {
+        handler.handle(null, request, response, 0);
     }
 
-    private void post(Command... commands) {
-        when(request.getParameter("commands"))
-            .thenReturn(jsonCommands(commands));
+    private void post(Command... commands) throws Exception {
+        when(request.getParameter("commands")).thenReturn(jsonCommands(commands));
         handle();
     }
 
