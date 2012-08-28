@@ -1,14 +1,14 @@
 package com.leandog.gametel.json;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
-import org.junit.Before;
-import org.junit.Test;
+import java.lang.reflect.Field;
+import java.util.*;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import org.junit.*;
+
+import com.google.gson.*;
 import com.leandog.gametel.driver.commands.Command;
 
 public class CommandDeserializerTest {
@@ -20,6 +20,17 @@ public class CommandDeserializerTest {
         gson = new GsonBuilder()
             .registerTypeAdapter(Command.class, new CommandDeserializer())
             .create();
+    }
+
+    @Test
+    public void itOnlyHasTheExpectedFieldsToReflectUpon() {
+        List<String> fieldNames = new ArrayList<String>();
+        for (final Field field : Command.class.getDeclaredFields()) {
+            fieldNames.add(field.getName());
+        }
+        
+        assertThat(fieldNames, hasItems("name", "arguments"));
+        assertThat(fieldNames.size(), is(2));
     }
 
     @Test
