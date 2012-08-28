@@ -86,7 +86,8 @@
     <import file="${sdk.dir}/tools/ant/build.xml" />
 
     <path id="classpath.test">
-      <pathelement location="../units/libs/junit-4.10.jar" />
+      <pathelement location="../units/libs/hamcrest-all-1.3.jar" />
+      <pathelement location="../units/libs/junit-dep-4.10.jar" />
       <pathelement location="../units/libs/android.jar" />
       <pathelement location="../units/libs/maps.jar" />
       <pathelement location="../units/libs/mockito-all-1.9.0.jar" />
