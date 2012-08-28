@@ -6,15 +6,19 @@ public class CommandNotFoundException extends Exception {
 
     private static final long serialVersionUID = 1L;
 
-    public CommandNotFoundException(final Command command, final Object theTarget, final Class<?>... arguments) {
-        super(missingCommandMessage(command, theTarget, arguments));
+    public CommandNotFoundException(final String methodName, final Class<?> targetClass, final Class<?>... arguments) {
+        super(missingCommandMessage(methodName, targetClass, arguments));
     }
 
-    private static String missingCommandMessage(final Command command, final Object theTarget, final Class<?>... arguments) {
+    public CommandNotFoundException(final Command command, final Object theTarget, final Class<?>... arguments) {
+        super(missingCommandMessage(command.getName(), theTarget.getClass(), arguments));
+    }
+
+    private static String missingCommandMessage(final String methodName, final Class<?> targetClass, final Class<?>... arguments) {
         return String.format("The %s%s method was not found on %s.",
-                command.getName(),
+                methodName,
                 stringFor(arguments),
-                theTarget.getClass().getName());
+                targetClass.getName());
     }
 
     private static String stringFor(Class<?>[] arguments) {

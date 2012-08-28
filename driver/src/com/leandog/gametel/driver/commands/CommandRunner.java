@@ -12,15 +12,21 @@ public class CommandRunner {
 
     public void execute(final Command... commands) throws Exception {
         resetLastResult();
-        
+
         for (final Command command : commands) {
-            final Method method = findMethodFor(command);
-            theLastResult = method.invoke(theTarget(), command.getArguments());
+            theLastResult = findMethod(command).invoke(theTarget(), command.getArguments());
         }
     }
 
     public Object theLastResult() {
         return theLastResult;
+    }
+
+    private Method findMethod(final Command command) throws CommandNotFoundException {
+        return new MethodFinder()
+            .find(command.getName())
+            .on(theTarget().getClass())
+            .with(argumentTypesFor(command));
     }
 
     private void resetLastResult() {
@@ -29,15 +35,6 @@ public class CommandRunner {
 
     private Object theTarget() {
         return (theLastResult == null) ? TestRunInformation.getSolo() : theLastResult;
-    }
-    
-    private Method findMethodFor(final Command command) throws Exception {
-        try {
-            Class<? extends Object> targetClass = theTarget().getClass();
-            return targetClass.getMethod(command.getName(), argumentTypesFor(command));
-        } catch (NoSuchMethodException e) {
-            throw new CommandNotFoundException(command, theTarget(), argumentTypesFor(command));
-        }
     }
 
     private static Map<Class<?>, Class<?>> primitiveMap = new HashMap<Class<?>, Class<?>>();
