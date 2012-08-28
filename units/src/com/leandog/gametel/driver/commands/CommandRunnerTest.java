@@ -66,9 +66,9 @@ public class CommandRunnerTest {
     
     @Test
     public void itClearsTheLastResultBeforeExecutingAgain() throws Exception {
-        commandRunner.execute(new Command("scrollDown"));
-        commandRunner.execute(new Command("scrollDown"));
-        verify(solo, times(2)).getClass();
+        commandRunner.execute(new Command("clickInList", 0));
+        commandRunner.execute(new Command("clickInList", 0));
+        verify(solo, times(2)).clickInList(0);
     }
 
     private void initMocks() {
