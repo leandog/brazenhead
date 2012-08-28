@@ -23,8 +23,8 @@ module Command
     rescue Exception => err
       retries += 1
       sleep 1
-      puts "Retrying to send the commands #{commands.to_json}..."
       retry unless retries > 20
+      puts "Failed to send the command #{commands.to_json} #{retries} times..."
       raise err
     end
   end
