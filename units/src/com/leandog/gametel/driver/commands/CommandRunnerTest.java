@@ -9,6 +9,7 @@ import org.mockito.*;
 
 import com.jayway.android.robotium.solo.Solo;
 import com.leandog.gametel.driver.TestRunInformation;
+import com.leandog.gametel.driver.commands.Command.Target;
 
 public class CommandRunnerTest {
 
@@ -68,6 +69,12 @@ public class CommandRunnerTest {
     public void itClearsTheLastResultBeforeExecutingAgain() throws Exception {
         commandRunner.execute(new Command("clickInList", 0));
         commandRunner.execute(new Command("clickInList", 0));
+        verify(solo, times(2)).clickInList(0);
+    }
+    
+    @Test
+    public void itCanDesignateTheRobotiumTarget() throws Exception {
+        commandRunner.execute(new Command("clickInList", Target.Robotium, 0), new Command("clickInList", Target.Robotium, 0));
         verify(solo, times(2)).clickInList(0);
     }
 

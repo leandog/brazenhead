@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 import com.leandog.gametel.driver.TestRunInformation;
+import com.leandog.gametel.driver.commands.Command.Target;
 import com.leandog.gametel.driver.exceptions.CommandNotFoundException;
 
 public class CommandRunner {
@@ -14,7 +15,7 @@ public class CommandRunner {
         resetLastResult();
 
         for (final Command command : commands) {
-            theLastResult = findMethod(command).invoke(theTarget(), command.getArguments());
+            theLastResult = findMethod(command).invoke(theTargetFor(command), command.getArguments());
         }
     }
 
@@ -25,7 +26,7 @@ public class CommandRunner {
     private Method findMethod(final Command command) throws CommandNotFoundException {
         return new MethodFinder()
             .find(command.getName())
-            .on(theTarget().getClass())
+            .on(theTargetFor(command).getClass())
             .with(argumentTypesFor(command));
     }
 
@@ -33,7 +34,11 @@ public class CommandRunner {
         theLastResult = null;
     }
 
-    private Object theTarget() {
+    private Object theTargetFor(final Command command) {
+        if( command.getTarget() == Target.Robotium ) {
+            return TestRunInformation.getSolo();
+        }
+        
         return (theLastResult == null) ? TestRunInformation.getSolo() : theLastResult;
     }
 
