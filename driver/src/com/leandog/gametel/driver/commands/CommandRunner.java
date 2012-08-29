@@ -2,6 +2,7 @@ package com.leandog.gametel.driver.commands;
 
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.Map.Entry;
 
 import com.leandog.gametel.driver.TestRunInformation;
 import com.leandog.gametel.driver.commands.Command.Target;
@@ -74,22 +75,15 @@ public class CommandRunner {
     }
 
     private Object[] theArguments(final Command command) {
-        Object[] original = command.getArguments();
-        Object[] actual = Arrays.copyOf(original, original.length);
-        
-        int index = 0;
-        for(final Object argument : original) {
-            if( isVariable(argument) ) {
-                actual[index] = variables.get(argument);
-            }
-            index++;
-        }
-        
-        return actual;
+        List<Object> arguments = Arrays.asList(command.getArguments());
+        substituteVariables(arguments);
+        return arguments.toArray();
     }
 
-    private boolean isVariable(final Object argument) {
-        return argument instanceof String && argument.toString().matches("@@.*@@");
+    private void substituteVariables(List<Object> arguments) {
+        for(final Entry<String, Object> variable : variables.entrySet()) {
+            Collections.replaceAll(arguments, variable.getKey(), variable.getValue());
+        }
     }
 
     private void storeVariable(final Command command) {
