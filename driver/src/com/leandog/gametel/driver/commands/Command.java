@@ -6,8 +6,8 @@ import com.leandog.gametel.util.Objects;
 
 public class Command {
     
-    private final String name;
-    private final Object[] arguments;
+    private String name;
+    private Object[] arguments;
     private Target target;
     
     public enum Target {
@@ -22,21 +22,20 @@ public class Command {
     }
 
     public Command(final String name) {
+        this();
         this.name = name;
-        arguments = new Object[0];
-        target = Target.LastResultOrRobotium;
     }
 
     public Command(final String name, final Object... arguments) {
+        this();
         this.name = name;
         this.arguments = arguments;
-        target = Target.LastResultOrRobotium;
     }
 
     public Command(final String name, final Target target,  final Object... arguments) {
+        this();
         this.name = name;
         this.arguments = arguments;
-        this.target = Target.LastResultOrRobotium;
         if( target != null ) {
             this.target = target;
         }
