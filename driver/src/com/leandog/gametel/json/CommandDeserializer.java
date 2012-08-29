@@ -3,14 +3,20 @@ package com.leandog.gametel.json;
 import java.lang.reflect.Type;
 
 import com.google.gson.*;
-import com.leandog.gametel.driver.commands.Command;
+import com.leandog.gametel.driver.commands.*;
+import com.leandog.gametel.driver.commands.Command.Target;
 
 public class CommandDeserializer implements JsonDeserializer<Command> {
 
     @Override
     public Command deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObject = (JsonObject) json;
-        return new Command(getName(jsonObject), getArguments(jsonObject, context));
+        return new Command(getName(jsonObject), getTarget(jsonObject, context), getArguments(jsonObject, context));
+    }
+
+    private Target getTarget(JsonObject jsonObject, JsonDeserializationContext context) {
+        JsonElement targetElement = jsonObject.get("target");
+        return (targetElement != null) ? (Target)context.deserialize(targetElement, Target.class) : null;
     }
 
     private String getName(JsonObject jsonObject) {

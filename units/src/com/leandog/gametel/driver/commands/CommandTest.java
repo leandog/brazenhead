@@ -4,7 +4,12 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
+import org.junit.experimental.theories.*;
+import org.junit.runner.RunWith;
 
+import com.leandog.gametel.driver.commands.Command.Target;
+
+@RunWith(Theories.class)
 public class CommandTest {
 
     @Test
@@ -47,4 +52,19 @@ public class CommandTest {
     public void itConsidersTheArgumentsWhenDeterminingEquality() {
         assertThat(new Command("command", 1, "hello"), is(new Command("command", 1, "hello")));
     }
+
+    @DataPoints
+    public static Command[] defaultTargets() {
+        return new Command[] {
+            new Command(),
+            new Command("name"),
+            new Command("name", 1)
+        };
+    }
+    
+    @Theory
+    public void itDefaultsTheTargetToLastResultOrRobotium(final Command command) {
+        assertThat(command.getTarget(), is(Target.LastResultOrRobotium));
+    }
+    
 }

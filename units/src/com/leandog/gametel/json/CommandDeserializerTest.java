@@ -9,7 +9,8 @@ import java.util.*;
 import org.junit.*;
 
 import com.google.gson.*;
-import com.leandog.gametel.driver.commands.Command;
+import com.leandog.gametel.driver.commands.*;
+import com.leandog.gametel.driver.commands.Command.Target;
 
 public class CommandDeserializerTest {
 
@@ -29,8 +30,8 @@ public class CommandDeserializerTest {
             fieldNames.add(field.getName());
         }
         
-        assertThat(fieldNames, hasItems("name", "arguments"));
-        assertThat(fieldNames.size(), is(2));
+        assertThat(fieldNames, hasItems("name", "arguments", "target"));
+        assertThat(fieldNames.size(), is(3));
     }
 
     @Test
@@ -87,6 +88,18 @@ public class CommandDeserializerTest {
     public void itCanGetAStringArgument() {
         Command actualCommand = deserialize("{arguments: [\"some string\"]}");
         assertThat(actualCommand.getArguments(), is(new Object[] { "some string" }));
+    }
+    
+    @Test
+    public void itCanParseOutTheDesiredTarget() {
+        Command actualCommand = deserialize("{target: 'Robotium'}");
+        assertThat(actualCommand.getTarget(), is(Target.Robotium));
+    }
+    
+    @Test
+    public void targetsResortToTheDefault() {
+        Command actualCommand = deserialize("{}");
+        assertThat(actualCommand.getTarget(), is(Target.LastResultOrRobotium));
     }
 
     private Command deserialize(final String json) {
