@@ -11,7 +11,15 @@ public class CommandDeserializer implements JsonDeserializer<Command> {
     @Override
     public Command deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObject = (JsonObject) json;
-        return new Command(getName(jsonObject), getTarget(jsonObject, context), getArguments(jsonObject, context));
+        Command command = new Command(getName(jsonObject), getArguments(jsonObject, context));
+        command.setVariable(getVariable(jsonObject));
+        command.setTarget(getTarget(jsonObject, context));
+        return command;
+    }
+
+    private String getVariable(JsonObject jsonObject) {
+        JsonElement variable = jsonObject.get("variable");
+        return (variable != null) ? variable.getAsString() : null;
     }
 
     private Target getTarget(JsonObject jsonObject, JsonDeserializationContext context) {

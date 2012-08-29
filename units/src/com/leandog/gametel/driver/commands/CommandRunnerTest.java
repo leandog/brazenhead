@@ -1,8 +1,10 @@
 package com.leandog.gametel.driver.commands;
 
-import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
+
+import java.util.ArrayList;
 
 import org.junit.*;
 import org.mockito.*;
@@ -76,6 +78,40 @@ public class CommandRunnerTest {
     public void itCanDesignateTheRobotiumTarget() throws Exception {
         commandRunner.execute(new Command("clickInList", Target.Robotium, 0), new Command("clickInList", Target.Robotium, 0));
         verify(solo, times(2)).clickInList(0);
+    }
+    
+    @Test
+    public void itCaptureVariables() throws Exception {
+        final Command command = new Command("clickInList", 0);
+        command.setVariable("@@some_variable@@");
+        
+        commandRunner.execute(command);
+        
+        assertThat(commandRunner.variables.get("@@some_variable@@"), instanceOf(ArrayList.class));
+    }
+    
+    @Test
+    public void itCanUseVariablesLater() throws Exception {
+        final Command firstCommand = new Command("isCheckBoxChecked", 0);
+        firstCommand.setVariable("@@some_variable@@");
+        
+        Command nextCommand = new Command("clickOnMenuItem", Target.Robotium, "text", "@@some_variable@@");
+        
+        commandRunner.execute(firstCommand, nextCommand);
+        
+        verify(solo).isCheckBoxChecked(0);
+        verify(solo).clickOnMenuItem("text", false);
+    }
+    
+    @Test
+    public void itClearsVariablesEachExecution() throws Exception {
+        final Command firstCommand = new Command("isCheckBoxChecked", 0);
+        firstCommand.setVariable("@@some_variable@@");
+        
+        commandRunner.execute(firstCommand);
+        commandRunner.execute();
+        
+        assertThat(commandRunner.variables.isEmpty(), is(true));
     }
 
     private void initMocks() {

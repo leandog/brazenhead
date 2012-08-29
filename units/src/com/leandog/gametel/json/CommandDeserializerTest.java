@@ -30,8 +30,8 @@ public class CommandDeserializerTest {
             fieldNames.add(field.getName());
         }
         
-        assertThat(fieldNames, hasItems("name", "arguments", "target"));
-        assertThat(fieldNames.size(), is(3));
+        assertThat(fieldNames, hasItems("name", "arguments", "target", "variable"));
+        assertThat(fieldNames.size(), is(4));
     }
 
     @Test
@@ -100,6 +100,12 @@ public class CommandDeserializerTest {
     public void targetsResortToTheDefault() {
         Command actualCommand = deserialize("{}");
         assertThat(actualCommand.getTarget(), is(Target.LastResultOrRobotium));
+    }
+    
+    @Test
+    public void itCanParseOutTheDesiredVariable() {
+        Command actualCommand = deserialize("{variable: '@@var_name@@'}");
+        assertThat(actualCommand.variableName(), is("@@var_name@@"));
     }
 
     private Command deserialize(final String json) {

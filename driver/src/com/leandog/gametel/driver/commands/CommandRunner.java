@@ -10,12 +10,18 @@ import com.leandog.gametel.driver.exceptions.CommandNotFoundException;
 public class CommandRunner {
 
     private Object theLastResult;
+    
+    Map<String, Object> variables =  new HashMap<String, Object>();
 
     public void execute(final Command... commands) throws Exception {
-        resetLastResult();
+        clearLastRun();
 
         for (final Command command : commands) {
-            theLastResult = findMethod(command).invoke(theTargetFor(command), command.getArguments());
+            theLastResult = findMethod(command).invoke(theTargetFor(command), theArguments(command));
+            
+            if( command.hasVariable() ) {
+                storeVariable(command);
+            }
         }
     }
 
@@ -30,8 +36,9 @@ public class CommandRunner {
             .with(argumentTypesFor(command));
     }
 
-    private void resetLastResult() {
+    private void clearLastRun() {
         theLastResult = null;
+        variables.clear();
     }
 
     private Object theTargetFor(final Command command) {
@@ -56,14 +63,37 @@ public class CommandRunner {
     }
 
     private Class<?>[] argumentTypesFor(final Command command) {
-        Class<?>[] types = new Class<?>[command.getArguments().length];
+        Class<?>[] types = new Class<?>[theArguments(command).length];
 
         int index = 0;
-        for (final Object argument : command.getArguments()) {
+        for (final Object argument : theArguments(command)) {
             types[index++] = typeFor(argument);
         }
 
         return types;
+    }
+
+    private Object[] theArguments(final Command command) {
+        Object[] original = command.getArguments();
+        Object[] actual = Arrays.copyOf(original, original.length);
+        
+        int index = 0;
+        for(final Object argument : original) {
+            if( isVariable(argument) ) {
+                actual[index] = variables.get(argument);
+            }
+            index++;
+        }
+        
+        return actual;
+    }
+
+    private boolean isVariable(final Object argument) {
+        return argument instanceof String && argument.toString().matches("@@.*@@");
+    }
+
+    private void storeVariable(final Command command) {
+        variables.put(command.getVariable(), theLastResult);
     }
 
 }

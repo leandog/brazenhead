@@ -8,6 +8,7 @@ import org.junit.experimental.theories.*;
 import org.junit.runner.RunWith;
 
 import com.leandog.gametel.driver.commands.Command.Target;
+import com.leandog.gametel.driver.exceptions.IllegalVariableArgumentException;
 
 @RunWith(Theories.class)
 public class CommandTest {
@@ -51,6 +52,11 @@ public class CommandTest {
     @Test
     public void itConsidersTheArgumentsWhenDeterminingEquality() {
         assertThat(new Command("command", 1, "hello"), is(new Command("command", 1, "hello")));
+    }
+    
+    @Test(expected = IllegalVariableArgumentException.class)
+    public void variableNamesMustConform() {
+        new Command("anything").setVariable("bad");
     }
 
     @DataPoints
