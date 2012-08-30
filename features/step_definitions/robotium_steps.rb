@@ -51,3 +51,20 @@ end
 Then /^the result should be "(.*?)"$/ do |result|
   last_response.body.should eq result
 end
+
+When /^I want to save the view with the text "(.*?)" in the variable "(.*?)"$/ do |text, var_name|
+  @commands = []
+  @commands << {:name => 'getText', :arguments => [text], :variable => var_name}
+end
+
+Then /^I should be able to pass "(.*?)" to "(.*?)" on "(.*?)"$/ do |var_name, method, target|
+  @commands << {:name => method, :target => target, :arguments => [var_name]}
+  execute(*@commands)
+  last_response.code.should eq '200'
+end
+
+Then /^I should see "(.*?)"$/ do |text|
+  execute({:name => 'searchText', :arguments => [text]})
+  last_response.body.should eq 'true'
+end
+
