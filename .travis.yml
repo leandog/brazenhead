@@ -3,4 +3,4 @@ jdk: oraclejdk7
 notifications:
   email: levi@leviwilson.com
 script: ant test
-install: ant prepare-travis-ci -q
+install: ant prepare-travis-ci
