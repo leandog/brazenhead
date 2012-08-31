@@ -111,9 +111,8 @@
     </macrodef>
 
     <target name="-quiet-debug">
-      <exec executable="ant">
+      <exec executable="ant" failonerror="true">
         <arg value="debug" />
-        <arg value="-q" />
       </exec>
     </target>
 
