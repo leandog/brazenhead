@@ -2,6 +2,7 @@ package com.leandog.gametel.json;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
 import org.junit.*;
@@ -10,7 +11,7 @@ import org.mockito.Mock;
 
 import android.view.View;
 
-import com.google.gson.*;
+import com.google.gametel.gson.*;
 import com.leandog.gametel.driver.test.GametelTestRunner;
 
 @RunWith(GametelTestRunner.class)

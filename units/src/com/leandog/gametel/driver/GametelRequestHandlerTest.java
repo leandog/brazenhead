@@ -14,7 +14,7 @@ import org.mortbay.jetty.*;
 import android.content.Context;
 import android.view.View;
 
-import com.google.gson.Gson;
+import com.google.gametel.gson.Gson;
 import com.jayway.android.robotium.solo.Solo;
 import com.leandog.gametel.driver.commands.*;
 import com.leandog.gametel.driver.exceptions.CommandNotFoundException;

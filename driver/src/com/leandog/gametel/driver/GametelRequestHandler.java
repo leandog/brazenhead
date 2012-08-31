@@ -10,7 +10,7 @@ import org.mortbay.jetty.handler.AbstractHandler;
 
 import android.view.View;
 
-import com.google.gson.*;
+import com.google.gametel.gson.*;
 import com.leandog.gametel.driver.commands.*;
 import com.leandog.gametel.json.*;
 

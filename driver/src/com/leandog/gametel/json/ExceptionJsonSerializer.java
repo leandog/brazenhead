@@ -2,7 +2,7 @@ package com.leandog.gametel.json;
 
 import java.lang.reflect.Type;
 
-import com.google.gson.*;
+import com.google.gametel.gson.*;
 
 public class ExceptionJsonSerializer implements JsonSerializer<Exception> {
 

@@ -8,7 +8,7 @@ import java.util.*;
 
 import org.junit.*;
 
-import com.google.gson.*;
+import com.google.gametel.gson.*;
 import com.leandog.gametel.driver.commands.*;
 import com.leandog.gametel.driver.commands.Command.Target;
 
