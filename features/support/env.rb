@@ -4,15 +4,13 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '../../', 'bin'))
 require 'aruba/cucumber'
 require 'gametel_driver'
 require 'ADB'
+require 'childprocess'
+require_relative 'demo_app'
 
 World(ADB)
 
-app = nil
-
-AfterConfiguration do
-  app = DemoApp.new
-  app.setup
-end
+app = DemoApp.new
+app.setup
 
 Before do
   app.start_and_wait
@@ -26,3 +24,5 @@ end
 at_exit do
   app.teardown
 end
+
+

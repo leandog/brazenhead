@@ -14,7 +14,7 @@ class DemoApp
   def teardown
     all_apks do |app|
       puts "Removing #{app[:package]}..."
-      `adb uninstall #{app[:package]}`
+      uninstall app[:package]
     end
   end
 
@@ -27,20 +27,18 @@ class DemoApp
   def install_app
     all_apks do |app|
       puts "Installing #{app[:apk]}..."
-      `adb install #{app[:apk]}`
+      install app[:apk]
     end
   end
 
   def port_forward
     local = 'tcp:7777'
     host = 'tcp:54767'
-    `adb forward #{local} #{host}`
+    forward local, host
     puts "Forwarding #{local} to #{host}..."
   end
 
   def all_apks(&block)
-    [@app, @test_app].each do |app|
-      block.call app
-    end
+    [@app, @test_app].each { |app| block.call app }
   end
 end
