@@ -4,5 +4,7 @@ notifications:
   email:
     - levi@leviwilson.com
     - jeff.morgan@leandog.com
-script: ant test
+script:
+  - ant test
+  - rake spec
 install: ant prepare-travis-ci -q
