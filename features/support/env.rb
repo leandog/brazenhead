@@ -1,5 +1,4 @@
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '../../', 'lib'))
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '../../', 'bin'))
 
 require 'aruba/cucumber'
 require 'gametel_driver'
@@ -14,7 +13,7 @@ app.setup
 
 Before do
   app.start_and_wait
-  connect unless connected?
+  connect
 end
 
 After do
