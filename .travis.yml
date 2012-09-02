@@ -1,6 +1,8 @@
 language: ruby
 jdk: oraclejdk7
 notifications:
-  email: levi@leviwilson.com
+  email:
+    - levi@leviwilson.com
+    - jeff.morgan@leandog.com
 script: ant test
 install: ant prepare-travis-ci -q
