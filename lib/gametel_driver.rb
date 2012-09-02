@@ -1,4 +1,5 @@
 require 'gametel_driver/version'
+require 'gametel_driver/device'
 require 'json'
 
 module GametelDriver
@@ -13,16 +14,7 @@ module GametelDriver
   private
 
   def call_method_on_driver(method, *args)
-    retries = 0
-    begin
-      @last_response = http.post '/', build_message(method, args)
-    rescue
-      retries += 1
-      sleep 1
-      retry unless retries == 20
-      $stderr.puts "Failed to send the command #{commands.to_json} #{retries} times..."
-      raise
-    end
+    @last_response = device.send(build_message(method, args))
     @last_response
   end
 
@@ -32,12 +24,12 @@ module GametelDriver
     camel.sub(camel[0], camel[0].downcase)
   end
 
-  def http
-    @http ||= Net::HTTP.new '127.0.0.1', 7777
-  end
-
   def build_message(method, *args)
     commands = [{:name => method}]
     "commands=#{commands.to_json}"
+  end
+
+  def device
+    @device ||= GametelDriver::Device.new
   end
 end

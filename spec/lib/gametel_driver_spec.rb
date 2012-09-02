@@ -25,17 +25,6 @@ describe GametelDriver do
       driver.foo_bar
     end
 
-    it "should retry the http call if it fails the first time" do
-      http_mock.should_receive(:post).and_raise("error")
-      http_mock.should_receive(:post).with('/', "commands=[{\"name\":\"fooBar\"}]")
-      driver.foo_bar
-    end
-
-    it "should retry the http call a maximum of 20 times" do
-      http_mock.should_receive(:post).exactly(20).times.and_raise("error")
-      expect { driver.foo_bar }.to raise_error
-    end
-
     it "should make the result of the call available for inspection" do
       http_mock.should_receive(:post).with('/', "commands=[{\"name\":\"fooBar\"}]").and_return("Success")
       result = driver.foo_bar
