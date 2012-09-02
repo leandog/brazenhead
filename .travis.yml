@@ -6,5 +6,5 @@ notifications:
     - jeff.morgan@leandog.com
 script:
   - ant test
-  - rake spec
+  - bundle exec rake spec
 install: ant prepare-travis-ci -q
