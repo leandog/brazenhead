@@ -41,6 +41,9 @@
     </echo>
     <chmod file="tmp/install-sdk" perm="u+x"/>
     <exec executable="tmp/install-sdk"/>
+    <propertyfile file="tmp/sdk/android-sdk-linux/tools/source.properties">
+      <entry key="Pkg.revision" value="20.0.3"/>
+    </propertyfile>
     <propertyfile file="./driver/local.properties">
       <entry key="sdk.dir" value="${basedir}/tmp/sdk/android-sdk-linux/"/>
     </propertyfile>
