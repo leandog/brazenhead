@@ -1,6 +1,6 @@
 require 'gametel_driver/version'
 require 'gametel_driver/device'
-require 'json'
+require 'gametel_driver/request'
 
 module GametelDriver
   def method_missing(method, *args)
@@ -14,7 +14,8 @@ module GametelDriver
   private
 
   def call_method_on_driver(method, *args)
-    @last_response = device.send(build_message(method, args))
+    message = request.build(method, args)
+    @last_response = device.send(message)
     @last_response
   end
 
@@ -24,12 +25,11 @@ module GametelDriver
     camel.sub(camel[0], camel[0].downcase)
   end
 
-  def build_message(method, *args)
-    commands = [{:name => method}]
-    "commands=#{commands.to_json}"
-  end
-
   def device
     @device ||= GametelDriver::Device.new
+  end
+
+  def request
+    @request ||= GametelDriver::Request.new
   end
 end
