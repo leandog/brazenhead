@@ -1,10 +1,15 @@
 require 'gametel_driver/version'
 require 'gametel_driver/device'
 require 'gametel_driver/request'
+require 'gametel_driver/core_ext/string'
 
 module GametelDriver
   def method_missing(method, *args)
-    call_method_on_driver(convert_to_java_call(method.to_s), args)
+    call_method_on_driver(method.to_s.to_java_call, args)
+  end
+
+  def chain_calls(&block)
+    
   end
 
   def last_response
@@ -17,12 +22,6 @@ module GametelDriver
     message = request.build(method, args)
     @last_response = device.send(message)
     @last_response
-  end
-
-  def convert_to_java_call(target)
-    return target if target !~ /_/ && target =~ /[A-Z]+.*/
-    camel = target.split('_').map{|e| e.capitalize}.join
-    camel.sub(camel[0], camel[0].downcase)
   end
 
   def device
