@@ -11,7 +11,6 @@ module GametelDriver
 
   def chain_calls(&block)
     block.call accumulator
-    puts accumulator.message
     @last_response = device.send(accumulator.message)
     @last_response
   end

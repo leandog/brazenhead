@@ -7,8 +7,8 @@ module GametelDriver
     end
 
     def call(method, args)
-      call = {:name => method} if args.empty?
-      call = {:name => method, :arguments => args} unless args.empty?
+      call = {:name => method, :target => 'Robotium'} if args.empty?
+      call = {:name => method, :arguments => args, :target => 'Robotium'} unless args.empty?
       call
     end
   end
