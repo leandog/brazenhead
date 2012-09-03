@@ -1,4 +1,4 @@
-require 'childprocess'
+require 'gametel_driver/process'
 
 class ManifestInfo
   def initialize(apk)
@@ -8,7 +8,10 @@ class ManifestInfo
 
   private
   def manifest
-    process = ChildProcess.build('aapt', 'dump', 'xmltree', @apk, 'AndroidManifest.xml')
-    process.wait
+    process.run('aapt', 'dump', 'xmltree', @apk, 'AndroidManifest.xml')
+  end
+
+  def process
+    @process ||= GametelDriver::Process.new
   end
 end
