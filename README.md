@@ -23,6 +23,28 @@ The `variable` parameter can be used in subsequent calls as an argument value.
 
 In addition to a server process there is a ruby module that will build the json for you when you call corresponding methods.  Let's take a look at a few examples of how this works.
 
+You can include the `GametelDriver` module in your class to provide the abilities.
+
+````Ruby
+class MyClass
+  include GametelDriver
+end
+````
+
+Once you do this you can call methods on an instance of `MyClass`.  These methods look like this:
+
+````Ruby
+my_class.scroll_down  # call the scrollDown method on Robotium
+````
+
+````Ruby
+my_class.scroll_down
+my_class.scroll_up {:target => 'Robotium'}  # needed to provide target.  Otherwise it would
+                                            # default to 'LastResultOrRobotium' and call
+                                            # scrollUp on the boolean returned by the call
+                                            # to scrollDown
+````
+
 
 
 ## Known Issues
