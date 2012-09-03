@@ -5,6 +5,9 @@ describe Process do
     @running_process = double('process')
     @running_process.stub(:wait)
 
+    Time.stub(:now) { 'this-time' }
+    Tempfile.stub(:new) { nil }
+
     @io = double('io')
     @io.stub(:stdout=)
     @io.stub(:stderr=)
@@ -24,14 +27,16 @@ describe Process do
     @process.run('anything')
   end
 
-  it "it redirects stdout and stderr" do
+  it "should capture stdout" do
     out = double('stdout')
-    err = double('stderr')
-    Time.should_receive(:now).and_return('this-time', 'next-time')
     Tempfile.should_receive(:new).with('gametel-proc-out-this-time').and_return(out)
-    Tempfile.should_receive(:new).with('gametel-proc-err-next-time').and_return(err)
-    @io.should_receive(:stdout=).with(out)
-    @io.should_receive(:stderr=).with(err)
+    @process.run('anything')
+  end
+
+  it "should capture stderr" do
+    out = double('stdout')
+
+    Tempfile.should_receive(:new).with('gametel-proc-err-this-time').and_return(out)
     @process.run('anything')
   end
 end
