@@ -27,3 +27,11 @@ end
 Then /^the result from the chained calls should be "(.*?)"$/ do |result|
   @driver.last_response.body.should == result
 end
+
+When /^I chain together the methods "(.*?)" and "(.*?)" on the GametelDriver module$/ do |first_method, second_method|
+  @driver = Driver.new
+  @driver.chain_calls do |driver|
+    driver.send first_method
+    driver.send second_method
+  end
+end

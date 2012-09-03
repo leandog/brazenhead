@@ -16,3 +16,8 @@ Feature: Functionality provided by the GametelDriver module
     When I chain together the methods "getCurrentListViews" and "size" using the target "LastResultOrRobotium"
     Then I should receive a successful result from the GametelDriver module
     And the result from the chained calls should be "1"
+
+  Scenario: Chaining two method calls should use "LastResultOrRobotium" target by default
+    When I chain together the methods "getCurrentListViews" and "size" on the GametelDriver module
+    Then I should receive a successful result from the GametelDriver module
+    And the result from the chained calls should be "1"
