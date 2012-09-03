@@ -1,6 +1,7 @@
 require 'gametel_driver/version'
 require 'gametel_driver/device'
 require 'gametel_driver/request'
+require 'gametel_driver/call_accumulator'
 require 'gametel_driver/core_ext/string'
 
 module GametelDriver
@@ -9,7 +10,10 @@ module GametelDriver
   end
 
   def chain_calls(&block)
-    
+    block.call accumulator
+    puts accumulator.message
+    @last_response = device.send(accumulator.message)
+    @last_response
   end
 
   def last_response
@@ -30,5 +34,9 @@ module GametelDriver
 
   def request
     @request ||= GametelDriver::Request.new
+  end
+
+  def accumulator
+    @accumulator ||= GametelDriver::CallAccumulator.new
   end
 end

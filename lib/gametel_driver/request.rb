@@ -3,9 +3,13 @@ require 'json'
 module GametelDriver
   class Request
     def build(method, args)
-      message = "commands=#{[{:name => method}].to_json}" if args.empty?
-      message = "commands=#{[{:name => method, :arguments => args}].to_json}" unless args.empty?
-      message
+      "commands=#{[call(method, args)].to_json}"
+    end
+
+    def call(method, args)
+      call = {:name => method} if args.empty?
+      call = {:name => method, :arguments => args} unless args.empty?
+      call
     end
   end
 end
