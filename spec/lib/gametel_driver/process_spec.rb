@@ -34,9 +34,9 @@ describe Process do
   end
 
   it "should capture stderr" do
-    out = double('stdout')
+    err = double('stderr')
 
-    Tempfile.should_receive(:new).with('gametel-proc-err-this-time').and_return(out)
+    Tempfile.should_receive(:new).with('gametel-proc-err-this-time').and_return(err)
     @process.run('anything')
   end
 end
