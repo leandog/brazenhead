@@ -11,5 +11,6 @@ end
 
 require 'rspec'
 require 'gametel_driver'
+require 'gametel_driver/manifest_info'
 require 'net/http'
-
+require 'childprocess'

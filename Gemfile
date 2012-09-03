@@ -6,6 +6,7 @@ gem 'fuubar-cucumber'
 gem 'growl'
 gem 'guard-rspec'
 gem 'guard-cucumber'
+gem 'childprocess'
 
-# Specify your gem's dependencies in ADB.gemspec
+# Specify your gem's dependencies in gametel-driver.gemspec
 gemspec
