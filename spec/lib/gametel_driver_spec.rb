@@ -21,12 +21,12 @@ describe GametelDriver do
 
     it "should make an http call passing the method name as the name" do
       Net::HTTP.should_receive(:new).and_return(http_mock)
-      http_mock.should_receive(:post).with('/', "commands=[{\"name\":\"fooBar\",\"target\":\"LastResultOrRobotium\"}]")
+      http_mock.should_receive(:post).with('/', "commands=[{\"name\":\"fooBar\"}]")
       driver.foo_bar
     end
 
     it "should make the result of the call available for inspection" do
-      http_mock.should_receive(:post).with('/', "commands=[{\"name\":\"fooBar\",\"target\":\"LastResultOrRobotium\"}]").and_return("Success")
+      http_mock.should_receive(:post).with('/', "commands=[{\"name\":\"fooBar\"}]").and_return("Success")
       result = driver.foo_bar
       driver.last_response.should == result
     end

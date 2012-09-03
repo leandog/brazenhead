@@ -21,3 +21,8 @@ Feature: Functionality provided by the GametelDriver module
     When I chain together the methods "getCurrentListViews" and "size" on the GametelDriver module
     Then I should receive a successful result from the GametelDriver module
     And the result from the chained calls should be "1"
+
+  Scenario: Chaining two method calls using a variable
+    When I call "get_text" passing the argument "Graphics" and saving it into the variable "@@graphics@@"
+    And then I call "click_on_view" using teh variable "@@graphics@@" using the target "Robotium"
+    Then I should see "AlphaBitmap" from teh GametelDriver module

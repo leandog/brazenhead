@@ -35,3 +35,20 @@ When /^I chain together the methods "(.*?)" and "(.*?)" on the GametelDriver mod
     driver.send second_method
   end
 end
+
+When /^I call "(.*?)" passing the argument "(.*?)" and saving it into the variable "(.*?)"$/ do |method, argument, variable|
+  @first_call = {:name => method, :arguments => argument, :variable => variable}
+end
+
+When /^then I call "(.*?)" using teh variable "(.*?)" using the target "(.*?)"$/ do |method, argument, target|
+  @driver = Driver.new
+  @driver.chain_calls do |driver|
+    driver.send @first_call[:name], @first_call[:arguments], {:variable => @first_call[:variable]}
+    driver.send method, argument, {:target => target}
+  end
+end
+
+Then /^I should see "(.*?)" from teh GametelDriver module$/ do |value|
+  @driver.search_text value
+  @driver.last_response.body.should == 'true'
+end
