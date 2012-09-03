@@ -17,7 +17,8 @@ module GametelDriver
     private
 
     def parse_target(hsh)
-      hsh.is_a?(Hash) ? hsh.delete(:target) : "LastResultOrRobotium"
+      target = hsh.delete(:target) if hsh.is_a?(Hash)
+      return target.nil? ? 'LastResultOrRobotium' : target
     end
 
     def strip_hash_arg(args)
