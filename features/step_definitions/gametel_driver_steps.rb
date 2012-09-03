@@ -12,14 +12,18 @@ When /^I call the method "(.*?)" on the GametelDriver module passing "(.*?)"$/ d
   @driver.send method_name, argument
 end
 
-When /^I chain together the method "(.*?)" and "(.*?)" on the GametelDriver module$/ do |first_method, second_method|
+When /^I chain together the methods "(.*?)" and "(.*?)" using the target "(.*?)"$/ do |first_method, second_method, target|
   @driver = Driver.new
   @driver.chain_calls do |driver|
-    driver.send first_method
-    driver.send second_method
+    driver.send first_method, :target => target
+    driver.send second_method, :target => target
   end
 end
 
 Then /^I should receive a successful result from the GametelDriver module$/ do
   @driver.last_response.code.should == '200'
+end
+
+Then /^the result from the chained calls should be "(.*?)"$/ do |result|
+  @driver.last_response.body.should == result
 end
