@@ -9,7 +9,7 @@ Gametel-driver works by modifying your Android application (apk).  Once modified
 
 Messages sent to the emulator are json messages and  must take the form of 
 
-````json
+````ruby
 { 
   name: 'theMethodName',  # The Robotium method to call
   arguments: [1, 2, 3],   # The arguments to be passed to the Robotium method
