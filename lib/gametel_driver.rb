@@ -13,7 +13,7 @@ module GametelDriver
 
   private
 
-  def call_method_on_driver(method, *args)
+  def call_method_on_driver(method, args)
     message = request.build(method, args)
     @last_response = device.send(message)
     @last_response
