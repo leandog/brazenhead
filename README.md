@@ -33,19 +33,47 @@ end
 
 Once you do this you can call methods on an instance of `MyClass`.  These methods look like this:
 
+### Calling a single method
 ````Ruby
 my_class.scroll_down  # call the scrollDown method on Robotium
 ````
 
+You can also pass parameters to methods like this:
+
 ````Ruby
-my_class.scroll_down
-my_class.scroll_up {:target => 'Robotium'}  # needed to provide target.  Otherwise it would
-                                            # default to 'LastResultOrRobotium' and call
-                                            # scrollUp on the boolean returned by the call
-                                            # to scrollDown
+my_class.click_on_text('Content')  # will call the method clickOnText passing 'Content'
 ````
 
 
+### Calling multiple methods
+````Ruby
+my_class.chain_calls do |driver|
+  driver.scroll_down                         # call scrollDown first
+  driver.scroll_up({:target => 'Robotium'})  # then call scrollUp
+end
+````
+
+In the case above we had to pass a `target` value to inform the server that we wished to make the second call directly on Robotium instead of on the return call from the previous call.  You can easily make the second call on the return value from the first call like this:
+
+````Ruby
+my_class.chain_calls do |driver|
+  driver.get_current_list_views
+  driver.size
+end
+my_class.last_response.body.should == '1'
+````
+
+In the above example the `size` method is called on the result of the call to `getCurrentListViews`.  If you want to use the result of a previous call as an argument in another call you can do this:
+
+
+````Ruby
+my_class.chain_calls do |driver|
+  driver.get_text('Graphics', {:variable => "@@graphics@@"})
+  driver.click_on_view("@@graphics@@", {:target => 'Robotium'})
+end
+````
+
+In this final case we saved the result of the first call into a variable named `"@@graphics@@"` and used it as an argument in the second call.
 
 ## Known Issues
 
