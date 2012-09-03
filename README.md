@@ -19,6 +19,11 @@ Messages sent to the emulator are json messages and  must take the form of
 }
 ````
 
+The `variable` parameter can be used in subsequent calls as an argument value.
+
+In addition to a server process there is a ruby module that will build the json for you when you call corresponding methods.  Let's take a look at a few examples of how this works.
+
+
 
 ## Known Issues
 
