@@ -49,4 +49,13 @@ A: android:targetSdkVersion(0x01010270)=(type 0x10)0xe")
     manifest_info.target_sdk.should eq 14
   end
 
+  it "should grab the default package" do
+    process.should_receive(:last_stdout).and_return("
+N: android=http://schemas.android.com/apk/res/android
+E: manifest (line=22)
+A: package=\"com.example.android.apis\" (Raw: \"com.example.android.apis\")")
+
+    manifest_info.package.should eq 'com.example.android.apis'
+  end
+
 end
