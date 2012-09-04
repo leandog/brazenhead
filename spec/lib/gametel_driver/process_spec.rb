@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Process do
+describe GametelDriver::Process do
   let(:stdout) { double(:name => 'stdout').as_null_object }
   let(:stderr) { double(:name => 'stderr').as_null_object }
   let(:running_process) { double('process').as_null_object }
@@ -18,7 +18,7 @@ describe Process do
     ChildProcess.stub(:build) { running_process }
   end
 
-  it "it runs the command with arguments" do
+  it "should run the command with arguments" do
     ChildProcess.should_receive(:build).with('command', 'some', 'argument')
     process.run('command', 'some', 'argument')
   end
