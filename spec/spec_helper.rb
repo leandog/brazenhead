@@ -12,6 +12,7 @@ end
 require 'rspec'
 require 'gametel_driver'
 require 'gametel_driver/manifest_info'
+require 'gametel_driver/server'
 require 'net/http'
 require 'childprocess'
 require 'tempfile'
