@@ -9,6 +9,5 @@ module GametelDriver
     def std_out_err
       return ::Tempfile.new("gametel-proc-out-#{Time.now}"), ::Tempfile.new("gametel-proc-err-#{Time.now}")
     end
-
   end
 end
