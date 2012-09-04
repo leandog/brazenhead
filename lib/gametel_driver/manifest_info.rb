@@ -21,17 +21,11 @@ module GametelDriver
 
     def initialize(apk)
       @apk = apk
-      manifest
     end
 
     private
     def manifest
-      @manifest ||= dump_manifest
-    end
-
-    def dump_manifest
-      process.run('aapt', 'dump', 'xmltree', @apk, 'AndroidManifest.xml')
-      process.last_stdout
+      @manifest ||= process.run('aapt', 'dump', 'xmltree', @apk, 'AndroidManifest.xml').last_stdout
     end
 
     def first_capture(regex)
