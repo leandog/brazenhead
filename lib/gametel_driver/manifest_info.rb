@@ -3,16 +3,11 @@ require 'gametel_driver/process'
 module GametelDriver
   class ManifestInfo
     def min_sdk
-      match = /android:minSdkVersion.*=\(.*\)0x(\h+)/.match manifest
-      min = 1
-      min = match.captures[0].hex unless match.nil?
-      min
+      sdk(:min) || 1
     end
 
     def target_sdk
-      match = /android:targetSdkVersion.*=\(.*\)0x(\h+)/.match manifest
-      target = match.captures[0].hex unless match.nil?
-      target
+      sdk(:target)
     end
 
     def initialize(apk)
@@ -29,6 +24,12 @@ module GametelDriver
       process.run('aapt', 'dump', 'xmltree', @apk, 'AndroidManifest.xml')
       process.last_stdout
     end
+
+    def sdk(which)
+      match = /android:#{which}SdkVersion.*=\(.*\)0x(\h+)/.match manifest
+      match.captures[0].hex unless match.nil?
+    end
+
 
     def process
       @process ||= GametelDriver::Process.new
