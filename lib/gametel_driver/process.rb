@@ -18,7 +18,10 @@ module GametelDriver
     private
     def output(file)
       file.rewind
-      file.read
+      out = file.read
+      file.close
+      file.unlink
+      out
     end
   end
 end

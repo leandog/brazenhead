@@ -54,4 +54,12 @@ describe Process do
     process.last_stderr.should eq 'last error'
   end
 
+  it "should clean up stdout and stderr temporary files" do
+    [stdout, stderr].each do |iostream|
+      iostream.should_receive(:close)
+      iostream.should_receive(:unlink)
+    end
+    process.run('anything')
+  end
+
 end
