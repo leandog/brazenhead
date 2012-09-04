@@ -4,8 +4,7 @@ module GametelDriver
   class ManifestInfo
 
     def package
-      match = /\bpackage="([^"]+)"/.match(manifest)
-      match.captures[0] unless match.nil?
+      first_capture /\bpackage="([^"]+)"/
     end
 
     def min_sdk
@@ -35,9 +34,14 @@ module GametelDriver
       process.last_stdout
     end
 
+    def first_capture(regex)
+      match = regex.match(manifest)
+      match.captures[0] unless match.nil?
+    end
+
     def sdk(which)
-      match = /android:#{which}SdkVersion.*=\(.*\)0x(\h+)/.match manifest
-        match.captures[0].hex unless match.nil?
+      found = first_capture /android:#{which}SdkVersion.*=\(.*\)0x(\h+)/
+      found.hex unless found.nil?
     end
 
 
