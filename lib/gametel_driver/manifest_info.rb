@@ -6,6 +6,10 @@ module GametelDriver
       sdk(:min) || 1
     end
 
+    def max_sdk
+      sdk(:max)
+    end
+
     def target_sdk
       sdk(:target)
     end

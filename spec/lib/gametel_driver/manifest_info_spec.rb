@@ -31,6 +31,15 @@ A: android:targetSdkVersion(0x01010270)=(type 0x10)0xe")
     manifest_info.min_sdk.should eq 1
   end
 
+  it "should grab the maximum sdk" do
+    process.should_receive(:last_stdout).and_return("
+E: uses-sdk (line=39)
+A: android:minSdkVersion(0x0101020c)=(type 0x10)0x0f
+A: android:maxSdkVersion(0x0101020c)=(type 0x10)0x0a")
+
+    manifest_info.max_sdk.should eq 10
+  end
+
   it "should grab the target sdk" do
     process.should_receive(:last_stdout).and_return("
 E: uses-sdk (line=39)
@@ -38,14 +47,6 @@ A: android:notTheminSdkVersion(0x0101020c)=(type 0x10)0x0f
 A: android:targetSdkVersion(0x01010270)=(type 0x10)0xe")
 
     manifest_info.target_sdk.should eq 14
-  end
-
-  it "should default the target sdk" do
-    process.should_receive(:last_stdout).and_return("
-E: uses-sdk (line=39)
-A: android:notTheminSdkVersion(0x0101020c)=(type 0x10)0x0f")
-
-    manifest_info.target_sdk.should be_nil
   end
 
 end
