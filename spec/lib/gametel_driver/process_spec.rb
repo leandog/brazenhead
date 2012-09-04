@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe Process do
-  let(:stdout) { double('stdout').as_null_object }
-  let(:stderr) { double('stderr').as_null_object }
+  let(:stdout) { double(:name => 'stdout').as_null_object }
+  let(:stderr) { double(:name => 'stderr').as_null_object }
   let(:running_process) { double('process').as_null_object }
   let(:process) { GametelDriver::Process.new }
 
@@ -40,18 +40,16 @@ describe Process do
     process.run('anything')
   end
 
-  it "should preserve the last stdout" do
-    stdout.should_receive(:rewind)
-    stdout.should_receive(:read).and_return('last output')
-    process.run('anything')
-    process.last_stdout.should eq 'last output'
-  end
+  it "should preserve the last stdout and stderr" do
+    [stdout, stderr].each do |iostream|
+      iostream.should_receive(:rewind)
+      iostream.should_receive(:read).and_return("last #{iostream.name}")
+    end
 
-  it "should preserve the last stderr" do
-    stderr.should_receive(:rewind)
-    stderr.should_receive(:read).and_return('last error')
     process.run('anything')
-    process.last_stderr.should eq 'last error'
+
+    process.last_stdout.should eq 'last stdout'
+    process.last_stderr.should eq 'last stderr'
   end
 
   it "should clean up stdout and stderr temporary files" do
