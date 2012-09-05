@@ -61,10 +61,6 @@ module GametelDriver
       File.exists? package
     end
 
-    def missing_argument_err
-      raise Exception.new("Missing a :package argument") 
-    end
-
     def invalid_package_err
       raise Exception.new("Invalid :package argument")
     end
