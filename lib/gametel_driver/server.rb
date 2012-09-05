@@ -1,7 +1,8 @@
 module GametelDriver
   class Server
     def generate(apk)
-      validate(apk)
+      @source_apk = apk
+      invalid_package_err unless File.exists? apk
 
       Dir.mktmpdir do |dir|
         copy_base_files_to(dir)
@@ -10,13 +11,19 @@ module GametelDriver
     end
 
     private
-    def validate(apk)
-      @source_apk = apk
-      invalid_package_err unless package_exists(apk)
+    def copy_base_files_to(dir)
+      [test_apk, manifest].each do |file|
+        File.copy_file("../../#{file}", dir)
+      end
     end
 
     def update_target_in(dir)
-      File.write(manifest_path(dir), manifest_contents(dir).gsub(target_match, target_replace))
+      manifest_path = File.join(dir, manifest)
+      replace(manifest_path, target_match, target_replace)
+    end
+
+    def replace(file, match, replacement)
+      File.write(file, File.read(file).gsub(match, replacement))
     end
 
     def target_match
@@ -27,26 +34,8 @@ module GametelDriver
       "targetPackage=\"#{the_target}\""
     end
 
-    def manifest_contents(dir)
-      File.read(manifest_path(dir))
-    end
-
     def the_target
       @the_target ||= GametelDriver::ManifestInfo.new(@source_apk).package
-    end
-
-    def manifest_path(dir)
-      File.join(dir, manifest)
-    end
-
-    def copy_base_files_to(dir)
-      base_files.each do |file|
-        File.copy_file("../../#{file}", dir)
-      end
-    end
-
-    def base_files
-      [test_apk, manifest]
     end
 
     def test_apk
@@ -55,10 +44,6 @@ module GametelDriver
 
     def manifest
       'AndroidManifest.xml'
-    end
-
-    def package_exists(package)
-      File.exists? package
     end
 
     def invalid_package_err
