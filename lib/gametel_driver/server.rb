@@ -1,17 +1,20 @@
 module GametelDriver
   class Server
-    def generate(info)
-      validate(info)
+    def generate(apk)
+      validate(apk)
 
       Dir.mktmpdir do |dir|
         copy_base_files_to dir
+        manifest_info = GametelDriver::ManifestInfo.new(apk)
+        the_target = manifest_info.package
+        contents = File.read(File.join(dir, manifest))
+        File.write(File.join(dir, manifest), contents.gsub(/\btargetPackage="[^"]+"/, "targetPackage=\"#{the_target}\""))
       end
     end
 
     private
-    def validate(info)
-      missing_argument_err unless info[:package]
-      invalid_package_err unless package_exists(info[:package])
+    def validate(apk)
+      invalid_package_err unless package_exists(apk)
     end
 
     def copy_base_files_to(dir)
@@ -21,7 +24,15 @@ module GametelDriver
     end
 
     def base_files
-      ['gametel_driver-release-unsigned.apk', 'AndroidManifest.xml']
+      [test_apk, manifest]
+    end
+
+    def test_apk
+      'gametel_driver-release-unsigned.apk'
+    end
+
+    def manifest
+      'AndroidManifest.xml'
     end
 
     def package_exists(package)
