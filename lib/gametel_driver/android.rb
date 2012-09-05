@@ -4,10 +4,8 @@ module GametelDriver
       File.join(ENV['ANDROID_HOME'], "platforms/android-#{sdk}", 'android.jar')
     end
 
-    def default_keystore
-    end
-
-    def sign(apk, keystore)
+    def default_key_path
+      File.expand_path("~/.android/debug.keystore")
     end
   end
 end
