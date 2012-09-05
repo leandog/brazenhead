@@ -33,5 +33,10 @@ describe GametelDriver::Server do
       File.should_receive(:copy_file).with('../../gametel_driver-release-unsigned.apk', tmpdir)
       server.generate(info)
     end
+
+    it "should copy the manifest into the directory" do
+      File.should_receive(:copy_file).with('../../AndroidManifest.xml', tmpdir)
+      server.generate(info)
+    end
   end
 end

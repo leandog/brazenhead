@@ -4,7 +4,9 @@ module GametelDriver
       validate(info)
 
       Dir.mktmpdir do |dir|
-        File.copy_file('../../gametel_driver-release-unsigned.apk', dir)
+        ['gametel_driver-release-unsigned.apk', 'AndroidManifest.xml'].each do |file|
+          File.copy_file("../../#{file}", dir)
+        end
       end
     end
 
