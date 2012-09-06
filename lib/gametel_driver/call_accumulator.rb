@@ -10,6 +10,10 @@ module GametelDriver
       "commands=#{calls.to_json}"
     end
 
+    def clear
+      @calls = []
+    end
+
     private
     
     def calls

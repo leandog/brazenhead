@@ -26,3 +26,10 @@ Feature: Functionality provided by the GametelDriver module
     When I call "get_text" passing the argument "Graphics" and saving it into the variable "@@graphics@@"
     And then I call "click_on_view" using teh variable "@@graphics@@" using the target "Robotium"
     Then I should see "AlphaBitmap" from teh GametelDriver module
+
+  Scenario: Chaining twice
+    When I chain together the methods "getCurrentListViews" and "size" on the GametelDriver module
+    And I call "get_text" passing the argument "Graphics" and saving it into the variable "@@graphics@@"
+    And then I call "click_on_view" using teh variable "@@graphics@@" using the target "Robotium" on the same driver
+    Then I should see "AlphaBitmap" from teh GametelDriver module
+
