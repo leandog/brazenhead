@@ -15,12 +15,12 @@ module GametelDriver
     private
     def copy_base_files_to(dir)
       [test_apk, manifest].each do |file|
-        FileUtils.copy_file(File.join(base_dir, file), dir)
+        FileUtils.copy_file(File.join(base_gem_dir, file), dir)
       end
     end
 
-    def base_dir
-      File.expand_path("../../", __FILE__)
+    def base_gem_dir
+      File.join(File.expand_path("../../../", __FILE__), 'driver')
     end
 
     def update_target_in(dir)
