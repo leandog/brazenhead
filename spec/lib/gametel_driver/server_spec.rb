@@ -23,8 +23,14 @@ describe GametelDriver::Server do
   end
 
   context "setting up the test server sandbox" do
+    let(:base_gem_dir) { '/base/gem' }
+    let(:driver_apk) { 'gametel_driver-release-unsigned.apk' }
+    let(:base_test_apk) { "#{base_gem_dir}/driver/#{driver_apk}" }
+    let(:manifest) { 'AndroidManifest.xml' }
+    let(:base_manifest) { "#{base_gem_dir}/driver/#{manifest}" }
+
     before(:each) do
-      File.stub(:expand_path).with("../../../", anything()).and_return("/base/gem")
+      File.stub(:expand_path).with("../../../", anything()).and_return(base_gem_dir)
     end
     
     it "should use a temporary directory" do
@@ -33,12 +39,12 @@ describe GametelDriver::Server do
     end
 
     it "should copy the unsigned release package into the directory" do
-      FileUtils.should_receive(:copy_file).with('/base/gem/driver/gametel_driver-release-unsigned.apk', tmpdir + '/gametel_driver-release-unsigned.apk')
+      FileUtils.should_receive(:copy_file).with(base_test_apk, File.join(tmpdir, driver_apk))
       server.generate(apk)
     end
 
     it "should copy the manifest into the directory" do
-      FileUtils.should_receive(:copy_file).with('/base/gem/driver/AndroidManifest.xml', tmpdir + '/AndroidManifest.xml')
+      FileUtils.should_receive(:copy_file).with(base_manifest, File.join(tmpdir, manifest))
       server.generate(apk)
     end
   end
