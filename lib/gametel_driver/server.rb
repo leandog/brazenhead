@@ -1,3 +1,5 @@
+require 'tempfile'
+
 module GametelDriver
   class Server
     def generate(apk)
