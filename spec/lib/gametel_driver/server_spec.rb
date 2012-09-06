@@ -33,12 +33,12 @@ describe GametelDriver::Server do
     end
 
     it "should copy the unsigned release package into the directory" do
-      FileUtils.should_receive(:copy_file).with('/base/gem/driver/gametel_driver-release-unsigned.apk', tmpdir)
+      FileUtils.should_receive(:copy_file).with('/base/gem/driver/gametel_driver-release-unsigned.apk', tmpdir + '/gametel_driver-release-unsigned.apk')
       server.generate(apk)
     end
 
     it "should copy the manifest into the directory" do
-      FileUtils.should_receive(:copy_file).with('/base/gem/driver/AndroidManifest.xml', tmpdir)
+      FileUtils.should_receive(:copy_file).with('/base/gem/driver/AndroidManifest.xml', tmpdir + '/AndroidManifest.xml')
       server.generate(apk)
     end
   end

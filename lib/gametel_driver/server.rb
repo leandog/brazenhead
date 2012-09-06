@@ -16,7 +16,7 @@ module GametelDriver
     private
     def copy_base_files_to(dir)
       [test_apk, manifest].each do |file|
-        FileUtils.copy_file(File.join(base_gem_dir, file), dir)
+        FileUtils.copy_file(File.join(base_gem_dir, file), File.join(dir, file))
       end
     end
 
