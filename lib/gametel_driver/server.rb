@@ -1,4 +1,5 @@
 require 'tempfile'
+require 'gametel_driver/manifest_info'
 
 module GametelDriver
   class Server
