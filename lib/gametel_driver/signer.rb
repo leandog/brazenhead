@@ -14,7 +14,7 @@ module GametelDriver
 
     def sign(apk, keystore)
       process.run('jarsigner', '-verbose', '-storepass', keystore[:password], '-keypass', keystore[:keystore_password], '-keystore', keystore[:path], apk, keystore[:alias])
-      process.run('zipalign', '-v', 4, apk, File.join(File.dirname(apk), File.basename(apk, '.apk') + '-signed.apk'))
+      process.run('zipalign', '-v', '4', apk, File.join(File.dirname(apk), File.basename(apk, '.apk') + '-signed.apk'))
     end
 
     private
