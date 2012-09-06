@@ -9,6 +9,7 @@ module GametelDriver
     def run(process, *args)
       process = ChildProcess.build(process, *args)
       process.io.stdout, process.io.stderr = std_out_err
+      process.start
       process.wait
       @last_stdout = output(process.io.stdout)
       @last_stderr = output(process.io.stderr)

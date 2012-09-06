@@ -20,6 +20,7 @@ describe GametelDriver::Process do
 
   it "should run the command with arguments" do
     ChildProcess.should_receive(:build).with('command', 'some', 'argument')
+    running_process.should_receive(:start)
     process.run('command', 'some', 'argument')
   end
 
