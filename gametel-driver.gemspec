@@ -8,7 +8,7 @@ Gem::Specification.new do |gem|
   gem.summary       = %q{Driver that accepts remote json requests and invokes methods inside Android emulator / device.}
   gem.homepage      = "http://github.com/leandog/gametel-driver"
 
-  gem.files         = `git ls-files`.split($\).grep(%r{^(lib|bin|test|spec|features)})
+  gem.files         = `git ls-files`.split($\).grep(%r{^(lib|bin|test|spec|features)|(.*AndroidManifest\.xml)}) << 'driver/gametel_driver-release-unsigned.apk'
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.name          = "gametel_driver"
