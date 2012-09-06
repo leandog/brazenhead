@@ -19,7 +19,7 @@ class DemoApp
   end
 
   def start_and_wait(wait=2)
-    `adb shell am instrument -e packageName #{@app[:package]} -e fullLauncherName #{@app[:package]}.ApiDemos -e class com.leandog.gametel.driver.TheTest #{@test_app[:package]}/com.leandog.gametel.driver.GametelInstrumentation`
+    `adb shell am instrument -e packageName #{@app[:package]} -e fullLauncherName #{@app[:package]}.ApiDemos -e class com.leandog.gametel.driver.TheTest #{@test_app[:package]}/com.leandog.brazenhead.BrazenheadInstrumentation`
     sleep wait
   end
 

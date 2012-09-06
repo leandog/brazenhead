@@ -1,11 +1,11 @@
 require 'spec_helper'
 
-describe GametelDriver::ManifestInfo do
-  let(:process) { double('gametel-process').as_null_object }
-  let(:manifest_info) { GametelDriver::ManifestInfo.new 'some_apk.apk' }
+describe Brazenhead::ManifestInfo do
+  let(:process) { double('brazenhead-process').as_null_object }
+  let(:manifest_info) { Brazenhead::ManifestInfo.new 'some_apk.apk' }
 
   before(:each) do
-    GametelDriver::Process.stub(:new).and_return(process)
+    Brazenhead::Process.stub(:new).and_return(process)
   end
 
   it "should grab the minimum sdk" do

@@ -1,8 +1,8 @@
 require 'spec_helper'
 require 'json'
 
-describe GametelDriver::Request do
-  let(:request) { GametelDriver::Request.new }
+describe Brazenhead::Request do
+  let(:request) { Brazenhead::Request.new }
 
   def json_message(message)
     JSON.parse(message[9..-1])[0]

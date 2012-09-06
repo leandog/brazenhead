@@ -1,10 +1,10 @@
-require 'gametel_driver/android'
+require 'brazenhead/android'
 
 class AndroidTest
-  include GametelDriver::Android
+  include Brazenhead::Android
 end
 
-describe GametelDriver::Android do
+describe Brazenhead::Android do
   let(:android) { AndroidTest.new }
   context "resolving android paths" do
     it "should be able to locate the android jar" do

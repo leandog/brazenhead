@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe GametelDriver::Process do
+describe Brazenhead::Process do
   let(:stdout) { double(:name => 'stdout').as_null_object }
   let(:stderr) { double(:name => 'stderr').as_null_object }
   let(:running_process) { double('process').as_null_object }
-  let(:process) { GametelDriver::Process.new }
+  let(:process) { Brazenhead::Process.new }
 
   before(:each) do
     Time.stub(:now) { 'this-time' }
@@ -30,8 +30,8 @@ describe GametelDriver::Process do
   end
 
   it "should redirect stdout and stderr" do
-    Tempfile.should_receive(:new).with('gametel-proc-out-this-time')
-    Tempfile.should_receive(:new).with('gametel-proc-err-this-time')
+    Tempfile.should_receive(:new).with('brazenhead-proc-out-this-time')
+    Tempfile.should_receive(:new).with('brazenhead-proc-err-this-time')
     process.run('anything')
   end
 

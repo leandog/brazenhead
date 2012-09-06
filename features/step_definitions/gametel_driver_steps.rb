@@ -1,13 +1,13 @@
 class Driver
-  include GametelDriver
+  include Brazenhead
 end
 
-When /^I call the method "(.*?)" on the GametelDriver module$/ do |method_name|
+When /^I call the method "(.*?)" on the Brazenhead module$/ do |method_name|
   @driver = Driver.new
   @driver.send method_name
 end
 
-When /^I call the method "(.*?)" on the GametelDriver module passing "(.*?)"$/ do |method_name, argument|
+When /^I call the method "(.*?)" on the Brazenhead module passing "(.*?)"$/ do |method_name, argument|
   @driver = Driver.new
   @driver.send method_name, argument
 end
@@ -20,7 +20,7 @@ When /^I chain together the methods "(.*?)" and "(.*?)" using the target "(.*?)"
   end
 end
 
-Then /^I should receive a successful result from the GametelDriver module$/ do
+Then /^I should receive a successful result from the Brazenhead module$/ do
   @driver.last_response.code.should == '200'
 end
 
@@ -28,7 +28,7 @@ Then /^the result from the chained calls should be "(.*?)"$/ do |result|
   @driver.last_response.body.should == result
 end
 
-When /^I chain together the methods "(.*?)" and "(.*?)" on the GametelDriver module$/ do |first_method, second_method|
+When /^I chain together the methods "(.*?)" and "(.*?)" on the Brazenhead module$/ do |first_method, second_method|
   @driver = Driver.new
   @driver.chain_calls do |driver|
     driver.send first_method
@@ -55,7 +55,7 @@ When /^then I call "(.*?)" using teh variable "(.*?)" using the target "(.*?)" o
   end
 end
 
-Then /^I should see "(.*?)" from teh GametelDriver module$/ do |value|
+Then /^I should see "(.*?)" from teh Brazenhead module$/ do |value|
   @driver.search_text value
   @driver.last_response.body.should == 'true'
 end

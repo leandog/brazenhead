@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe GametelDriver::Server do
-  let(:server) { GametelDriver::Server.new }
+describe Brazenhead::Server do
+  let(:server) { Brazenhead::Server.new }
   let(:manifest_info) { double('manifest-info').as_null_object }
   let(:tmpdir) { '/some/tmp/dir' }
   let(:apk) { 'some_apk.apk' }
@@ -12,7 +12,7 @@ describe GametelDriver::Server do
     FileUtils.stub(:copy_file)
     File.stub(:read).and_return('')
     File.stub(:write)
-    GametelDriver::ManifestInfo.stub(:new).with(apk).and_return(manifest_info)
+    Brazenhead::ManifestInfo.stub(:new).with(apk).and_return(manifest_info)
   end
 
   context "validating the arguments" do
@@ -24,7 +24,7 @@ describe GametelDriver::Server do
 
   context "setting up the test server sandbox" do
     let(:base_gem_dir) { '/base/gem' }
-    let(:driver_apk) { 'gametel_driver-release-unsigned.apk' }
+    let(:driver_apk) { 'brazenhead-release-unsigned.apk' }
     let(:base_test_apk) { "#{base_gem_dir}/driver/#{driver_apk}" }
     let(:manifest) { 'AndroidManifest.xml' }
     let(:base_manifest) { "#{base_gem_dir}/driver/#{manifest}" }

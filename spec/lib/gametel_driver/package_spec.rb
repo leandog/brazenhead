@@ -1,17 +1,17 @@
-require 'gametel_driver/package'
+require 'brazenhead/package'
 
 class PackageTest
-  include GametelDriver::Package
+  include Brazenhead::Package
 end
 
-describe GametelDriver::Package do
+describe Brazenhead::Package do
   let(:package) { PackageTest.new }
-  let(:process) { double('gametel-process').as_null_object }
-  let(:android) { double('gameteldriver-android') }
+  let(:process) { double('brazenhead-process').as_null_object }
+  let(:android) { double('brazenhead-android') }
   let(:apk) { '/path/to/some_apk.apk' }
 
   before(:each) do
-    GametelDriver::Process.stub(:new).and_return(process)
+    Brazenhead::Process.stub(:new).and_return(process)
   end
 
   context "updating a manifest" do

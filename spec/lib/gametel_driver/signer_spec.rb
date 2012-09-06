@@ -1,13 +1,13 @@
 class SignerTest
-  include GametelDriver::Signer
+  include Brazenhead::Signer
 end
 
-describe GametelDriver::Signer do
+describe Brazenhead::Signer do
   let(:signer) { SignerTest.new }
-  let(:process) { double('gametel-process') }
+  let(:process) { double('brazenhead-process') }
 
   before(:each) do
-    GametelDriver::Process.stub(:new).and_return(process)
+    Brazenhead::Process.stub(:new).and_return(process)
     signer.stub(:default_key_path).and_return('/path/to/debug.keystore')
   end
 

@@ -23,7 +23,7 @@ end
 
 task :build do
   `ant -f ./driver/build.xml release`
-  FileUtils.copy_file("./driver/bin/gametel_driver-release-unsigned.apk", "./driver/gametel_driver-release-unsigned.apk")
+  FileUtils.copy_file("./driver/bin/brazenhead-release-unsigned.apk", "./driver/brazenhead-release-unsigned.apk")
 end
 
 task :default => :spec

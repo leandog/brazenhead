@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 class Driver
-  include GametelDriver
+  include Brazenhead
 end
 
-describe GametelDriver do
+describe Brazenhead do
 
   let(:driver) { Driver.new }
   let(:http_mock) { double("http_mock") }

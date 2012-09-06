@@ -1,6 +1,6 @@
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '../../', 'lib'))
 
-require 'gametel_driver'
+require 'brazenhead'
 require 'ADB'
 require 'childprocess'
 require_relative 'demo_app'

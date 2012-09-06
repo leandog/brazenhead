@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe GametelDriver::Device do
-  let(:device) { GametelDriver::Device.new }
+describe Brazenhead::Device do
+  let(:device) { Brazenhead::Device.new }
   let(:http_mock) { double("http_mock") }
 
   before(:each) do
