@@ -13,7 +13,7 @@ module GametelDriver
     private
     def copy_base_files_to(dir)
       [test_apk, manifest].each do |file|
-        File.copy_file("../../#{file}", dir)
+        FileUtils.copy_file("../../#{file}", dir)
       end
     end
 

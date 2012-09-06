@@ -9,7 +9,7 @@ describe GametelDriver::Server do
   before(:each) do
     File.stub(:exists?).and_return(true)
     Dir.stub(:mktmpdir).and_yield(tmpdir)
-    File.stub(:copy_file)
+    FileUtils.stub(:copy_file)
     File.stub(:read).and_return('')
     File.stub(:write)
     GametelDriver::ManifestInfo.stub(:new).with(apk).and_return(manifest_info)
@@ -29,12 +29,12 @@ describe GametelDriver::Server do
     end
 
     it "should copy the unsigned release package into the directory" do
-      File.should_receive(:copy_file).with('../../gametel_driver-release-unsigned.apk', tmpdir)
+      FileUtils.should_receive(:copy_file).with('../../gametel_driver-release-unsigned.apk', tmpdir)
       server.generate(apk)
     end
 
     it "should copy the manifest into the directory" do
-      File.should_receive(:copy_file).with('../../AndroidManifest.xml', tmpdir)
+      FileUtils.should_receive(:copy_file).with('../../AndroidManifest.xml', tmpdir)
       server.generate(apk)
     end
   end
