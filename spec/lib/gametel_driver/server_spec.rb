@@ -23,18 +23,22 @@ describe GametelDriver::Server do
   end
 
   context "setting up the test server sandbox" do
+    before(:each) do
+      File.stub(:expand_path).with("../../", anything()).and_return("/base/lib")
+    end
+    
     it "should use a temporary directory" do
       Dir.should_receive(:mktmpdir)
       server.generate(apk)
     end
 
     it "should copy the unsigned release package into the directory" do
-      FileUtils.should_receive(:copy_file).with('../../gametel_driver-release-unsigned.apk', tmpdir)
+      FileUtils.should_receive(:copy_file).with('/base/lib/gametel_driver-release-unsigned.apk', tmpdir)
       server.generate(apk)
     end
 
     it "should copy the manifest into the directory" do
-      FileUtils.should_receive(:copy_file).with('../../AndroidManifest.xml', tmpdir)
+      FileUtils.should_receive(:copy_file).with('/base/lib/AndroidManifest.xml', tmpdir)
       server.generate(apk)
     end
   end
