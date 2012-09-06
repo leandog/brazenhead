@@ -18,6 +18,7 @@ describe GametelDriver::Signer do
 
   it "should be able to sign a package" do
     process.should_receive(:run).with('jarsigner', '-verbose', '-storepass', 'android', '-keypass', 'android', '-keystore', '/path/to/debug.keystore', '/some_apk.apk', 'androiddebugkey')
+    process.should_receive(:run).with('zipalign', '-v', 4, '/some_apk.apk', '/some_apk-signed.apk')
     signer.sign('/some_apk.apk', signer.default_keystore)
   end
 
