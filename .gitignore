@@ -1,6 +1,7 @@
 driver/bin
 units/bin
 gen
+pkg
 tmp
 *.swp
 Gemfile.lock
