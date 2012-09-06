@@ -1,3 +1,6 @@
+require 'childprocess'
+require 'tempfile'
+
 module GametelDriver
   class Process
 

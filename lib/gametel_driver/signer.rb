@@ -1,3 +1,6 @@
+require 'gametel_driver/android'
+require 'gametel_driver/process'
+
 module GametelDriver
   module Signer
     include GametelDriver::Android
