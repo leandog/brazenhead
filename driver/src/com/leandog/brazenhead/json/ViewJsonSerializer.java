@@ -4,7 +4,7 @@ import java.lang.reflect.Type;
 
 import android.view.View;
 
-import com.google.gametel.gson.*;
+import com.google.brazenhead.gson.*;
 
 public class ViewJsonSerializer implements JsonSerializer<View> {
 

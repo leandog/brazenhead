@@ -8,10 +8,9 @@ import java.util.*;
 
 import org.junit.*;
 
-import com.google.gametel.gson.*;
+import com.google.brazenhead.gson.*;
 import com.leandog.brazenhead.commands.*;
 import com.leandog.brazenhead.commands.Command.Target;
-import com.leandog.brazenhead.json.CommandDeserializer;
 
 public class CommandDeserializerTest {
 

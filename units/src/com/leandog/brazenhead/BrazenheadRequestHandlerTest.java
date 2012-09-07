@@ -14,7 +14,7 @@ import org.mortbay.jetty.*;
 import android.content.Context;
 import android.view.View;
 
-import com.google.gametel.gson.Gson;
+import com.google.brazenhead.gson.Gson;
 import com.jayway.android.robotium.solo.Solo;
 import com.leandog.brazenhead.commands.*;
 import com.leandog.brazenhead.exceptions.CommandNotFoundException;

@@ -7,5 +7,5 @@ gem 'growl'
 gem 'guard-rspec'
 gem 'guard-cucumber'
 
-# Specify your gem's dependencies in gametel-driver.gemspec
+# Specify your gem's dependencies in brazenhead.gemspec
 gemspec

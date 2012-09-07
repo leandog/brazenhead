@@ -10,7 +10,7 @@ import org.mortbay.jetty.handler.AbstractHandler;
 
 import android.view.View;
 
-import com.google.gametel.gson.*;
+import com.google.brazenhead.gson.*;
 import com.leandog.brazenhead.commands.*;
 import com.leandog.brazenhead.json.*;
 
@@ -83,7 +83,7 @@ public class BrazenheadRequestHandler extends AbstractHandler {
     private String commandsParameter(HttpServletRequest request) {
         final String commands = request.getParameter("commands");
         if (null == commands) {
-            throw new IllegalArgumentException("gametel-driver requires a \"commands\" parameter");
+            throw new IllegalArgumentException("brazenhead requires a \"commands\" parameter");
         }
         return commands;
     }

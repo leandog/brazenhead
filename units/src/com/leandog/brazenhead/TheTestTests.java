@@ -51,7 +51,7 @@ public class TheTestTests {
     }
     
     @Test
-    public void itInitializesTheGametelServerOnSetUp() throws Exception {
+    public void itInitializesTheBrazenheadServerOnSetUp() throws Exception {
         theTest.setUp();
         assertThat(theTest.brazenheadServer, is(notNullValue()));
     }

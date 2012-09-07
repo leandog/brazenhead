@@ -1,7 +1,7 @@
-#gametel-driver
+#brazenhead
 
 ###Command To Execute
-`adb shell am instrument -e packageName com.example.android.apis -e fullLauncherName com.example.android.apis.ApiDemos -e class com.leandog.gametel.driver.TheTest com.leandog.gametel.driver/com.leandog.gametel.driver.GametelInstrumentation`
+`adb shell am instrument -e packageName com.example.android.apis -e fullLauncherName com.example.android.apis.ApiDemos -e class com.leandog.brazenhead.TheTest com.leandog.brazenhead/com.leandog.brazenhead.BrazenheadInstrumentation`
 
 ###Then...
 `adb forward tcp:<local port> tcp:54767`

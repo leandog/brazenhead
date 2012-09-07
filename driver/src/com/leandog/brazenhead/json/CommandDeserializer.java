@@ -2,7 +2,7 @@ package com.leandog.brazenhead.json;
 
 import java.lang.reflect.Type;
 
-import com.google.gametel.gson.*;
+import com.google.brazenhead.gson.*;
 import com.leandog.brazenhead.commands.*;
 import com.leandog.brazenhead.commands.Command.Target;
 

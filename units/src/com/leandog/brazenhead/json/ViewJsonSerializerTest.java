@@ -11,8 +11,7 @@ import org.mockito.Mock;
 
 import android.view.View;
 
-import com.google.gametel.gson.*;
-import com.leandog.brazenhead.json.ViewJsonSerializer;
+import com.google.brazenhead.gson.*;
 import com.leandog.brazenhead.test.BrazenheadTestRunner;
 
 @RunWith(BrazenheadTestRunner.class)

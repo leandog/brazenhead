@@ -91,7 +91,7 @@
       <pathelement location="../units/libs/android.jar" />
       <pathelement location="../units/libs/maps.jar" />
       <pathelement location="../units/libs/mockito-all-1.9.0.jar" />
-      <pathelement location="libs/gametel-gson-2.2.2.jar" />
+      <pathelement location="libs/brazenhead-gson-2.2.2.jar" />
       <pathelement location="libs/servlet-api-2.5-20081211.jar" />
       <pathelement location="libs/jetty-6.1.26.jar" />
       <pathelement location="libs/jetty-util-6.1.26.jar" />

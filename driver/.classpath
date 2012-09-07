@@ -9,9 +9,9 @@
 	<classpathentry kind="lib" path="libs/servlet-api-2.5-20081211.jar"/>
 	<classpathentry kind="lib" path="libs/robotium-solo-3.3.jar">
 		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/gametel_driver/libs/robotium-solo-3.3-javadoc.jar!/"/>
+			<attribute name="javadoc_location" value="jar:platform:/resource/brazenhead/libs/robotium-solo-3.3-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="libs/gametel-gson-2.2.2.jar"/>
+	<classpathentry kind="lib" path="libs/brazenhead-gson-2.2.2.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
