@@ -1,11 +1,11 @@
-# Gametel
-[![Build Status](https://secure.travis-ci.org/leandog/gametel-driver.png?branch=master)](http://travis-ci.org/leandog/gametel-driver)
+# Brazenhead
+[![Build Status](https://secure.travis-ci.org/leandog/brazenhead.png?branch=master)](http://travis-ci.org/leandog/brazenhead)
 
 A low-level driver for testing android applications.
 
 ## Basic Usage
 
-Gametel-driver works by modifying your Android application (apk).  Once modified and installed in an emulator or device, gametel-driver can send request to the emulator or device and cause it to interact with your application via the [Robotium API](http://code.google.com/p/robotium/).
+Brazenhead works by modifying your Android application (apk).  Once modified and installed in an emulator or device, brazenhead can send request to the emulator or device and cause it to interact with your application via the [Robotium API](http://code.google.com/p/robotium/).
 
 Messages sent to the emulator are json messages and  must take the form of 
 
@@ -23,11 +23,11 @@ The `variable` parameter can be used in subsequent calls as an argument value.
 
 In addition to a server process there is a ruby module that will build the json for you when you call corresponding methods.  Let's take a look at a few examples of how this works.
 
-You can include the `GametelDriver` module in your class to provide the abilities.
+You can include the `Brazenhead` module in your class to provide the abilities.
 
 ````Ruby
 class MyClass
-  include GametelDriver
+  include Brazenhead
 end
 ````
 
@@ -77,7 +77,7 @@ In this final case we saved the result of the first call into a variable named `
 
 ## Known Issues
 
-See [http://github.com/leandog/gametel-driver/issues](http://github.com/leandog/gametel-driver/issues)
+See [http://github.com/leandog/brazenhead/issues](http://github.com/leandog/brazenhead/issues)
 
 ## Contribute
  

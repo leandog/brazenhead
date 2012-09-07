@@ -3,7 +3,7 @@ class DemoApp
 
   def initialize
     @app = {:apk => 'features/support/ApiDemos.apk', :package => 'com.example.android.apis' }
-    @test_app = {:apk => 'driver/bin/gametel_driver-debug.apk', :package => 'com.leandog.gametel.driver' }
+    @test_app = {:apk => 'driver/bin/brazenhead-debug.apk', :package => 'com.leandog.brazenhead' }
   end
 
   def setup
@@ -19,7 +19,7 @@ class DemoApp
   end
 
   def start_and_wait(wait=2)
-    `adb shell am instrument -e packageName #{@app[:package]} -e fullLauncherName #{@app[:package]}.ApiDemos -e class com.leandog.gametel.driver.TheTest #{@test_app[:package]}/com.leandog.brazenhead.BrazenheadInstrumentation`
+    `adb shell am instrument -e packageName #{@app[:package]} -e fullLauncherName #{@app[:package]}.ApiDemos -e class com.leandog.brazenhead.TheTest #{@test_app[:package]}/com.leandog.brazenhead.BrazenheadInstrumentation`
     sleep wait
   end
 

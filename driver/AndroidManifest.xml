@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.leandog.gametel.driver"
+    package="com.leandog.brazenhead"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -14,7 +14,7 @@
         android:minSdkVersion="10"
         android:targetSdkVersion="15" />
 
-    <application android:label="gametel-driver">
+    <application android:label="brazenhead">
         <uses-library android:name="android.test.runner"/>
     </application>
 
