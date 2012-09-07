@@ -5,6 +5,7 @@ describe Brazenhead::Server do
   let(:manifest_info) { double('manifest-info').as_null_object }
   let(:tmpdir) { '/some/tmp/dir' }
   let(:apk) { 'some_apk.apk' }
+  let(:driver_apk) { 'brazenhead-release-unsigned.apk' }
 
   before(:each) do
     File.stub(:exists?).and_return(true)
@@ -12,6 +13,8 @@ describe Brazenhead::Server do
     FileUtils.stub(:copy_file)
     File.stub(:read).and_return('')
     File.stub(:write)
+    server.stub(:update_manifest)
+    server.stub(:sign_default)
     Brazenhead::ManifestInfo.stub(:new).with(apk).and_return(manifest_info)
   end
 
@@ -24,7 +27,6 @@ describe Brazenhead::Server do
 
   context "setting up the test server sandbox" do
     let(:base_gem_dir) { '/base/gem' }
-    let(:driver_apk) { 'brazenhead-release-unsigned.apk' }
     let(:base_test_apk) { "#{base_gem_dir}/driver/#{driver_apk}" }
     let(:manifest) { 'AndroidManifest.xml' }
     let(:base_manifest) { "#{base_gem_dir}/driver/#{manifest}" }
@@ -32,7 +34,7 @@ describe Brazenhead::Server do
     before(:each) do
       File.stub(:expand_path).with("../../../", anything()).and_return(base_gem_dir)
     end
-    
+
     it "should use a temporary directory" do
       Dir.should_receive(:mktmpdir)
       server.generate(apk)
@@ -64,5 +66,18 @@ describe Brazenhead::Server do
       server.generate(apk)
     end
 
+    it "should package the modified manifest back into the test package" do 
+      manifest_info.should_receive(:min_sdk).and_return(10)
+      server.should_receive(:update_manifest).with("#{tmpdir}/#{driver_apk}", "#{tmpdir}/AndroidManifest.xml", 10)
+      server.generate(apk)
+    end
+
+  end
+
+  context "signing the test server" do
+    it "should sign the test packge with the default keystore" do
+      server.should_receive(:sign_default).with("#{tmpdir}/#{driver_apk}")
+      server.generate(apk)
+    end
   end
 end

@@ -1,15 +1,19 @@
 require 'tempfile'
 require 'brazenhead/manifest_info'
+require 'brazenhead/package'
 
 module Brazenhead
   class Server
+    include Brazenhead::Package
+
     def generate(apk)
       @source_apk = apk
       invalid_package_err unless File.exists? apk
 
       Dir.mktmpdir do |dir|
         copy_base_files_to(dir)
-        update_target_in(dir)
+        update_manifest_in(dir)
+        sign_default(test_apk_in(dir))
       end
     end
 
@@ -28,9 +32,15 @@ module Brazenhead
       File.join(*paths)
     end
 
-    def update_target_in(dir)
+    def update_manifest_in(dir)
       manifest_path = join(dir, manifest)
+
       replace(manifest_path, target_match, target_replace)
+      update_manifest(test_apk_in(dir), manifest_path, manifest_info.min_sdk)
+    end
+
+    def test_apk_in(dir)
+      join(dir, test_apk)
     end
 
     def replace(file, match, replacement)
@@ -46,7 +56,11 @@ module Brazenhead
     end
 
     def the_target
-      @the_target ||= Brazenhead::ManifestInfo.new(@source_apk).package
+      @the_target ||= manifest_info.package
+    end
+
+    def manifest_info
+      @info ||= Brazenhead::ManifestInfo.new(@source_apk)
     end
 
     def test_apk
