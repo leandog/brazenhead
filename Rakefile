@@ -21,7 +21,8 @@ task :lib do
   $LOAD_PATH.unshift(File.expand_path("lib", File.dirname(__FILE__)))
 end
 
-task :build do
+desc 'Build the release api'
+task :release_apk do
   `ant -f ./driver/build.xml release`
   FileUtils.copy_file("./driver/bin/brazenhead-release-unsigned.apk", "./driver/brazenhead-release-unsigned.apk")
 end
