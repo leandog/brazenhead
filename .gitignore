@@ -6,3 +6,4 @@ tmp
 *.swp
 Gemfile.lock
 driver/tests
+driver/*.apk
