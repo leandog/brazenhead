@@ -4,7 +4,7 @@ require 'brazenhead/package'
 require 'ADB'
 
 module Brazenhead
-  class ServerBuilder
+  class Builder
     include Brazenhead::Package
     include ADB
 

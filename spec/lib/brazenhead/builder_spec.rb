@@ -1,9 +1,9 @@
-require 'brazenhead/server_builder'
+require 'brazenhead/builder'
 
-describe Brazenhead::ServerBuilder do
+describe Brazenhead::Builder do
   let(:apk) { 'some_apk.apk' }
   let(:activity) { 'SomeActivityToStart' }
-  let(:server) { Brazenhead::ServerBuilder.new }
+  let(:server) { Brazenhead::Builder.new }
   let(:manifest_info) { double('manifest-info').as_null_object }
   let(:tmpdir) { '/some/tmp/dir' }
   let(:driver_apk) { 'brazenhead-release-unsigned.apk' }

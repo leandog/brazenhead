@@ -1,4 +1,4 @@
-require 'brazenhead/server_builder'
+require 'brazenhead/builder'
 
 module Brazenhead
   class Server
@@ -19,7 +19,7 @@ module Brazenhead
     end
     
     def builder
-      @builder ||= Brazenhead::ServerBuilder.new
+      @builder ||= Brazenhead::Builder.new
     end
 
   end

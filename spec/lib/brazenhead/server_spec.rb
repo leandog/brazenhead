@@ -7,7 +7,7 @@ describe Brazenhead::Server do
   let(:activity) { 'SomeActivity' }
 
   before(:each) do
-    Brazenhead::ServerBuilder.stub(:new).and_return(builder)
+    Brazenhead::Builder.stub(:new).and_return(builder)
   end
 
   it "should install the server" do
