@@ -13,7 +13,6 @@ module Brazenhead
       process.wait
       @last_stdout = output(process.io.stdout)
       @last_stderr = output(process.io.stderr)
-      self
     end
 
     def std_out_err

@@ -1,83 +1,24 @@
 require 'spec_helper'
 
 describe Brazenhead::Server do
-  let(:server) { Brazenhead::Server.new }
-  let(:manifest_info) { double('manifest-info').as_null_object }
-  let(:tmpdir) { '/some/tmp/dir' }
-  let(:apk) { 'some_apk.apk' }
-  let(:driver_apk) { 'brazenhead-release-unsigned.apk' }
+  let(:server) { Brazenhead::Server.new(apk) }
+  let(:builder) { double('brazenhead-builder') }
+  let(:apk) { 'someapk.apk' }
+  let(:activity) { 'SomeActivity' }
 
   before(:each) do
-    File.stub(:exists?).and_return(true)
-    Dir.stub(:mktmpdir).and_yield(tmpdir)
-    FileUtils.stub(:copy_file)
-    File.stub(:read).and_return('')
-    File.stub(:write)
-    server.stub(:update_manifest)
-    server.stub(:sign_default)
-    Brazenhead::ManifestInfo.stub(:new).with(apk).and_return(manifest_info)
+    Brazenhead::ServerBuilder.stub(:new).and_return(builder)
   end
 
-  context "validating the arguments" do
-    it "should require that the package exists" do
-      File.should_receive(:exists?).and_return(false)
-      lambda { server.generate({:package => 'some_package.apk'}) }.should raise_error
-    end
+  it "should install the server" do
+    builder.should_receive(:build_for).with(apk)
+    server.start(activity)
   end
 
-  context "setting up the test server sandbox" do
-    let(:base_gem_dir) { '/base/gem' }
-    let(:base_test_apk) { "#{base_gem_dir}/driver/#{driver_apk}" }
-    let(:manifest) { 'AndroidManifest.xml' }
-    let(:base_manifest) { "#{base_gem_dir}/driver/#{manifest}" }
-
-    before(:each) do
-      File.stub(:expand_path).with("../../../", anything()).and_return(base_gem_dir)
-    end
-
-    it "should use a temporary directory" do
-      Dir.should_receive(:mktmpdir)
-      server.generate(apk)
-    end
-
-    it "should copy the unsigned release package into the directory" do
-      FileUtils.should_receive(:copy_file).with(base_test_apk, File.join(tmpdir, driver_apk))
-      server.generate(apk)
-    end
-
-    it "should copy the manifest into the directory" do
-      FileUtils.should_receive(:copy_file).with(base_manifest, File.join(tmpdir, manifest))
-      server.generate(apk)
-    end
+  it "should only install it the first time" do
+    builder.should_receive(:build_for).once.and_return(double)
+    server.start(activity)
+    server.start(activity)
   end
 
-  context "updating the manifest" do
-    it "should load the contents of the existing manifest" do
-      File.should_receive(:read).with("#{tmpdir}/AndroidManifest.xml")
-      server.generate(apk)
-    end
-
-    it "should replace the target package" do
-      the_target_package = "the.target.package"
-      File.should_receive(:read).and_return("android:targetPackage=\"it.does.not.matter\"")
-      manifest_info.should_receive(:package).and_return(the_target_package)
-      File.should_receive(:write).with("#{tmpdir}/AndroidManifest.xml", "android:targetPackage=\"#{the_target_package}\"")
-
-      server.generate(apk)
-    end
-
-    it "should package the modified manifest back into the test package" do 
-      manifest_info.should_receive(:min_sdk).and_return(10)
-      server.should_receive(:update_manifest).with("#{tmpdir}/#{driver_apk}", "#{tmpdir}/AndroidManifest.xml", 10)
-      server.generate(apk)
-    end
-
-  end
-
-  context "signing the test server" do
-    it "should sign the test packge with the default keystore" do
-      server.should_receive(:sign_default).with("#{tmpdir}/#{driver_apk}")
-      server.generate(apk)
-    end
-  end
 end

@@ -25,7 +25,12 @@ module Brazenhead
 
     private
     def manifest
-      @manifest ||= process.run('aapt', 'dump', 'xmltree', @apk, 'AndroidManifest.xml').last_stdout
+      @manifest ||= load_manifest
+    end
+
+    def load_manifest
+      process.run('aapt', 'dump', 'xmltree', @apk, 'AndroidManifest.xml')
+      process.last_stdout
     end
 
     def first_capture(regex)
