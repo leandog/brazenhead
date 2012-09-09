@@ -19,4 +19,9 @@ describe Brazenhead::Device do
     http_mock.should_receive(:post).exactly(20).times.and_raise("error")
     expect { device.send "blah" }.to raise_error
   end
+
+  it "should be able to stop the server" do
+    http_mock.should_receive(:post).with('/kill', {})
+    device.stop
+  end
 end
