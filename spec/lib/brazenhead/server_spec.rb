@@ -11,6 +11,7 @@ describe Brazenhead::Server do
     Brazenhead::Builder.stub(:new).and_return(builder)
     builder.stub(:build_for).with(apk).and_return(manifest)
     server.stub(:shell)
+    server.stub(:forward)
     server.stub(:instrument)
     manifest.stub(:package).and_return('com.example')
   end
@@ -23,6 +24,11 @@ describe Brazenhead::Server do
     it "should only install it the first time" do
       builder.should_receive(:build_for).once.and_return(manifest)
       server.start(activity)
+      server.start(activity)
+    end
+
+    it "should setup the proper port forwarding" do
+      server.should_receive(:forward).with("tcp:7777", "tcp:54767")
       server.start(activity)
     end
   end

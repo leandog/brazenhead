@@ -21,6 +21,7 @@ module Brazenhead
 
     private
     def build
+      forward "tcp:7777", "tcp:54767"
       @manifest_info ||= Brazenhead::Builder.new.build_for(@apk)
     end
 
