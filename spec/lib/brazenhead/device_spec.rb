@@ -21,7 +21,7 @@ describe Brazenhead::Device do
   end
 
   it "should be able to stop the server" do
-    http_mock.should_receive(:post).with('/kill', {})
+    http_mock.should_receive(:post).with('/kill', '')
     device.stop
   end
 end

@@ -6,7 +6,7 @@ module Brazenhead
     def send(message)
       retries = 0
       begin
-        @last_response = post '/', message
+        @last_response = http.post '/', message
       rescue
         retries += 1
         sleep 0.5
@@ -18,7 +18,7 @@ module Brazenhead
     end
     
     def stop
-      post '/kill'
+      http.post '/kill', ''
     end
 
     def last_response
@@ -30,11 +30,6 @@ module Brazenhead
     def http
       @http ||= Net::HTTP.new '127.0.0.1', 7777
     end
-
-    def post(endpoint, message={})
-      http.post endpoint, message
-    end
-
     
   end
 end
