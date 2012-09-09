@@ -90,6 +90,11 @@ describe Brazenhead::Builder do
         server.build_for(apk)
       end
 
+      it "should reinstall the target package to the device" do
+        server.should_receive(:install).with(apk, "-r")
+        server.build_for(apk)
+      end
+
     end
   end
 

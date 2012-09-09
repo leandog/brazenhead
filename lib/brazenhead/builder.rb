@@ -22,6 +22,7 @@ module Brazenhead
         update_manifest_in(dir)
         sign_default(test_apk_in(dir))
         install(test_apk_in(dir), "-r")
+        install(@source_apk, "-r")
       end
     end
 
