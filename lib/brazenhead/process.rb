@@ -29,7 +29,7 @@ module Brazenhead
     end
 
     def now
-      Time.now.gsub(':', '_')
+      "#{Time.now}".gsub(':', '_')
     end
   end
 end
