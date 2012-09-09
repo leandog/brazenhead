@@ -7,7 +7,7 @@ describe Brazenhead::Process do
   let(:process) { Brazenhead::Process.new }
 
   before(:each) do
-    Time.stub(:now) { 'this-time' }
+    Time.stub(:now) { 'this:time' }
     Tempfile.stub(:new).and_return(stdout,stderr)
 
     running_process.stub_chain(:io, :stdout).and_return(stdout)
@@ -30,8 +30,8 @@ describe Brazenhead::Process do
   end
 
   it "should redirect stdout and stderr" do
-    Tempfile.should_receive(:new).with('brazenhead-proc-out-this-time')
-    Tempfile.should_receive(:new).with('brazenhead-proc-err-this-time')
+    Tempfile.should_receive(:new).with('brazenhead-proc-out-this_time')
+    Tempfile.should_receive(:new).with('brazenhead-proc-err-this_time')
     process.run('anything')
   end
 

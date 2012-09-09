@@ -16,7 +16,7 @@ module Brazenhead
     end
 
     def std_out_err
-      return ::Tempfile.new("brazenhead-proc-out-#{Time.now}"), ::Tempfile.new("brazenhead-proc-err-#{Time.now}")
+      return ::Tempfile.new("brazenhead-proc-out-#{now}"), ::Tempfile.new("brazenhead-proc-err-#{now}")
     end
 
     private
@@ -26,6 +26,10 @@ module Brazenhead
       file.close
       file.unlink
       out
+    end
+
+    def now
+      Time.now.gsub(':', '_')
     end
   end
 end
