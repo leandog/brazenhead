@@ -7,7 +7,7 @@ module Brazenhead
     include Brazenhead::Signer
 
     def update_manifest(apk, manifest, min_sdk = 8)
-      process.run('aapt', 'p', '-u', '-f', '-F', apk, '-M', manifest, '-I', path_to(min_sdk))
+      process.run(*update, *package(apk), *with(manifest), *using(path_to(min_sdk)))
     end
 
     def sign_default(apk)
@@ -17,6 +17,22 @@ module Brazenhead
     private
     def process
       @process ||= Brazenhead::Process.new
+    end
+
+    def update
+      "aapt p -u -f".split
+    end
+
+    def package(apk)
+      ["-F", apk]
+    end
+
+    def with(manifest)
+      ["-M", manifest]
+    end
+
+    def using(path)
+      ["-I", path]
     end
 
   end
