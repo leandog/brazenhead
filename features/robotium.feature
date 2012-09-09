@@ -29,8 +29,3 @@ Feature:  Calling Robotium methods
     When I call "getCurrentListViews" and then I call "size"
     Then I should receive a successful result
     And the result should be "1"
-
-  Scenario: Rocking some variables
-    When I want to save the view with the text "Graphics" in the variable "@@graphics@@"
-    Then I should be able to pass "@@graphics@@" to "clickOnView" on "Robotium"
-    And I should see "AlphaBitmap"

@@ -1,26 +1,23 @@
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '../../', 'lib'))
 
 require 'brazenhead'
+require 'brazenhead/server'
 require 'ADB'
 require 'childprocess'
-require_relative 'demo_app'
 
 World(ADB)
 
-app = DemoApp.new
-app.setup
+server = Brazenhead::Server.new('features/support/ApiDemos.apk')
+
+class Driver
+  include Brazenhead
+end
 
 Before do
-  app.start_and_wait
-  connect
+  @driver = Driver.new
+  server.start("ApiDemos")
 end
 
 After do
-  kill
+  server.stop
 end
-
-at_exit do
-  app.teardown
-end
-
-

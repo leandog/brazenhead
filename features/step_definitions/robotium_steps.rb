@@ -1,37 +1,37 @@
 When /^I do nothing but "(.*?)"$/ do |method|
-  execute({:name => method})
+  @driver.send method
 end
 
 Then /^I should receive "(.*?)"$/ do |json|
-  last_response.body.should match json
+  @driver.last_response.body.should match json
 end
 
 When /^I call a method with an integer$/ do
-  execute({:name => 'scrollUpList', :arguments => [0]})
+  @driver.scroll_up_list(0)
 end
 
 When /^I call a method with a string$/ do 
-  execute({:name => 'searchButton', :arguments => ['will not find']})
+  @driver.search_button('will not find')
 end
 
 When /^I call a method with a float$/ do 
-  execute({:name => 'clickOnScreen', :arguments => [100.0, 100.5]})
+  @driver.click_on_screen(100.0, 100.0)
 end
 
 When /^I call a method with a boolean$/ do 
-  execute({:name => 'searchText', :arguments => ['Views', true]})
+  @driver.search_text('Views', true)
 end
 
 Then /^I should receive a successful result$/ do
-  last_response.code.should eq '200'
+  @driver.last_response.code.should eq '200'
 end
 
-When /^I get the first "(.*?)" View I find$/ do |viewType|
-  execute({:name => "get#{viewType}", :arguments => [0]})
+When /^I get the first "(.*?)" View I find$/ do |view_type|
+  @driver.send "get_#{view_type.downcase}", 0
 end
 
 Then /^the view should have some basic information$/ do
-  response = JSON.parse(last_response.body)
+  response = JSON.parse(@driver.last_response.body)
   response.should have_key "id"
   response.should have_key "classType"
   response.should have_key "width"
@@ -44,27 +44,19 @@ Then /^the view should have some basic information$/ do
   response.should have_key "bottom"
 end
 
-When /^I call "(.*?)" and then I call "(.*?)"$/ do |firstMethod, nextMethod|
-  execute({:name => firstMethod}, {:name => nextMethod})
+When /^I call "(.*?)" and then I call "(.*?)"$/ do |first_method, next_method|
+  @driver.chain_calls do |driver|
+    driver.send first_method
+    driver.send next_method
+  end
 end
 
 Then /^the result should be "(.*?)"$/ do |result|
-  last_response.body.should eq result
-end
-
-When /^I want to save the view with the text "(.*?)" in the variable "(.*?)"$/ do |text, var_name|
-  @commands = []
-  @commands << {:name => 'getText', :arguments => [text], :variable => var_name}
-end
-
-Then /^I should be able to pass "(.*?)" to "(.*?)" on "(.*?)"$/ do |var_name, method, target|
-  @commands << {:name => method, :target => target, :arguments => [var_name]}
-  execute(*@commands)
-  last_response.code.should eq '200'
+  @driver.last_response.body.should eq result
 end
 
 Then /^I should see "(.*?)"$/ do |text|
-  execute({:name => 'searchText', :arguments => [text]})
-  last_response.body.should eq 'true'
+  @driver.search_text text
+  @last_response.body.should eq 'true'
 end
 
