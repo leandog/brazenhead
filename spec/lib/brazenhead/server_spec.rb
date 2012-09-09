@@ -41,6 +41,13 @@ describe Brazenhead::Server do
       server.start(activity)
     end
 
+    it "should be able to stop instrumenting" do
+      device = double('brazenhead-device')
+      Brazenhead::Device.should_receive(:new).and_return(device)
+      device.should_receive(:stop)
+      server.stop
+    end
+
   end
 
 end

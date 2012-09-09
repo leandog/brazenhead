@@ -1,4 +1,5 @@
 require 'brazenhead/builder'
+require 'brazenhead/device'
 
 module Brazenhead
   class Server
@@ -14,9 +15,17 @@ module Brazenhead
       instrument(runner, :packageName => their_package, :fullLauncherName => full(activity) , :class => the_test)
     end
 
+    def stop
+      device.stop
+    end
+
     private
     def build
       @manifest_info ||= Brazenhead::Builder.new.build_for(@apk)
+    end
+
+    def device
+      @device ||= Brazenhead::Device.new
     end
 
     def the_test
