@@ -85,8 +85,8 @@ describe Brazenhead::Builder do
     end
 
     context "installing the test server" do
-      it "should install the test server to the device" do
-        server.should_receive(:install).with("#{tmpdir}/#{driver_apk}")
+      it "should reinstall the test server to the device" do
+        server.should_receive(:install).with("#{tmpdir}/#{driver_apk}", "-r")
         server.build_for(apk)
       end
 

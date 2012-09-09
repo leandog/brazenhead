@@ -21,7 +21,7 @@ module Brazenhead
         copy_base_files_to(dir)
         update_manifest_in(dir)
         sign_default(test_apk_in(dir))
-        install(test_apk_in(dir))
+        install(test_apk_in(dir), "-r")
       end
     end
 
