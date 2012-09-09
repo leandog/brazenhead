@@ -20,7 +20,7 @@ describe Brazenhead::Signer do
   it "should be able to sign a package" do
     expanded_keypath = "/expanded/#{keypath}"
     File.should_receive(:expand_path).with(keypath).and_return(expanded_keypath)
-    process.should_receive(:run).with('jarsigner', '-verbose', '-storepass', 'android', '-keypass', 'android', '-keystore', expanded_keypath, '/some_apk.apk', 'androiddebugkey')
+    process.should_receive(:run).with('jarsigner', '-verbose', '-sigalg', 'MD5withRSA', '-digestalg', 'SHA1', '-storepass', 'android', '-keypass', 'android', '-keystore', expanded_keypath, '/some_apk.apk', 'androiddebugkey')
     process.should_receive(:run).with('zipalign', '-v', '4', '/some_apk.apk', '/some_apk-signed.apk')
     signer.sign('/some_apk.apk', signer.default_keystore)
   end
