@@ -11,15 +11,32 @@ module Brazenhead
 
     def start(activity)
       build
+      instrument(runner, :packageName => their_package, :fullLauncherName => full(activity) , :class => the_test)
     end
 
     private
     def build
-      @build ||= builder.build_for(@apk)
+      @manifest_info ||= Brazenhead::Builder.new.build_for(@apk)
     end
-    
-    def builder
-      @builder ||= Brazenhead::Builder.new
+
+    def the_test
+      "#{leandog}.TheTest"
+    end
+
+    def full(activity)
+      "#{their_package}.#{activity}"
+    end
+
+    def their_package
+      @manifest_info.package
+    end
+
+    def runner
+      "#{leandog}/#{leandog}.BrazenheadInstrumentation"
+    end
+
+    def leandog
+      'com.leandog.brazenhead'
     end
 
   end
