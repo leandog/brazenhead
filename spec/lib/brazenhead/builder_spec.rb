@@ -70,7 +70,7 @@ describe Brazenhead::Builder do
       end
 
       it "should package the modified manifest back into the test package" do 
-        manifest_info.should_receive(:min_sdk).and_return(10)
+        manifest_info.should_receive(:target_sdk).and_return(10)
         server.should_receive(:update_manifest).with("#{tmpdir}/#{driver_apk}", "#{tmpdir}/AndroidManifest.xml", 10)
         server.build_for(apk)
       end

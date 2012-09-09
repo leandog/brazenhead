@@ -44,7 +44,7 @@ module Brazenhead
       manifest_path = join(dir, manifest)
 
       replace(manifest_path, target_match, target_replace)
-      update_manifest(test_apk_in(dir), manifest_path, manifest_info.min_sdk)
+      update_manifest(test_apk_in(dir), manifest_path, manifest_info.target_sdk)
     end
 
     def test_apk_in(dir)
