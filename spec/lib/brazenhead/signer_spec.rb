@@ -9,7 +9,7 @@ describe Brazenhead::Signer do
 
   before(:each) do
     Brazenhead::Process.stub(:new).and_return(process)
-    process.stub(:last_stdout).and_return("")
+    process.stub(:last_stdout).and_return("jar verified")
     signer.stub(:default_key_path).and_return(keypath)
   end
 
@@ -27,8 +27,9 @@ describe Brazenhead::Signer do
   end
 
   it "should raise if signing fails to verify" do
-    process.stub(:last_stdout).and_return("some error")
-    lambda { signer.sign('/some_apk.apk', signer.default_keystore) }.should raise_error(message="error signing /some_apk.apk (some error)")
+    process.should_receive(:run).with(*"jarsigner -verify /some_apk.apk".split)
+    process.stub(:last_stdout).and_return("something went wrong")
+    lambda { signer.sign('/some_apk.apk', signer.default_keystore) }.should raise_error(message="error signing /some_apk.apk (something went wrong)")
   end
 
 end

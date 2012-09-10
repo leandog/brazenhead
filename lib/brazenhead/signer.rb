@@ -15,7 +15,7 @@ module Brazenhead
     def sign(apk, keystore)
       @keystore = keystore
       jarsign(apk)
-      error_signing(apk) unless signed_successfully?
+      verify(apk)
       process.run(*zipalign(apk), *signed(apk))
     end
 
@@ -32,8 +32,9 @@ module Brazenhead
       "jarsigner -sigalg MD5withRSA -digestalg SHA1".split
     end
 
-    def signed_successfully?
-      process.last_stdout.empty?
+    def verify(apk)
+      process.run(*"jarsigner -verify".split, apk)
+      error_signing(apk) unless process.last_stdout.include? "jar verified"
     end
 
     def zipalign(apk)
