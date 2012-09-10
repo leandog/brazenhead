@@ -13,14 +13,46 @@ module Brazenhead
     end
 
     def sign(apk, keystore)
-
-      process.run('jarsigner', '-verbose', '-sigalg', 'MD5withRSA', '-digestalg', 'SHA1', '-storepass', keystore[:password], '-keypass', keystore[:keystore_password], '-keystore', File.expand_path(keystore[:path]), apk, keystore[:alias])
-      process.run('zipalign', '-v', '4', apk, File.join(File.dirname(apk), File.basename(apk, '.apk') + '-signed.apk'))
+      @keystore = keystore
+      process.run(*jarsign, *keypasses, *the_key, apk, key_alias)
+      process.run(*zipalign(apk), *signed(apk))
     end
 
     private
     def process
       @process ||= Brazenhead::Process.new
+    end
+
+    def jarsign
+      "jarsigner -verbose -sigalg MD5withRSA -digestalg SHA1".split
+    end
+
+    def zipalign(apk)
+      "zipalign -v 4".split << apk
+    end
+
+    def signed(apk)
+      File.join dir(apk), new_name(apk)
+    end
+
+    def dir(apk)
+      File.dirname(apk)
+    end
+
+    def new_name(apk)
+      File.basename(apk, '.apk') << '-signed.apk'
+    end
+
+    def keypasses
+      "-storepass #{@keystore[:password]} -keypass #{@keystore[:keystore_password]}".split 
+    end
+
+    def the_key
+      ["-keystore", File.expand_path(@keystore[:path])]
+    end
+
+    def key_alias
+      @keystore[:alias]
     end
 
   end
