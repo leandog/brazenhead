@@ -29,7 +29,7 @@ describe Brazenhead::Android do
   context "locating the keystore" do
     it "should be able to locate the path to the default keystore" do
       File.stub(:expand_path).with("~/.android/debug.keystore").and_return("/some/expanded/.android/debug.keystore")
-      android.default_key_path.should eq "/some/expanded/.android/debug.keystore"
+      android.default_keystore[:path].should eq "/some/expanded/.android/debug.keystore"
     end
   end
 end

@@ -5,13 +5,6 @@ module Brazenhead
   module Signer
     include Brazenhead::Android
 
-    def default_keystore
-      {:path => default_key_path,
-       :alias => 'androiddebugkey',
-       :password => 'android',
-       :keystore_password => 'android'}
-    end
-
     def sign(apk, keystore)
       @keystore = keystore
       jarsign(apk)

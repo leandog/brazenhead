@@ -10,10 +10,6 @@ module Brazenhead
       process.run(*update, *package(apk), *with(manifest), *using(path_to(min_sdk)))
     end
 
-    def sign_default(apk)
-      sign(apk, default_keystore)
-    end
-
     private
     def process
       @process ||= Brazenhead::Process.new

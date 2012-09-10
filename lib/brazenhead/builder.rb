@@ -8,8 +8,9 @@ module Brazenhead
     include Brazenhead::Package
     include ADB
 
-    def build_for(apk)
+    def build_for(apk, keystore)
       @source_apk = apk
+      @keystore = keystore
       invalid_package_err(apk) unless File.exists? @source_apk
       install_server
       manifest_info
@@ -20,7 +21,7 @@ module Brazenhead
       Dir.mktmpdir do |dir|
         copy_base_files_to(dir)
         update_manifest_in(dir)
-        sign_default(test_apk_in(dir))
+        sign(test_apk_in(dir), @keystore)
         reinstall test_apk_in(dir)
         reinstall @source_apk
       end

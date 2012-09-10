@@ -6,8 +6,9 @@ module Brazenhead
     include Brazenhead::Package
     include ADB
 
-    def initialize(apk)
+    def initialize(apk, keystore = default_keystore)
       @apk = apk
+      @keystore = keystore
     end
 
     def start(activity)
@@ -22,7 +23,7 @@ module Brazenhead
     private
     def build
       forward "tcp:7777", "tcp:54767"
-      @manifest_info ||= Brazenhead::Builder.new.build_for(@apk)
+      @manifest_info ||= Brazenhead::Builder.new.build_for(@apk, @keystore)
     end
 
     def device

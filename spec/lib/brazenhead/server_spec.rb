@@ -6,10 +6,11 @@ describe Brazenhead::Server do
   let(:manifest) { double('manifest-info') }
   let(:apk) { 'someapk.apk' }
   let(:activity) { 'SomeActivity' }
+  let(:default_keystore) { server.default_keystore }
 
   before(:each) do
     Brazenhead::Builder.stub(:new).and_return(builder)
-    builder.stub(:build_for).with(apk).and_return(manifest)
+    builder.stub(:build_for).with(apk, anything()).and_return(manifest)
     server.stub(:shell)
     server.stub(:forward)
     server.stub(:instrument)
@@ -25,6 +26,21 @@ describe Brazenhead::Server do
       builder.should_receive(:build_for).once.and_return(manifest)
       server.start(activity)
       server.start(activity)
+    end
+
+    it "should use the default keystore if none is provided" do
+      builder.should_receive(:build_for).with(apk, server.default_keystore)
+      server.start(activity)
+    end
+
+    it "should use the provided keystore if it is given" do
+      other_keystore = {:path => 'other_keystore'}
+      builder.should_receive(:build_for).with(apk, other_keystore)
+      other_server = Brazenhead::Server.new(apk, other_keystore)
+      other_server.stub(:shell)
+      other_server.stub(:forward)
+      other_server.stub(:instrument)
+      other_server.start(activity)
     end
 
     it "should setup the proper port forwarding" do

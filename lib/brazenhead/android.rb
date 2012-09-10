@@ -6,8 +6,11 @@ module Brazenhead
       jar
     end
 
-    def default_key_path
-      File.expand_path("~/.android/debug.keystore")
+    def default_keystore
+      {:path => default_key_path,
+       :alias => 'androiddebugkey',
+       :password => 'android',
+       :keystore_password => 'android'}
     end
 
     private
@@ -17,6 +20,10 @@ module Brazenhead
 
     def platform(sdk)
       "platforms/android-#{sdk}"
+    end
+
+    def default_key_path
+      File.expand_path("~/.android/debug.keystore")
     end
 
     def android_jar(sdk)
