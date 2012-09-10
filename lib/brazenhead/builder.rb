@@ -10,7 +10,7 @@ module Brazenhead
 
     def build_for(apk)
       @source_apk = apk
-      invalid_package_err unless File.exists? @source_apk
+      invalid_package_err(apk) unless File.exists? @source_apk
       install_server
       manifest_info
     end
@@ -83,8 +83,8 @@ module Brazenhead
       'AndroidManifest.xml'
     end
 
-    def invalid_package_err
-      raise Exception.new("Invalid :package argument")
+    def invalid_package_err(apk)
+      raise Exception.new("Invalid package path:  #{apk}")
     end
 
   end

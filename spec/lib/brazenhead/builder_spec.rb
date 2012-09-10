@@ -24,7 +24,7 @@ describe Brazenhead::Builder do
     context "validating the arguments" do
       it "should require that the package exists" do
         File.should_receive(:exists?).and_return(false)
-        lambda { server.build_for('some_package.apk') }.should raise_error
+        lambda { server.build_for('some_package.apk') }.should raise_error(message="Invalid package path:  some_package.apk")
       end
     end
 
