@@ -14,7 +14,8 @@ module Brazenhead
 
     def sign(apk, keystore)
       @keystore = keystore
-      process.run(*jarsign, *keypasses, *the_key, apk, key_alias)
+      jarsign(apk)
+      error_signing(apk) unless signed_successfully?
       process.run(*zipalign(apk), *signed(apk))
     end
 
@@ -23,8 +24,16 @@ module Brazenhead
       @process ||= Brazenhead::Process.new
     end
 
-    def jarsign
-      "jarsigner -verbose -sigalg MD5withRSA -digestalg SHA1".split
+    def jarsign(apk)
+      process.run(*jar_command, *keypasses, *the_key, apk, key_alias)
+    end
+
+    def jar_command
+      "jarsigner -sigalg MD5withRSA -digestalg SHA1".split
+    end
+
+    def signed_successfully?
+      process.last_stdout.empty?
     end
 
     def zipalign(apk)
@@ -53,6 +62,10 @@ module Brazenhead
 
     def key_alias
       @keystore[:alias]
+    end
+
+    def error_signing(apk)
+      raise Exception, "error signing #{apk} (#{process.last_stdout})"
     end
 
   end
