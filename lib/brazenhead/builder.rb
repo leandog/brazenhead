@@ -21,9 +21,13 @@ module Brazenhead
         copy_base_files_to(dir)
         update_manifest_in(dir)
         sign_default(test_apk_in(dir))
-        install(test_apk_in(dir), "-r")
-        install(@source_apk, "-r")
+        reinstall test_apk_in(dir)
+        reinstall @source_apk
       end
+    end
+
+    def reinstall(apk, timeout=90)
+      install apk, "-r", {}, timeout
     end
 
     def copy_base_files_to(dir)
