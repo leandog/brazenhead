@@ -2,8 +2,8 @@
 require File.expand_path('../lib/brazenhead/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.authors       = ["Levi Wilson", "Jeffrey S. Morgan"]
-  gem.email         = ["levi@leandog.com", "jeff.morgan@leandog.com"]
+  gem.authors       = ["Jeffrey S. Morgan", "Levi Wilson"]
+  gem.email         = ["jeff.morgan@leandog.com", "levi@leandog.com"]
   gem.description   = %q{Driver that accepts remote json requests and invokes methods inside Android emulator / device.}
   gem.summary       = %q{Driver that accepts remote json requests and invokes methods inside Android emulator / device.}
   gem.homepage      = "http://github.com/leandog/brazenhead"
