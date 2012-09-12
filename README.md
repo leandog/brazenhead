@@ -7,6 +7,37 @@ A low-level driver for testing android applications.
 
 Brazenhead works by modifying your Android application (apk).  Once modified and installed in an emulator or device, brazenhead can send request to the emulator or device and cause it to interact with your application via the [Robotium API](http://code.google.com/p/robotium/).
 
+### Starting Instrumentation
+
+To start instrumenting an application you must create an instance of the `Brazenhead::Server` by giving it the path to your android application (apk) an optionally some keystore information.  (**_note:_** _If no keystore information is provided, the `debug.keystore` will be used instead._)
+
+```ruby
+require 'brazenhead/server'
+
+# using the debug.keystore
+server = Brazenhead::Server.new "some/path/to/my.apk"
+```
+
+Now that you have a server instance, you can simply start any activity by giving it the name of the activity.  `brazenhead` will assume that it is a relative path based on the package name of your application.  If the package of your application is `com.example.some.awesome.app`, you can simply start the activity at `com.example.some.awesome.app.text.Flashy` like so:
+
+```ruby
+# create the server instance
+server = Brazenhead::Server.new "some/path/to/my.apk"
+
+#start the activity
+server.start "text.Flashy"
+```
+
+### Stopping Tests
+
+Stopping the server instance is just as easy.  Simply issue the following to stop the test server:
+
+```ruby
+server.stop
+```
+
+### Sending Commands
+
 Messages sent to the emulator are json messages and  must take the form of 
 
 ````ruby
