@@ -5,22 +5,21 @@ import java.util.*;
 import java.util.Map.Entry;
 
 import com.leandog.brazenhead.TestRunInformation;
-import com.leandog.brazenhead.commands.Command.Target;
 import com.leandog.brazenhead.exceptions.CommandNotFoundException;
 
 public class CommandRunner {
 
     private Object theLastResult;
-    
-    Map<String, Object> variables =  new HashMap<String, Object>();
+
+    Map<String, Object> variables = new HashMap<String, Object>();
 
     public void execute(final Command... commands) throws Exception {
         clearLastRun();
-        
+
         for (final Command command : commands) {
             theLastResult = findMethod(command).invoke(theTargetFor(command), theArguments(command));
-            
-            if( command.hasVariable() ) {
+
+            if (command.hasVariable()) {
                 storeVariable(command);
             }
         }
@@ -31,10 +30,7 @@ public class CommandRunner {
     }
 
     private Method findMethod(final Command command) throws CommandNotFoundException {
-        return new MethodFinder()
-            .find(command.getName())
-            .on(theTargetFor(command).getClass())
-            .with(argumentTypesFor(command));
+        return new MethodFinder().find(command.getName()).on(theTargetFor(command).getClass()).with(argumentTypesFor(command));
     }
 
     private void clearLastRun() {
@@ -43,11 +39,15 @@ public class CommandRunner {
     }
 
     private Object theTargetFor(final Command command) {
-        if( command.getTarget() == Target.Robotium ) {
+        switch (command.getTarget()) {
+        case Brazenhead:
+            return TestRunInformation.getBrazenhead();
+        case Robotium:
             return TestRunInformation.getSolo();
+        default:
+            return (theLastResult == null) ? TestRunInformation.getSolo() : theLastResult;
         }
-        
-        return (theLastResult == null) ? TestRunInformation.getSolo() : theLastResult;
+
     }
 
     private static Map<Class<?>, Class<?>> primitiveMap = new HashMap<Class<?>, Class<?>>();
@@ -81,7 +81,7 @@ public class CommandRunner {
     }
 
     private void substituteVariables(List<Object> arguments) {
-        for(final Entry<String, Object> variable : variables.entrySet()) {
+        for (final Entry<String, Object> variable : variables.entrySet()) {
             Collections.replaceAll(arguments, variable.getKey(), variable.getValue());
         }
     }

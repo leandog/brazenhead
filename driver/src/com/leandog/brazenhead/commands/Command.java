@@ -13,7 +13,7 @@ public class Command {
     private String variable;
 
     public enum Target {
-        LastResultOrRobotium, Robotium,
+        LastResultOrRobotium, Robotium, Brazenhead,
     }
 
     public Command() {

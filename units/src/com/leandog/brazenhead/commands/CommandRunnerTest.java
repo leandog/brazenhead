@@ -10,12 +10,13 @@ import org.junit.*;
 import org.mockito.*;
 
 import com.jayway.android.robotium.solo.Solo;
-import com.leandog.brazenhead.TestRunInformation;
+import com.leandog.brazenhead.*;
 import com.leandog.brazenhead.commands.Command.Target;
 
 public class CommandRunnerTest {
 
     @Mock Solo solo;
+    @Mock Brazenhead brazenhead;
     CommandRunner commandRunner;
 
     @Before
@@ -81,6 +82,12 @@ public class CommandRunnerTest {
     }
     
     @Test
+    public void itCanDesignateTheBrazenheadTarget() throws Exception {
+        commandRunner.execute(new Command("getInstrumentation", Target.Brazenhead));
+        verify(brazenhead).getInstrumentation();
+    }
+    
+    @Test
     public void itCaptureVariables() throws Exception {
         final Command command = new Command("clickInList", 0);
         command.setVariable("@@some_variable@@");
@@ -117,6 +124,7 @@ public class CommandRunnerTest {
     private void initMocks() {
         MockitoAnnotations.initMocks(this);
         TestRunInformation.setSolo(solo);
+        TestRunInformation.setBrazenhead(brazenhead);
     }
     
 }
