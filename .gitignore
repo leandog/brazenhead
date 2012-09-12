@@ -4,6 +4,7 @@ gen
 pkg
 tmp
 *.swp
+*.swo
 Gemfile.lock
 driver/tests
 driver/*.apk
