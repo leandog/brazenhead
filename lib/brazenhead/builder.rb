@@ -18,11 +18,11 @@ module Brazenhead
 
     private
     def install_server
-      Dir.mktmpdir do |dir|
-        copy_base_files_to(dir)
-        update_manifest_in(dir)
-        sign(test_apk_in(dir), @keystore)
-        reinstall test_apk_in(dir)
+      Dir.mktmpdir do |temp_dir|
+        copy_base_files_to temp_dir
+        update_manifest_in temp_dir
+        sign test_apk_in(temp_dir), @keystore
+        reinstall test_apk_in(temp_dir)
         reinstall @source_apk
       end
     end
@@ -46,14 +46,14 @@ module Brazenhead
     end
 
     def update_manifest_in(dir)
-      manifest_path = join(dir, manifest)
+      manifest_path = join dir, manifest
 
-      replace(manifest_path, target_match, target_replace)
-      update_manifest(test_apk_in(dir), manifest_path, manifest_info.target_sdk)
+      replace manifest_path, target_match, target_replace
+      update_manifest test_apk_in(dir), manifest_path, manifest_info.target_sdk
     end
 
     def test_apk_in(dir)
-      join(dir, test_apk)
+      join dir, test_apk
     end
 
     def replace(file, match, replacement)
