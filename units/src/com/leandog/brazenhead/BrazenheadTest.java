@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 
+import java.io.IOException;
 import java.util.*;
 
 import org.junit.*;
@@ -22,7 +23,7 @@ public class BrazenheadTest {
     private List<String> theLines = new ArrayList<String>();
 
     @Before
-    public void setUp() {
+    public void setUp() throws IOException {
         initMocks();
         brazenhead = new Brazenhead(instrumentation, resourceLoader);
     }
@@ -35,7 +36,7 @@ public class BrazenheadTest {
     }
 
     @Test
-    public void itOnlyLoadsTheResourceInformationOnce() {
+    public void itOnlyLoadsTheResourceInformationOnce() throws IOException {
         expectToHave("some_id");
         brazenhead.idFromName("some_id");
         brazenhead.idFromName("some_id");
@@ -80,13 +81,13 @@ public class BrazenheadTest {
     }
 
     @Test
-    public void itCanGiveMeTheValueOfAnId() {
+    public void itCanGiveMeTheValueOfAnId() throws IOException {
         theLines.add("        resource 0x7f090006 com.example.android.apis:id/toggle_show_home: t=0x12 d=0x00000000 (s=0x0008 r=0x00)");
         assertThat(brazenhead.idFromName("toggle_show_home"), is(hex("7f090006")));
     }
     
     @Test(expected = IllegalArgumentException.class)
-    public void itThrowsIfTheIdIsNotFound() {
+    public void itThrowsIfTheIdIsNotFound() throws IOException {
         brazenhead.idFromName("not_found");
     }
 
@@ -94,7 +95,7 @@ public class BrazenheadTest {
         return Integer.parseInt(hexString, 16);
     }
 
-    private void initMocks() {
+    private void initMocks() throws IOException {
         MockitoAnnotations.initMocks(this);
         when(resourceLoader.linesFor("resources.txt")).thenReturn(theLines);
     }

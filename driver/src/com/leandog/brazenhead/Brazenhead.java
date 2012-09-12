@@ -1,5 +1,6 @@
 package com.leandog.brazenhead;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.regex.*;
 
@@ -29,7 +30,7 @@ public class Brazenhead {
         return instrumentation;
     }
 
-    public int idFromName(final String namedId) {
+    public int idFromName(final String namedId) throws IOException {
         if (hasNotLoadedTheIds()) {
             loadResourceIds();
         }
@@ -45,7 +46,7 @@ public class Brazenhead {
         return resourceIds.isEmpty();
     }
 
-    private void loadResourceIds() {
+    private void loadResourceIds() throws IOException {
         List<String> resourceLines = resourceLoader.linesFor("resources.txt");
         for (final String resourceLine : resourceLines) {
             final Matcher matcher = match(resourceLine);
