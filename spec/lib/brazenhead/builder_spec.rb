@@ -8,10 +8,12 @@ describe Brazenhead::Builder do
   let(:tmpdir) { '/some/tmp/dir' }
   let(:driver_apk) { 'brazenhead-release-unsigned.apk' }
   let(:keystore) { {:path => 'default.keystore'} }
+  let(:process) { double('brazenhead-process').as_null_object }
 
   before(:each) do
     File.stub(:exists?).and_return(true)
     Dir.stub(:mktmpdir).and_yield(tmpdir)
+    Dir.stub(:mkdir)
     FileUtils.stub(:copy_file)
     File.stub(:read).and_return('')
     File.stub(:write)
@@ -19,6 +21,7 @@ describe Brazenhead::Builder do
     server.stub(:sign)
     server.stub(:install)
     Brazenhead::ManifestInfo.stub(:new).with(apk).and_return(manifest_info)
+    Brazenhead::Process.stub(:new).and_return(process)
   end
 
   context "building the test server" do
@@ -53,6 +56,30 @@ describe Brazenhead::Builder do
       it "should copy the manifest into the directory" do
         FileUtils.should_receive(:copy_file).with(base_manifest, File.join(tmpdir, manifest))
         server.build_for(apk, keystore)
+      end
+    end
+
+    context "grabbing resource information" do
+      it "should retrieve resource information from the target package" do
+        process.should_receive(:run).with(*"aapt dump resources #{apk}".split)
+        server.build_for apk, keystore
+      end
+
+      it "should create an assets directory for the resource information" do
+        Dir.should_receive(:mkdir).with("#{tmpdir}/assets")
+        server.build_for apk, keystore
+      end
+
+      it "should write the resource information to the assets directory" do
+        process.should_receive(:last_stdout).and_return("resource info")
+        resources = "#{tmpdir}/assets/resources.txt"
+        File.should_receive(:write).with(resources, "resource info")
+        server.build_for apk, keystore
+      end
+
+      it "should store the resources in the test server" do
+        process.should_receive(:run).with(*"aapt add #{tmpdir}/#{driver_apk} assets/resources.txt".split)
+        server.build_for apk, keystore
       end
     end
 

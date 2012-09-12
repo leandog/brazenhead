@@ -1,6 +1,7 @@
 require 'tempfile'
 require 'brazenhead/manifest_info'
 require 'brazenhead/package'
+require 'brazenhead/process'
 require 'ADB'
 
 module Brazenhead
@@ -21,6 +22,7 @@ module Brazenhead
       Dir.mktmpdir do |temp_dir|
         copy_base_files_to temp_dir
         update_manifest_in temp_dir
+        store_resources temp_dir
         sign test_apk_in(temp_dir), @keystore
         reinstall test_apk_in(temp_dir)
         reinstall @source_apk
@@ -50,6 +52,14 @@ module Brazenhead
 
       replace manifest_path, target_match, target_replace
       update_manifest test_apk_in(dir), manifest_path, manifest_info.target_sdk
+    end
+
+    def store_resources(dir)
+      assets = File.join dir, "assets"
+      Dir.mkdir assets
+      process.run(*"aapt dump resources".split, @source_apk)
+      File.write File.join(assets, "resources.txt"), process.last_stdout
+      process.run('aapt', 'add', test_apk_in(dir), 'assets/resources.txt')
     end
 
     def test_apk_in(dir)
@@ -86,6 +96,10 @@ module Brazenhead
 
     def invalid_package_err(apk)
       raise Exception.new("Invalid package path:  #{apk}")
+    end
+
+    def process
+      @process ||= Brazenhead::Process.new
     end
 
   end
