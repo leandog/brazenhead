@@ -12,7 +12,7 @@ describe Brazenhead::Builder do
 
   before(:each) do
     File.stub(:expand_path).and_return(apk)
-    Dir.stub(:chdir)
+    Dir.stub(:chdir).and_yield(tmpdir)
     Dir.stub(:pwd)
     File.stub(:exists?).and_return(true)
     Dir.stub(:mktmpdir).and_yield(tmpdir)
@@ -63,27 +63,26 @@ describe Brazenhead::Builder do
     end
 
     context "grabbing resource information" do
+
       it "should retrieve resource information from the target package" do
         process.should_receive(:run).with(*"aapt dump resources #{apk}".split)
         server.build_for apk, keystore
       end
 
       it "should create an assets directory for the resource information" do
-        Dir.should_receive(:mkdir).with("#{tmpdir}/assets")
+        Dir.should_receive(:mkdir).with("assets")
         server.build_for apk, keystore
       end
 
       it "should write the resource information to the assets directory" do
         process.should_receive(:last_stdout).and_return("resource info")
-        resources = "#{tmpdir}/assets/resources.txt"
+        resources = "assets/resources.txt"
         File.should_receive(:write).with(resources, "resource info")
         server.build_for apk, keystore
       end
 
       it "should store the resources in the test server" do
-        Dir.should_receive(:pwd).and_return('the/current/dir')
         Dir.should_receive(:chdir).with(tmpdir)
-        Dir.should_receive(:chdir).with('the/current/dir')
         process.should_receive(:run).with(*"aapt add #{tmpdir}/#{driver_apk} assets/resources.txt".split)
         server.build_for apk, keystore
       end
