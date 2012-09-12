@@ -11,6 +11,9 @@ describe Brazenhead::Builder do
   let(:process) { double('brazenhead-process').as_null_object }
 
   before(:each) do
+    File.stub(:expand_path).and_return(apk)
+    Dir.stub(:chdir)
+    Dir.stub(:pwd)
     File.stub(:exists?).and_return(true)
     Dir.stub(:mktmpdir).and_yield(tmpdir)
     Dir.stub(:mkdir)
@@ -78,6 +81,9 @@ describe Brazenhead::Builder do
       end
 
       it "should store the resources in the test server" do
+        Dir.should_receive(:pwd).and_return('the/current/dir')
+        Dir.should_receive(:chdir).with(tmpdir)
+        Dir.should_receive(:chdir).with('the/current/dir')
         process.should_receive(:run).with(*"aapt add #{tmpdir}/#{driver_apk} assets/resources.txt".split)
         server.build_for apk, keystore
       end

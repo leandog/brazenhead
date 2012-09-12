@@ -10,7 +10,7 @@ module Brazenhead
     include ADB
 
     def build_for(apk, keystore)
-      @source_apk = apk
+      @source_apk = File.expand_path apk
       @keystore = keystore
       invalid_package_err(apk) unless File.exists? @source_apk
       install_server
@@ -55,11 +55,15 @@ module Brazenhead
     end
 
     def store_resources(dir)
+      original_dir = Dir.pwd
+      Dir.chdir dir
       assets = File.join dir, "assets"
       Dir.mkdir assets
       process.run(*"aapt dump resources".split, @source_apk)
-      File.write File.join(assets, "resources.txt"), process.last_stdout
-      process.run('aapt', 'add', test_apk_in(dir), 'assets/resources.txt')
+      resource_file = File.join(assets, "resources.txt")
+      File.write resource_file, process.last_stdout
+      process.run('aapt', 'add', test_apk_in(dir), "assets/resources.txt")
+      Dir.chdir original_dir
     end
 
     def test_apk_in(dir)
