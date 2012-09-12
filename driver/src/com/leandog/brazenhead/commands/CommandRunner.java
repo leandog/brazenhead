@@ -16,7 +16,7 @@ public class CommandRunner {
 
     public void execute(final Command... commands) throws Exception {
         clearLastRun();
-
+        
         for (final Command command : commands) {
             theLastResult = findMethod(command).invoke(theTargetFor(command), theArguments(command));
             

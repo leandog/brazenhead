@@ -51,6 +51,18 @@ public class TheTestTests {
     }
     
     @Test
+    public void itInitializesBrazenheadOnSetUp() throws Exception {
+        theTest.setUp();
+        assertThat(TestRunInformation.getBrazenhead(), instanceOf(Brazenhead.class));
+    }
+    
+    @Test
+    public void brazenheadHasTheInstrumentationContext() throws Exception { 
+        theTest.setUp();
+        assertThat(TestRunInformation.getBrazenhead().getInstrumentation(), is(notNullValue()));
+    }
+    
+    @Test
     public void itInitializesTheBrazenheadServerOnSetUp() throws Exception {
         theTest.setUp();
         assertThat(theTest.brazenheadServer, is(notNullValue()));
