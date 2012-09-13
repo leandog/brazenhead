@@ -27,7 +27,7 @@ module Brazenhead
     def install_server(dir)
       Dir.chdir(dir) do |here|
         copy_base_files_to here
-        update_manifest_in here
+        update_test_manifest
         store_resources here
         sign test_apk, @keystore
         reinstall test_apk
@@ -40,24 +40,22 @@ module Brazenhead
     end
 
     def copy_base_files_to(dir)
-      [test_apk, manifest].each do |file|
+      [test_apk, android_manifest].each do |file|
         FileUtils.copy_file driver_path_for(file), join(dir, file)
       end
     end
 
     def driver_path_for(file)
-      join(File.expand_path("../../../", __FILE__), 'driver', file)
+      join File.expand_path("../../../", __FILE__), 'driver', file
     end
 
     def join(*paths)
       File.join(*paths)
     end
 
-    def update_manifest_in(dir)
-      manifest_path = join dir, manifest
-
-      replace manifest_path, target_match, target_replace
-      update_manifest test_apk, manifest_path, manifest_info.target_sdk
+    def update_test_manifest
+      replace android_manifest, /\btargetPackage="[^"]+"/,  "targetPackage=\"#{the_target}\""
+      update_manifest test_apk, android_manifest, manifest_info.target_sdk
     end
 
     def store_resources(dir)
@@ -68,14 +66,6 @@ module Brazenhead
 
     def replace(file, match, replacement)
       File.write(file, File.read(file).gsub(match, replacement))
-    end
-
-    def target_match
-      /\btargetPackage="[^"]+"/
-    end
-
-    def target_replace
-      "targetPackage=\"#{the_target}\""
     end
 
     def the_target
@@ -90,7 +80,7 @@ module Brazenhead
       'brazenhead-release-unsigned.apk'
     end
 
-    def manifest
+    def android_manifest
       'AndroidManifest.xml'
     end
 

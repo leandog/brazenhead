@@ -16,16 +16,21 @@ describe Brazenhead::Builder do
     end
     File.stub(:exists?).and_return(true)
     Dir.stub(:mktmpdir).and_yield(tmpdir)
-    Dir.stub(:mkdir)
     Dir.stub(:chdir).and_yield(tmpdir)
+    Dir.stub(:mkdir)
     FileUtils.stub(:copy_file)
     File.stub(:read).and_return('')
     File.stub(:write)
-    server.stub(:update_manifest)
-    server.stub(:sign)
-    server.stub(:install)
+    stub_all server, :update_manifest, :sign, :install
+
     Brazenhead::ManifestInfo.stub(:new).with(apk).and_return(manifest_info)
     Brazenhead::Process.stub(:new).and_return(process)
+  end
+
+  def stub_all(type, *methods)
+    methods.each do |method|
+      type.stub(method)
+    end
   end
 
   context "building the test server" do
@@ -89,7 +94,7 @@ describe Brazenhead::Builder do
 
     context "updating the manifest" do
       it "should load the contents of the existing manifest" do
-        File.should_receive(:read).with("#{tmpdir}/AndroidManifest.xml")
+        File.should_receive(:read).with("AndroidManifest.xml")
         server.build_for(apk, keystore)
       end
 
@@ -97,14 +102,14 @@ describe Brazenhead::Builder do
         the_target_package = "the.target.package"
         File.should_receive(:read).and_return("android:targetPackage=\"it.does.not.matter\"")
         manifest_info.should_receive(:package).and_return(the_target_package)
-        File.should_receive(:write).with("#{tmpdir}/AndroidManifest.xml", "android:targetPackage=\"#{the_target_package}\"")
+        File.should_receive(:write).with("AndroidManifest.xml", "android:targetPackage=\"#{the_target_package}\"")
 
         server.build_for(apk, keystore)
       end
 
       it "should package the modified manifest back into the test package" do 
         manifest_info.should_receive(:target_sdk).and_return(10)
-        server.should_receive(:update_manifest).with("#{driver_apk}", "#{tmpdir}/AndroidManifest.xml", 10)
+        server.should_receive(:update_manifest).with("#{driver_apk}", "AndroidManifest.xml", 10)
         server.build_for(apk, keystore)
       end
 
@@ -131,7 +136,7 @@ describe Brazenhead::Builder do
     end
   end
 
-  context "sending back informationa about the server" do
+  context "sending back information about the server" do
     it "should send back information about the target package" do
       server.build_for(apk, keystore).should_be manifest_info
     end
