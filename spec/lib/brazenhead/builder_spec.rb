@@ -2,6 +2,7 @@ require 'brazenhead/builder'
 
 describe Brazenhead::Builder do
   let(:apk) { 'some_apk.apk' }
+  let(:expanded_apk) { File.expand_path(apk) }
   let(:activity) { 'SomeActivityToStart' }
   let(:server) { Brazenhead::Builder.new }
   let(:manifest_info) { double('manifest-info').as_null_object }
@@ -12,7 +13,7 @@ describe Brazenhead::Builder do
 
   before(:each) do
     File.stub(:expand_path) do |arg|
-      arg
+      "expanded/#{arg}"
     end
     File.stub(:exists?).and_return(true)
     Dir.stub(:mktmpdir).and_yield(tmpdir)
@@ -24,7 +25,7 @@ describe Brazenhead::Builder do
     File.stub(:write)
     stub_all server, :update_manifest, :sign, :install
 
-    Brazenhead::ManifestInfo.stub(:new).with(apk).and_return(manifest_info)
+    Brazenhead::ManifestInfo.stub(:new).with(expanded_apk).and_return(manifest_info)
     Brazenhead::Process.stub(:new).and_return(process)
   end
 
@@ -71,7 +72,7 @@ describe Brazenhead::Builder do
 
     context "grabbing resource information" do
       it "should retrieve resource information from the target package" do
-        process.should_receive(:run).with(*"aapt dump resources #{apk}".split)
+        process.should_receive(:run).with(*"aapt dump resources #{expanded_apk}".split)
         server.build_for apk, keystore
       end
 
@@ -118,7 +119,7 @@ describe Brazenhead::Builder do
 
     context "signing the test server" do
       it "should use the provided keystore to sign the package" do
-        server.should_receive(:sign).with("#{driver_apk}", {:path => 'another keystore'})
+        server.should_receive(:sign).with("#{driver_apk}", {:path => 'expanded/another keystore'})
         server.build_for(apk, :path => 'another keystore')
       end
     end
@@ -130,7 +131,7 @@ describe Brazenhead::Builder do
       end
 
       it "should reinstall the target package to the device" do
-        server.should_receive(:install).with(apk, "-r", {}, 90)
+        server.should_receive(:install).with(expanded_apk, "-r", {}, 90)
         server.build_for(apk, keystore)
       end
 
