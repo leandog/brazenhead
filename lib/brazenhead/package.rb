@@ -15,6 +15,10 @@ module Brazenhead
       File.write resource_file, process.last_stdout
     end
 
+    def add_file(apk, file)
+        process.run(*"aapt add".split, apk, file)
+    end
+
     private
     def process
       @process ||= Brazenhead::Process.new

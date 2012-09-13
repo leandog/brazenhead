@@ -58,7 +58,7 @@ module Brazenhead
       Dir.chdir(dir) do |tmp_dir|
         Dir.mkdir "assets"
         dump_resources @source_apk, "assets/resources.txt"
-        process.run('aapt', 'add', test_apk_in(dir), "assets/resources.txt")
+        add_file test_apk_in(dir), "assets/resources.txt"
       end
     end
 
