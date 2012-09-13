@@ -26,9 +26,9 @@ module Brazenhead
     private
     def install_server(dir)
       Dir.chdir(dir) do |here|
-        copy_base_files_to here
+        copy_base_files
         update_test_manifest
-        store_resources here
+        store_resources
         sign test_apk, @keystore
         reinstall test_apk
         reinstall @source_apk
@@ -39,9 +39,9 @@ module Brazenhead
       install apk, "-r", {}, timeout
     end
 
-    def copy_base_files_to(dir)
+    def copy_base_files
       [test_apk, android_manifest].each do |file|
-        FileUtils.copy_file driver_path_for(file), join(dir, file)
+        FileUtils.cp driver_path_for(file), Dir.pwd
       end
     end
 
@@ -58,7 +58,7 @@ module Brazenhead
       update_manifest test_apk, android_manifest, manifest_info.target_sdk
     end
 
-    def store_resources(dir)
+    def store_resources
       Dir.mkdir "assets"
       dump_resources @source_apk, "assets/resources.txt"
       add_file test_apk, "assets/resources.txt"

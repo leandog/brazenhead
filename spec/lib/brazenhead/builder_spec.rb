@@ -18,7 +18,8 @@ describe Brazenhead::Builder do
     Dir.stub(:mktmpdir).and_yield(tmpdir)
     Dir.stub(:chdir).and_yield(tmpdir)
     Dir.stub(:mkdir)
-    FileUtils.stub(:copy_file)
+    Dir.stub(:pwd).and_return(tmpdir)
+    FileUtils.stub(:cp)
     File.stub(:read).and_return('')
     File.stub(:write)
     stub_all server, :update_manifest, :sign, :install
@@ -58,12 +59,12 @@ describe Brazenhead::Builder do
       end
 
       it "should copy the unsigned release package into the directory" do
-        FileUtils.should_receive(:copy_file).with(base_test_apk, "#{tmpdir}/#{driver_apk}")
+        FileUtils.should_receive(:cp).with(base_test_apk, "#{tmpdir}")
         server.build_for(apk, keystore)
       end
 
       it "should copy the manifest into the directory" do
-        FileUtils.should_receive(:copy_file).with(base_manifest,  "#{tmpdir}/#{manifest}")
+        FileUtils.should_receive(:cp).with(base_manifest,  "#{tmpdir}")
         server.build_for(apk, keystore)
       end
     end
