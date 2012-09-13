@@ -11,12 +11,13 @@ describe Brazenhead::Builder do
   let(:process) { double('brazenhead-process').as_null_object }
 
   before(:each) do
-    File.stub(:expand_path).and_return(apk)
-    Dir.stub(:chdir).and_yield(tmpdir)
-    Dir.stub(:pwd)
+    File.stub(:expand_path) do |arg|
+      arg
+    end
     File.stub(:exists?).and_return(true)
     Dir.stub(:mktmpdir).and_yield(tmpdir)
     Dir.stub(:mkdir)
+    Dir.stub(:chdir).and_yield(tmpdir)
     FileUtils.stub(:copy_file)
     File.stub(:read).and_return('')
     File.stub(:write)
@@ -52,18 +53,17 @@ describe Brazenhead::Builder do
       end
 
       it "should copy the unsigned release package into the directory" do
-        FileUtils.should_receive(:copy_file).with(base_test_apk, File.join(tmpdir, driver_apk))
+        FileUtils.should_receive(:copy_file).with(base_test_apk, "#{tmpdir}/#{driver_apk}")
         server.build_for(apk, keystore)
       end
 
       it "should copy the manifest into the directory" do
-        FileUtils.should_receive(:copy_file).with(base_manifest, File.join(tmpdir, manifest))
+        FileUtils.should_receive(:copy_file).with(base_manifest,  "#{tmpdir}/#{manifest}")
         server.build_for(apk, keystore)
       end
     end
 
     context "grabbing resource information" do
-
       it "should retrieve resource information from the target package" do
         process.should_receive(:run).with(*"aapt dump resources #{apk}".split)
         server.build_for apk, keystore
@@ -82,8 +82,7 @@ describe Brazenhead::Builder do
       end
 
       it "should store the resources in the test server" do
-        Dir.should_receive(:chdir).with(tmpdir)
-        process.should_receive(:run).with(*"aapt add #{tmpdir}/#{driver_apk} assets/resources.txt".split)
+        process.should_receive(:run).with(*"aapt add #{driver_apk} assets/resources.txt".split)
         server.build_for apk, keystore
       end
     end
@@ -105,7 +104,7 @@ describe Brazenhead::Builder do
 
       it "should package the modified manifest back into the test package" do 
         manifest_info.should_receive(:target_sdk).and_return(10)
-        server.should_receive(:update_manifest).with("#{tmpdir}/#{driver_apk}", "#{tmpdir}/AndroidManifest.xml", 10)
+        server.should_receive(:update_manifest).with("#{driver_apk}", "#{tmpdir}/AndroidManifest.xml", 10)
         server.build_for(apk, keystore)
       end
 
@@ -113,14 +112,14 @@ describe Brazenhead::Builder do
 
     context "signing the test server" do
       it "should use the provided keystore to sign the package" do
-        server.should_receive(:sign).with("#{tmpdir}/#{driver_apk}", {:path => 'another keystore'})
+        server.should_receive(:sign).with("#{driver_apk}", {:path => 'another keystore'})
         server.build_for(apk, :path => 'another keystore')
       end
     end
 
     context "installing the test server" do
       it "should reinstall the test server to the device" do
-        server.should_receive(:install).with("#{tmpdir}/#{driver_apk}", "-r", {}, 90)
+        server.should_receive(:install).with("#{driver_apk}", "-r", {}, 90)
         server.build_for(apk, keystore)
       end
 

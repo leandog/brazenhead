@@ -11,20 +11,26 @@ module Brazenhead
 
     def build_for(apk, keystore)
       @source_apk = File.expand_path apk
-      @keystore = keystore
       invalid_package_err(apk) unless File.exists? @source_apk
-      install_server
+
+      @keystore = keystore
+      @keystore[:path] = File.expand_path @keystore[:path]
+
+      Dir.mktmpdir do |temp_dir|
+        install_server temp_dir
+      end
+
       manifest_info
     end
 
     private
-    def install_server
-      Dir.mktmpdir do |temp_dir|
-        copy_base_files_to temp_dir
-        update_manifest_in temp_dir
-        store_resources temp_dir
-        sign test_apk_in(temp_dir), @keystore
-        reinstall test_apk_in(temp_dir)
+    def install_server(dir)
+      Dir.chdir(dir) do |here|
+        copy_base_files_to here
+        update_manifest_in here
+        store_resources here
+        sign test_apk, @keystore
+        reinstall test_apk
         reinstall @source_apk
       end
     end
@@ -35,7 +41,7 @@ module Brazenhead
 
     def copy_base_files_to(dir)
       [test_apk, manifest].each do |file|
-        FileUtils.copy_file(driver_path_for(file), join(dir, file))
+        FileUtils.copy_file driver_path_for(file), join(dir, file)
       end
     end
 
@@ -51,19 +57,13 @@ module Brazenhead
       manifest_path = join dir, manifest
 
       replace manifest_path, target_match, target_replace
-      update_manifest test_apk_in(dir), manifest_path, manifest_info.target_sdk
+      update_manifest test_apk, manifest_path, manifest_info.target_sdk
     end
 
     def store_resources(dir)
-      Dir.chdir(dir) do |tmp_dir|
-        Dir.mkdir "assets"
-        dump_resources @source_apk, "assets/resources.txt"
-        add_file test_apk_in(dir), "assets/resources.txt"
-      end
-    end
-
-    def test_apk_in(dir)
-      join dir, test_apk
+      Dir.mkdir "assets"
+      dump_resources @source_apk, "assets/resources.txt"
+      add_file test_apk, "assets/resources.txt"
     end
 
     def replace(file, match, replacement)
