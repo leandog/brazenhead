@@ -57,14 +57,9 @@ module Brazenhead
     def store_resources(dir)
       Dir.chdir(dir) do |tmp_dir|
         Dir.mkdir "assets"
-        dump_resources "assets/resources.txt"
+        dump_resources @source_apk, "assets/resources.txt"
         process.run('aapt', 'add', test_apk_in(dir), "assets/resources.txt")
       end
-    end
-
-    def dump_resources(resource_file)
-      process.run(*"aapt dump resources".split, @source_apk)
-      File.write resource_file, process.last_stdout
     end
 
     def test_apk_in(dir)
