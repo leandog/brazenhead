@@ -46,11 +46,7 @@ module Brazenhead
     end
 
     def driver_path_for(file)
-      join File.expand_path("../../../", __FILE__), 'driver', file
-    end
-
-    def join(*paths)
-      File.join(*paths)
+      File.join File.expand_path("../../../", __FILE__), 'driver', file
     end
 
     def update_test_manifest
@@ -58,14 +54,14 @@ module Brazenhead
       update_manifest test_apk, android_manifest, manifest_info.target_sdk
     end
 
+    def replace(file, match, replacement)
+      File.write(file, File.read(file).gsub(match, replacement))
+    end
+
     def store_resources
       Dir.mkdir "assets"
       dump_resources @source_apk, "assets/resources.txt"
       add_file test_apk, "assets/resources.txt"
-    end
-
-    def replace(file, match, replacement)
-      File.write(file, File.read(file).gsub(match, replacement))
     end
 
     def the_target
