@@ -6,7 +6,9 @@ When /^I call a method that returns a view$/ do
 end
 
 Then /^we should have basic information about a view$/ do
-  response = JSON.parse(@driver.last_response.body)
+  @driver.should have_succeeded
+
+  response = @driver.json_response
   response.should have_key "id"
   response.should have_key "classType"
   response.should have_key "width"
@@ -19,3 +21,10 @@ Then /^we should have basic information about a view$/ do
   response.should have_key "bottom"
 end
 
+When /^I call a method that returns a text view$/ do
+  @driver.get_text 0
+end
+
+Then /^the text for the view should be returned$/ do
+  @driver.json_response.should have_key "text"
+end

@@ -19,8 +19,12 @@ server = Brazenhead::Server.new('features/support/ApiDemos.apk', keystore)
 class Driver
   include Brazenhead
 
-  def has_succeeded
+  def has_succeeded?
     last_response.code == '200'
+  end
+
+  def json_response
+    JSON.parse last_response.body
   end
 end
 
