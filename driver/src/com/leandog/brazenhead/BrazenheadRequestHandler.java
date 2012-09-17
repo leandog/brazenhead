@@ -9,6 +9,7 @@ import org.mortbay.jetty.Request;
 import org.mortbay.jetty.handler.AbstractHandler;
 
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.brazenhead.gson.*;
 import com.leandog.brazenhead.commands.*;
@@ -73,6 +74,7 @@ public class BrazenheadRequestHandler extends AbstractHandler {
             .registerTypeAdapter(Command.class, new CommandDeserializer())
             .registerTypeHierarchyAdapter(Exception.class, new ExceptionJsonSerializer())
             .registerTypeHierarchyAdapter(View.class, new ViewJsonSerializer())
+            .registerTypeHierarchyAdapter(TextView.class, new TextViewJsonSerializer())
             .create();
     }
 

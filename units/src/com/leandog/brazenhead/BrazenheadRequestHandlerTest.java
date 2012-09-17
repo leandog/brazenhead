@@ -1,6 +1,6 @@
 package com.leandog.brazenhead;
 
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 
@@ -13,6 +13,7 @@ import org.mortbay.jetty.*;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.brazenhead.gson.Gson;
 import com.jayway.android.robotium.solo.Solo;
@@ -30,6 +31,7 @@ public class BrazenheadRequestHandlerTest {
     @Mock PrintWriter responseWriter;
     @Mock Solo solo;
     @Mock Context context;
+    @Mock TextView textView;
     @Spy CommandRunner commandRunner;
 
     private BrazenheadRequestHandler handler;
@@ -83,7 +85,23 @@ public class BrazenheadRequestHandlerTest {
 
         ArgumentCaptor<String> jsonArg = ArgumentCaptor.forClass(String.class);
         verify(responseWriter).print(jsonArg.capture());
-        assertThat(jsonArg.getValue().matches("\\{.*\\}"), is(true));
+        assertIsJson(jsonArg);
+    }
+    
+    @Test
+    public void itCanReturnTextViewResultsAsJson() throws Exception {
+        when(textView.getText()).thenReturn("some text");
+        when(textView.getHint()).thenReturn("some hint");
+        when(textView.getContentDescription()).thenReturn("some content description");
+        when(commandRunner.theLastResult()).thenReturn(textView);
+        
+        post(new Command("getText", 0));
+
+        ArgumentCaptor<String> jsonArg = ArgumentCaptor.forClass(String.class);
+        verify(responseWriter).print(jsonArg.capture());
+        
+        assertIsJson(jsonArg);
+        assertHasFields(jsonArg.getValue(), "text", "hint", "contentDescription");
     }
 
     @Test
@@ -133,5 +151,19 @@ public class BrazenheadRequestHandlerTest {
 
     private String jsonCommands(final Command... commands) {
         return new Gson().toJson(commands);
+    }
+
+    private void assertIsJson(ArgumentCaptor<String> jsonArg) {
+        assertThat(jsonArg.getValue().matches("\\{.*\\}"), is(true));
+    }
+
+    private void assertHasFields(final String json, final String... fields) {
+        for(final String field : fields ) {
+            assertHasField(json, field);
+        }
+    }
+
+    private void assertHasField(final String json, final String field) {
+        assertThat("Expected to have the field", json, containsString(String.format("\"%s\":", field)));
     }
 }
