@@ -6,11 +6,11 @@ import android.view.View;
 
 import com.google.brazenhead.gson.*;
 
-public class ViewJsonSerializer implements JsonSerializer<View> {
+public class ViewSerializer implements JsonSerializer<View> {
 
     @Override
     public JsonElement serialize(View theView, Type type, JsonSerializationContext context) {
-        return new Gson().toJsonTree(new JsonView(theView));
+        return new Gson().toJsonTree(new ViewSummary(theView));
     }
 
 }

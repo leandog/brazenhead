@@ -3,7 +3,7 @@ package com.leandog.brazenhead.json;
 import android.view.View;
 
 @SuppressWarnings("unused")
-public class JsonView {
+public class ViewSummary {
     private final int id;
     private final String classType;
     
@@ -18,7 +18,7 @@ public class JsonView {
     private final int right;
     private final int bottom;
 
-    public JsonView(final View theView) {
+    public ViewSummary(final View theView) {
         id = theView.getId();
         classType = theView.getClass().getName();
         

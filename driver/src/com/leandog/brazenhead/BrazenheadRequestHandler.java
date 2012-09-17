@@ -72,9 +72,9 @@ public class BrazenheadRequestHandler extends AbstractHandler {
     private Gson gson() {
         return new GsonBuilder()
             .registerTypeAdapter(Command.class, new CommandDeserializer())
-            .registerTypeHierarchyAdapter(Exception.class, new ExceptionJsonSerializer())
-            .registerTypeHierarchyAdapter(View.class, new ViewJsonSerializer())
-            .registerTypeHierarchyAdapter(TextView.class, new TextViewJsonSerializer())
+            .registerTypeHierarchyAdapter(Exception.class, new ExceptionSerializer())
+            .registerTypeHierarchyAdapter(View.class, new ViewSerializer())
+            .registerTypeHierarchyAdapter(TextView.class, new TextViewSerializer())
             .create();
     }
 

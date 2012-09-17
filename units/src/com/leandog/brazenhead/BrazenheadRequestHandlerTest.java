@@ -19,7 +19,7 @@ import com.google.brazenhead.gson.Gson;
 import com.jayway.android.robotium.solo.Solo;
 import com.leandog.brazenhead.commands.*;
 import com.leandog.brazenhead.exceptions.CommandNotFoundException;
-import com.leandog.brazenhead.json.ExceptionJsonSerializer.ExceptionSummary;
+import com.leandog.brazenhead.json.ExceptionSerializer.ExceptionSummary;
 import com.leandog.brazenhead.test.BrazenheadTestRunner;
 
 @RunWith(BrazenheadTestRunner.class)

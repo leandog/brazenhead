@@ -4,7 +4,7 @@ import java.lang.reflect.Type;
 
 import com.google.brazenhead.gson.*;
 
-public class ExceptionJsonSerializer implements JsonSerializer<Exception> {
+public class ExceptionSerializer implements JsonSerializer<Exception> {
 
     public class ExceptionSummary {
 

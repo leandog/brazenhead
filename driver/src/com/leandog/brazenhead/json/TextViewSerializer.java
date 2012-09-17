@@ -6,11 +6,11 @@ import android.widget.TextView;
 
 import com.google.brazenhead.gson.*;
 
-public class TextViewJsonSerializer implements JsonSerializer<TextView> {
+public class TextViewSerializer implements JsonSerializer<TextView> {
 
     @Override
     public JsonElement serialize(TextView theTextView, Type type, JsonSerializationContext context) {
-        return new Gson().toJsonTree(new JsonTextView(theTextView));
+        return new Gson().toJsonTree(new TextViewSummary(theTextView));
     }
 
 }

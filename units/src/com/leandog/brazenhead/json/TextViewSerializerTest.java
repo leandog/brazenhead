@@ -14,15 +14,15 @@ import com.google.brazenhead.gson.JsonObject;
 import com.leandog.brazenhead.test.BrazenheadTestRunner;
 
 @RunWith(BrazenheadTestRunner.class)
-public class TextViewJsonSerializerTest {
+public class TextViewSerializerTest {
     
     @Mock TextView theView;
     
-    TextViewJsonSerializer textViewAdapter;
+    TextViewSerializer textViewSerializer;
     
     @Before
     public void setUp() {
-        textViewAdapter = new TextViewJsonSerializer();
+        textViewSerializer = new TextViewSerializer();
     }
     
     @Test
@@ -53,7 +53,7 @@ public class TextViewJsonSerializerTest {
     }
 
     private JsonObject serialize() {
-        return (JsonObject) textViewAdapter.serialize(theView, null, null);
+        return (JsonObject) textViewSerializer.serialize(theView, null, null);
     }
 
     private void hasFields(final String... fields) {
