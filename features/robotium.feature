@@ -20,11 +20,6 @@ Feature:  Calling Robotium methods
     When I call a method with a boolean
     Then I should receive a successful result
 
-  Scenario:  Getting useful View information
-    When I get the first "Text" View I find
-    Then I should receive a successful result
-    And the view should have some basic information
-
   Scenario: Chaining method calls
     When I call "getCurrentListViews" and then I call "size"
     Then I should receive a successful result

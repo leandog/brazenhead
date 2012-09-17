@@ -26,24 +26,6 @@ Then /^I should receive a successful result$/ do
   @driver.last_response.code.should eq '200'
 end
 
-When /^I get the first "(.*?)" View I find$/ do |view_type|
-  @driver.send "get_#{view_type.downcase}", 0
-end
-
-Then /^the view should have some basic information$/ do
-  response = JSON.parse(@driver.last_response.body)
-  response.should have_key "id"
-  response.should have_key "classType"
-  response.should have_key "width"
-  response.should have_key "height"
-  response.should have_key "screenLocation"
-  response.should have_key "windowLocation"
-  response.should have_key "left"
-  response.should have_key "top"
-  response.should have_key "right"
-  response.should have_key "bottom"
-end
-
 When /^I call "(.*?)" and then I call "(.*?)"$/ do |first_method, next_method|
   @driver.chain_calls do |driver|
     driver.send first_method
