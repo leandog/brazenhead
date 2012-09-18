@@ -2,6 +2,11 @@
 * Enhancements
   * Sends back additional information back about TextViews (text, hint and content description)
 
+*	Bug Fixes
+	*	Updated ADB to 0.5.2 to support paths that contain spaces
+	*	Fixed issue with test server when building an apk to instrument something
+	other than com.example.android.apis
+
 === Release 0.2 / Sept 15, 2012
 * Enhancements
   * Added ability to convert strings to their corresponding ids
