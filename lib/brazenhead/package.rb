@@ -7,7 +7,7 @@ module Brazenhead
     include Brazenhead::Signer
 
     def update_manifest(apk, manifest, min_sdk = 8)
-      process.run(*update, *package(apk), *with(manifest), *using(path_to(min_sdk)))
+      process.run(*update, *package(apk), *with_the(manifest), *using(path_to(min_sdk)))
     end
 
     def dump_resources(apk, resource_file)
@@ -32,7 +32,7 @@ module Brazenhead
       ["-F", apk]
     end
 
-    def with(manifest)
+    def with_the(manifest)
       ["-M", manifest]
     end
 
