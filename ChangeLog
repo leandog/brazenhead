@@ -1,4 +1,9 @@
-=== Release 0.3
+=== Release 0.4
+*	Bug Fixes
+	*	Removed specialized TextView serializer for now.  Was causing problems
+	with custom controls.
+
+=== Release 0.3 / Sept 18, 2012
 * Enhancements
   * Sends back additional information back about TextViews (text, hint and content description)
 
