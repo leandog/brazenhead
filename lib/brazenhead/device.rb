@@ -14,9 +14,10 @@ module Brazenhead
         $stderr.puts "Failed to send the command #{message} #{retries} times..."
         raise
       end
+      raise Exception, @last_response.body unless @last_response.code == "200"
       @last_response
     end
-    
+
     def stop
       http.post '/kill', ''
     end
@@ -30,6 +31,6 @@ module Brazenhead
     def http
       @http ||= Net::HTTP.new '127.0.0.1', 7777
     end
-    
+
   end
 end
