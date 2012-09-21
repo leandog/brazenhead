@@ -1,8 +1,9 @@
-=== Release 0.4
+===	Release 0.5
 *	Enhancements
 	*	Http responses that are not OK raise an exception with detailed
 	information
 
+=== Release 0.4 / Sept 20, 2012
 *	Bug Fixes
 	*	Removed specialized TextView serializer for now.  Was causing problems
 	with custom controls.
