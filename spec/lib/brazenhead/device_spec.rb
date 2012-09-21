@@ -6,6 +6,7 @@ describe Brazenhead::Device do
 
   before(:each) do
     Net::HTTP.stub(:new).and_return(http_mock)
+    device.stub(:sleep)
   end
 
   it "should retry the http call if it fails the first time" do
