@@ -1,4 +1,8 @@
 === Release 0.4
+*	Enhancements
+	*	Http responses that are not OK raise an exception with detailed
+	information
+
 *	Bug Fixes
 	*	Removed specialized TextView serializer for now.  Was causing problems
 	with custom controls.
