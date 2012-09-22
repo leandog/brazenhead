@@ -30,8 +30,7 @@ public class CommandDeserializerTest {
             fieldNames.add(field.getName());
         }
         
-        assertThat(fieldNames, hasItems("name", "arguments", "target", "variable"));
-        assertThat(fieldNames.size(), is(4));
+        assertThat(fieldNames, containsInAnyOrder("name", "arguments", "target", "variable"));
     }
 
     @Test
