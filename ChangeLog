@@ -1,3 +1,8 @@
+===	Release 0.4.2
+*	Enhancements
+	*	Uses instrumentation to load ids rather than loading from a file
+	*	introduced last_json that will parse out json for you
+
 ===	Release 0.4.1 / Sept 25, 2012
 *	Enhancements
 	*	Http responses that are not OK raise an exception with detailed
