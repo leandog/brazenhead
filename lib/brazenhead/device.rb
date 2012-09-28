@@ -26,10 +26,23 @@ module Brazenhead
       @last_response
     end
 
+    def last_json
+      body = last_response.body
+      begin
+        JSON.parse body
+      rescue
+        primitive_to_json body
+      end
+    end
+
     private
 
     def http
       @http ||= Net::HTTP.new '127.0.0.1', 7777
+    end
+
+    def primitive_to_json(string)
+      JSON.parse("{\"value\": #{string}}")["value"]
     end
 
   end

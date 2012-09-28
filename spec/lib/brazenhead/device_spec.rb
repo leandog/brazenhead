@@ -34,4 +34,31 @@ describe Brazenhead::Device do
     http_response.stub(:body).and_return("the error message")
     expect { device.send "blah" }.to raise_error(Exception, "the error message")
   end
+
+  context "json responses" do
+    it "should be able to be returned" do
+      http_response.should_receive(:body).and_return("{\"some_actual\": \"json object\"}")
+      device.send ""
+      device.last_json.should eq({"some_actual" => "json object"})
+    end
+
+    it "should be able to send back strings as normal strings" do
+      http_response.should_receive(:body).and_return("\"string only\"")
+      device.send ""
+      device.last_json.should eq("string only")
+    end
+
+    it "should be able to return numbers only" do
+      http_response.should_receive(:body).and_return("123")
+      device.send ""
+      device.last_json.should eq(123)
+    end
+
+    it "should be able to return boolean values" do
+      http_response.should_receive(:body).and_return("false")
+      device.send ""
+      device.last_json.should be_false
+    end
+  end
+
 end
