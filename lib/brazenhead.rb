@@ -20,6 +20,10 @@ module Brazenhead
     @last_response
   end
 
+  def last_json
+    device.last_json
+  end
+
   private
 
   def call_method_on_driver(method, args)

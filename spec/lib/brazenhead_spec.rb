@@ -34,5 +34,11 @@ describe Brazenhead do
       result = driver.foo_bar
       driver.last_response.should == result
     end
+
+    it "should be able to return the json result" do
+      http_response.stub(:body).and_return("false")
+      driver.foo_bar
+      driver.last_json.should be_false
+    end
   end
 end
