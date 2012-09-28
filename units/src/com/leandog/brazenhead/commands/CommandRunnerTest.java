@@ -83,8 +83,8 @@ public class CommandRunnerTest {
     
     @Test
     public void itCanDesignateTheBrazenheadTarget() throws Exception {
-        commandRunner.execute(new Command("getInstrumentation", Target.Brazenhead));
-        verify(brazenhead).getInstrumentation();
+        commandRunner.execute(new Command("idFromName", Target.Brazenhead, "some_name"));
+        verify(brazenhead).idFromName("some_name");
     }
     
     @Test

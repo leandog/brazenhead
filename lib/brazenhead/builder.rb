@@ -28,7 +28,6 @@ module Brazenhead
       Dir.chdir(dir) do |here|
         copy_base_files
         update_test_manifest
-        store_resources
         sign test_apk, @keystore
         reinstall test_apk
         reinstall @source_apk
@@ -56,12 +55,6 @@ module Brazenhead
 
     def replace(file, match, replacement)
       File.write(file, File.read(file).gsub(match, replacement))
-    end
-
-    def store_resources
-      Dir.mkdir "assets"
-      dump_resources @source_apk, "assets/resources.txt"
-      add_file test_apk, "assets/resources.txt"
     end
 
     def the_target

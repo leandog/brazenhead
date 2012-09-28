@@ -10,11 +10,6 @@ module Brazenhead
       process.run(*update, *package(apk), *with_the(manifest), *using(path_to(min_sdk)))
     end
 
-    def dump_resources(apk, resource_file)
-      process.run(*"aapt dump resources".split, apk)
-      File.write resource_file, process.last_stdout
-    end
-
     def add_file(apk, file)
         process.run(*"aapt add".split, apk, file)
     end

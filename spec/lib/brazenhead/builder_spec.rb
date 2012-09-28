@@ -70,30 +70,6 @@ describe Brazenhead::Builder do
       end
     end
 
-    context "grabbing resource information" do
-      it "should retrieve resource information from the target package" do
-        process.should_receive(:run).with(*"aapt dump resources #{expanded_apk}".split)
-        server.build_for apk, keystore
-      end
-
-      it "should create an assets directory for the resource information" do
-        Dir.should_receive(:mkdir).with("assets")
-        server.build_for apk, keystore
-      end
-
-      it "should write the resource information to the assets directory" do
-        process.should_receive(:last_stdout).and_return("resource info")
-        resources = "assets/resources.txt"
-        File.should_receive(:write).with(resources, "resource info")
-        server.build_for apk, keystore
-      end
-
-      it "should store the resources in the test server" do
-        process.should_receive(:run).with(*"aapt add #{driver_apk} assets/resources.txt".split)
-        server.build_for apk, keystore
-      end
-    end
-
     context "updating the manifest" do
       it "should load the contents of the existing manifest" do
         File.should_receive(:read).with("AndroidManifest.xml")
