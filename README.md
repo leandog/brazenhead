@@ -7,6 +7,14 @@ A low-level driver for testing android applications.
 
 Brazenhead works by modifying your Android application (apk).  Once modified and installed in an emulator or device, brazenhead can send request to the emulator or device and cause it to interact with your application via the [Robotium API](http://code.google.com/p/robotium/).
 
+### Prerequisites
+
+Before being able to instrument your application, you will need to add the `INTERNET` permission to your `AndroidManifest.xml`.
+
+```xml
+<uses-permission android:name="android.permission.INTERNET" />
+```
+
 ### Starting Instrumentation
 
 To start instrumenting an application you must create an instance of the `Brazenhead::Server` by giving it the path to your android application (apk) an optionally some keystore information.  (**_note:_** _If no keystore information is provided, the `debug.keystore` will be used instead._)
