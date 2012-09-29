@@ -26,33 +26,40 @@ public class SpinnerPresser {
     }
 
     public void pressSpinnerItem(final Spinner spinner, int itemIndex) {
+        final int direction = whichDirection(itemIndex);
+        final int numberOfMoves = Math.abs(itemIndex);
+        
+        setTheInitialFocus(spinner);
+
+        for (int moves = 0; moves < numberOfMoves; moves++) {
+            sleeper.sleepMini();
+            move(direction);
+        }
+
+        selectTheItem();
+    }
+
+    private void selectTheItem() {
+        sendKey(KeyEvent.KEYCODE_ENTER);
+    }
+
+    private int whichDirection(int itemIndex) {
+        return itemIndex < 0 ? KeyEvent.KEYCODE_DPAD_UP : KeyEvent.KEYCODE_DPAD_DOWN;
+    }
+
+    private void move(int direction) {
+        sendKey(direction);
+    }
+
+    private void setTheInitialFocus(final Spinner spinner) {
         solo().clickOnView(spinner);
         sleeper.sleep();
+        sendKey(KeyEvent.KEYCODE_DPAD_DOWN);
+    }
+
+    private void sendKey(int key) {
         try {
-            instrumentation.sendKeyDownUpSync(KeyEvent.KEYCODE_DPAD_DOWN);
-        } catch (SecurityException ignored) {
-        }
-        boolean countingUp = true;
-        if (itemIndex < 0) {
-            countingUp = false;
-            itemIndex *= -1;
-        }
-        for (int i = 0; i < itemIndex; i++) {
-            sleeper.sleepMini();
-            if (countingUp) {
-                try {
-                    instrumentation.sendKeyDownUpSync(KeyEvent.KEYCODE_DPAD_DOWN);
-                } catch (SecurityException ignored) {
-                }
-            } else {
-                try {
-                    instrumentation.sendKeyDownUpSync(KeyEvent.KEYCODE_DPAD_UP);
-                } catch (SecurityException ignored) {
-                }
-            }
-        }
-        try {
-            instrumentation.sendKeyDownUpSync(KeyEvent.KEYCODE_ENTER);
+            instrumentation.sendKeyDownUpSync(key);
         } catch (SecurityException ignored) {
         }
     }
