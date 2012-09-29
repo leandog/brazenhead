@@ -11,9 +11,9 @@ module Brazenhead
       @keystore = keystore
     end
 
-    def start(activity)
+    def start(activity, base_package = nil)
       build
-      instrument(runner, :packageName => their_package, :fullLauncherName => full(activity) , :class => the_test)
+      instrument(runner, :packageName => their_package, :fullLauncherName => full(activity, base_package) , :class => the_test)
     end
 
     def stop
@@ -34,8 +34,8 @@ module Brazenhead
       "#{leandog}.TheTest"
     end
 
-    def full(activity)
-      "#{their_package}.#{activity}"
+    def full(activity, base_package)
+      "#{base_package || their_package}.#{activity}"
     end
 
     def their_package

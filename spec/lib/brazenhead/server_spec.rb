@@ -63,6 +63,12 @@ describe Brazenhead::Server do
       server.start(activity)
     end
 
+    it "should be able to start activites that are not relative to the base package" do
+      expected = {:packageName => 'com.example', :fullLauncherName => 'com.other.SomeActivity', :class => 'com.leandog.brazenhead.TheTest'}
+      server.should_receive(:instrument).with(runner, expected)
+      server.start(activity, 'com.other')
+    end
+
     it "should be able to stop instrumenting" do
       device = double('brazenhead-device')
       Brazenhead::Device.should_receive(:new).and_return(device)
