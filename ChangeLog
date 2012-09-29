@@ -4,6 +4,9 @@
 	*	introduced last_json that will parse out json for you
 	*	introduced methods on the Brazenhead target to select spinner items by
 		their id or view (the same manner as pressSpinnerItem on Robotium works)
+	*	Brazenhead::Server.start takes an optional parameter to specify the base
+	package of the activity you are starting.  The default is the package of the
+	app.
 
 ===	Release 0.4.1 / Sept 25, 2012
 *	Enhancements
