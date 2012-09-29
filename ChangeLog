@@ -2,6 +2,8 @@
 *	Enhancements
 	*	Uses instrumentation to load ids rather than loading from a file
 	*	introduced last_json that will parse out json for you
+	*	introduced methods on the Brazenhead target to select spinner items by
+		their id or view (the same manner as pressSpinnerItem on Robotium works)
 
 ===	Release 0.4.1 / Sept 25, 2012
 *	Enhancements
