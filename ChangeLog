@@ -1,31 +1,28 @@
-===	Release 0.4.2
-*	Enhancements
-	*	Uses instrumentation to load ids rather than loading from a file
-	*	introduced last_json that will parse out json for you
-	*	introduced methods on the Brazenhead target to select spinner items by
-		their id or view (the same manner as pressSpinnerItem on Robotium works)
-	*	Brazenhead::Server.start takes an optional parameter to specify the base
-	package of the activity you are starting.  The default is the package of the
-	app.
+=== Release 0.4.2 / Sept 19, 2012
+* Enhancements
+  * Uses instrumentation to load ids rather than loading from a file
+  * Introduced last_json that will parse out json for you
+  * Introduced methods on the Brazenhead target to select spinner items by
+               their id or view (the same manner as pressSpinnerItem on Robotium works)
+  * Brazenhead::Server.start takes an optional parameter to specify the base
+              package of the activity you are starting.  The default is the package of the app.
 
-===	Release 0.4.1 / Sept 25, 2012
-*	Enhancements
-	*	Http responses that are not OK raise an exception with detailed
-	information
+=== Release 0.4.1 / Sept 25, 2012
+* Enhancements
+  * Http responses that are not OK raise an exception with detailed information
 
 === Release 0.4 / Sept 20, 2012
-*	Bug Fixes
-	*	Removed specialized TextView serializer for now.  Was causing problems
-	with custom controls.
+* Bug Fixes
+  * Removed specialized TextView serializer for now.  Was causing problems
+            with custom controls.
 
 === Release 0.3 / Sept 18, 2012
 * Enhancements
   * Sends back additional information back about TextViews (text, hint and content description)
-
-*	Bug Fixes
-	*	Updated ADB to 0.5.2 to support paths that contain spaces
-	*	Fixed issue with test server when building an apk to instrument something
-	other than com.example.android.apis
+* Bug Fixes
+  * Updated ADB to 0.5.2 to support paths that contain spaces
+  * Fixed issue with test server when building an apk to instrument something
+          other than com.example.android.apis
 
 === Release 0.2 / Sept 15, 2012
 * Enhancements
