@@ -8,8 +8,9 @@ import org.junit.*;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 
-import android.app.Activity;
+import android.app.*;
 import android.content.res.Resources;
+import android.widget.Spinner;
 
 import com.jayway.android.robotium.solo.Solo;
 import com.leandog.brazenhead.test.BrazenheadTestRunner;
@@ -18,25 +19,39 @@ import com.leandog.brazenhead.test.BrazenheadTestRunner;
 public class BrazenheadTest {
     
     @Mock Solo solo;
+    @Mock Instrumentation instrumentation;
     @Mock Activity activity;
     @Mock Resources resources;
-    
+    @Mock SpinnerPresser spinnerPresser;
+
     private Brazenhead brazenhead;
-    
+
     @Before
     public void setUp() throws IOException {
         initMocks();
-        brazenhead = new Brazenhead();
+        brazenhead = new Brazenhead(instrumentation, spinnerPresser);
     }
-    
+
     @Test
     public void itCanFindAnIdFromTheTargetPackageResources() {
-        when(activity.getPackageName())
-            .thenReturn("com.some.package");
-        
+        when(activity.getPackageName()).thenReturn("com.some.package");
+
         brazenhead.idFromName("some_id");
-        
+
         verify(resources).getIdentifier("some_id", "id", "com.some.package");
+    }
+
+    @Test
+    public void itCanPressSpinnersById() {
+        brazenhead.pressSpinnerItemById(123, 7);
+        verify(spinnerPresser).pressSpinnerItemById(123, 7);
+    }
+
+    @Test
+    public void itCanPressSpinnersByView() {
+        final Spinner spinner = mock(Spinner.class);
+        brazenhead.pressSpinnerItem(spinner, 7);
+        verify(spinnerPresser).pressSpinnerItem(spinner, 7);
     }
 
     private void initMocks() {
