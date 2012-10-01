@@ -2,6 +2,7 @@ require 'brazenhead/version'
 require 'brazenhead/device'
 require 'brazenhead/request'
 require 'brazenhead/call_accumulator'
+require 'brazenhead/server'
 require 'brazenhead/core_ext/string'
 
 module Brazenhead
