@@ -1,3 +1,7 @@
+=== Release 0.4.3
+* Enhancements
+  * Required Brazenhead::Server in top level module to simplify usage
+
 === Release 0.4.2 / Sept 19, 2012
 * Enhancements
   * Uses instrumentation to load ids rather than loading from a file
