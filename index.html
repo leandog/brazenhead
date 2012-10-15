@@ -28,32 +28,129 @@
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
-          <h3>Welcome to GitHub Pages.</h3>
+          <h1>Brazenhead</h1>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<p><a href="http://travis-ci.org/leandog/brazenhead"><img src="https://secure.travis-ci.org/leandog/brazenhead.png?branch=master" alt="Build Status"></a></p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+<p>A low-level driver for testing android applications.</p>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<h2>Basic Usage</h2>
 
-<h3>Designer Templates</h3>
+<p>Brazenhead works by modifying your Android application (apk).  Once modified and installed in an emulator or device, brazenhead can send request to the emulator or device and cause it to interact with your application via the <a href="http://code.google.com/p/robotium/">Robotium API</a>.</p>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<h3>Prerequisites</h3>
 
-<h3>Rather Drive Stick?</h3>
+<p>Before being able to instrument your application, you will need to add the <code>INTERNET</code> permission to your <code>AndroidManifest.xml</code>.</p>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<div class="highlight"><pre><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">"android.permission.INTERNET"</span> <span class="nt">/&gt;</span>
+</pre></div>
 
-<h3>Authors and Contributors</h3>
+<h3>Starting Instrumentation</h3>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<p>To start instrumenting an application you must create an instance of the <code>Brazenhead::Server</code> by giving it the path to your android application (apk) an optionally some keystore information.  (<strong><em>note:</em></strong> <em>If no keystore information is provided, the <code>debug.keystore</code> will be used instead.</em>)</p>
 
-<h3>Support or Contact</h3>
+<div class="highlight"><pre><span class="nb">require</span> <span class="s1">'brazenhead/server'</span>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<span class="c1"># using the debug.keystore</span>
+<span class="n">server</span> <span class="o">=</span> <span class="no">Brazenhead</span><span class="o">::</span><span class="no">Server</span><span class="o">.</span><span class="n">new</span> <span class="s2">"some/path/to/my.apk"</span>
+</pre></div>
+
+<p>Now that you have a server instance, you can simply start any activity by giving it the name of the activity.  <code>brazenhead</code> will assume that it is a relative path based on the package name of your application.  If the package of your application is <code>com.example.some.awesome.app</code>, you can simply start the activity at <code>com.example.some.awesome.app.text.Flashy</code> like so:</p>
+
+<div class="highlight"><pre><span class="c1"># create the server instance</span>
+<span class="n">server</span> <span class="o">=</span> <span class="no">Brazenhead</span><span class="o">::</span><span class="no">Server</span><span class="o">.</span><span class="n">new</span> <span class="s2">"some/path/to/my.apk"</span>
+
+<span class="c1">#start the activity</span>
+<span class="n">server</span><span class="o">.</span><span class="n">start</span> <span class="s2">"text.Flashy"</span>
+</pre></div>
+
+<h3>Stopping Tests</h3>
+
+<p>Stopping the server instance is just as easy.  Simply issue the following to stop the test server:</p>
+
+<div class="highlight"><pre><span class="n">server</span><span class="o">.</span><span class="n">stop</span>
+</pre></div>
+
+<h3>Sending Commands</h3>
+
+<p>Messages sent to the emulator are json messages and  must take the form of </p>
+
+<div class="highlight"><pre><span class="p">{</span> 
+  <span class="nb">name</span><span class="p">:</span> <span class="s1">'theMethodName'</span><span class="p">,</span>  <span class="c1"># The Robotium method to call</span>
+  <span class="n">arguments</span><span class="p">:</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">]</span><span class="p">,</span>   <span class="c1"># The arguments to be passed to the Robotium method</span>
+  <span class="n">variable</span><span class="p">:</span> <span class="s2">"@@variable_name_to_store_the_results@@"</span><span class="p">,</span>  <span class="c1"># optional parameter to store the results </span>
+                                                       <span class="c1"># of a call - can be used in subsequent calls</span>
+  <span class="n">target</span><span class="p">:</span>  <span class="s1">'Robotium'</span>     <span class="c1"># optional parameter.  Valid values are 'Robotium' or 'LastResultOrRobotium'</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>The <code>variable</code> parameter can be used in subsequent calls as an argument value.</p>
+
+<p>In addition to a server process there is a ruby module that will build the json for you when you call corresponding methods.  Let's take a look at a few examples of how this works.</p>
+
+<p>You can include the <code>Brazenhead</code> module in your class to provide the abilities.</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">MyClass</span>
+  <span class="kp">include</span> <span class="no">Brazenhead</span>
+<span class="k">end</span>
+</pre></div>
+
+<p>Once you do this you can call methods on an instance of <code>MyClass</code>.  These methods look like this:</p>
+
+<h3>Calling a single method</h3>
+
+<div class="highlight"><pre><span class="n">my_class</span><span class="o">.</span><span class="n">scroll_down</span>  <span class="c1"># call the scrollDown method on Robotium</span>
+</pre></div>
+
+<p>You can also pass parameters to methods like this:</p>
+
+<div class="highlight"><pre><span class="n">my_class</span><span class="o">.</span><span class="n">click_on_text</span><span class="p">(</span><span class="s1">'Content'</span><span class="p">)</span>  <span class="c1"># will call the method clickOnText passing 'Content'</span>
+</pre></div>
+
+<h3>Calling multiple methods</h3>
+
+<div class="highlight"><pre><span class="n">my_class</span><span class="o">.</span><span class="n">chain_calls</span> <span class="k">do</span> <span class="o">|</span><span class="n">driver</span><span class="o">|</span>
+  <span class="n">driver</span><span class="o">.</span><span class="n">scroll_down</span>                         <span class="c1"># call scrollDown first</span>
+  <span class="n">driver</span><span class="o">.</span><span class="n">scroll_up</span><span class="p">({</span><span class="ss">:target</span> <span class="o">=&gt;</span> <span class="s1">'Robotium'</span><span class="p">})</span>  <span class="c1"># then call scrollUp</span>
+<span class="k">end</span>
+</pre></div>
+
+<p>In the case above we had to pass a <code>target</code> value to inform the server that we wished to make the second call directly on Robotium instead of on the return call from the previous call.  You can easily make the second call on the return value from the first call like this:</p>
+
+<div class="highlight"><pre><span class="n">my_class</span><span class="o">.</span><span class="n">chain_calls</span> <span class="k">do</span> <span class="o">|</span><span class="n">driver</span><span class="o">|</span>
+  <span class="n">driver</span><span class="o">.</span><span class="n">get_current_list_views</span>
+  <span class="n">driver</span><span class="o">.</span><span class="n">size</span>
+<span class="k">end</span>
+<span class="n">my_class</span><span class="o">.</span><span class="n">last_response</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="s1">'1'</span>
+</pre></div>
+
+<p>In the above example the <code>size</code> method is called on the result of the call to <code>getCurrentListViews</code>.  If you want to use the result of a previous call as an argument in another call you can do this:</p>
+
+<div class="highlight"><pre><span class="n">my_class</span><span class="o">.</span><span class="n">chain_calls</span> <span class="k">do</span> <span class="o">|</span><span class="n">driver</span><span class="o">|</span>
+  <span class="n">driver</span><span class="o">.</span><span class="n">get_text</span><span class="p">(</span><span class="s1">'Graphics'</span><span class="p">,</span> <span class="p">{</span><span class="ss">:variable</span> <span class="o">=&gt;</span> <span class="s2">"@@graphics@@"</span><span class="p">})</span>
+  <span class="n">driver</span><span class="o">.</span><span class="n">click_on_view</span><span class="p">(</span><span class="s2">"@@graphics@@"</span><span class="p">,</span> <span class="p">{</span><span class="ss">:target</span> <span class="o">=&gt;</span> <span class="s1">'Robotium'</span><span class="p">})</span>
+<span class="k">end</span>
+</pre></div>
+
+<p>In this final case we saved the result of the first call into a variable named <code>"@@graphics@@"</code> and used it as an argument in the second call.</p>
+
+<h2>Known Issues</h2>
+
+<p>See <a href="http://github.com/leandog/brazenhead/issues">http://github.com/leandog/brazenhead/issues</a></p>
+
+<h2>Contribute</h2>
+
+<ul>
+<li>Fork the project.</li>
+<li>Test drive your feature addition or bug fix. Adding specs is important and I will not accept a pull request that does not have tests.</li>
+<li>Make sure you describe your new feature with a cucumber scenario.</li>
+<li>Make sure you provide RDoc comments for any new public method you add. Remember, others will be using this gem.</li>
+<li>Commit, do not mess with Rakefile, version, or ChangeLog.
+(if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)</li>
+<li>Send me a pull request. Bonus points for topic branches.</li>
+</ul><h2>Copyright</h2>
+
+<p>Copyright (c) 2012 Jeffrey S. Morgan, Levi Wilson. See LICENSE for details.</p>
         </section>
 
         <aside id="sidebar">
