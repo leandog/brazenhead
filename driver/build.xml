@@ -95,7 +95,7 @@
       <pathelement location="libs/servlet-api-2.5-20081211.jar" />
       <pathelement location="libs/jetty-6.1.26.jar" />
       <pathelement location="libs/jetty-util-6.1.26.jar" />
-      <pathelement location="libs/robotium-solo-3.3.jar" />
+      <pathelement location="libs/robotium-solo-3.5.1.jar" />
       <pathelement location="../units/libs/robolectric-1.2-SNAPSHOT-jar-with-dependencies.jar" />
       <pathelement location="${out.test.dir}" />
       <pathelement location="./bin/classes" />
