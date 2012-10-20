@@ -35,7 +35,13 @@ module Brazenhead
     end
 
     def reinstall(apk, timeout=90)
-      install apk, "-r", {}, timeout
+      begin
+        install apk, "-r", {}, timeout
+      rescue ADB::ADBError => e
+        $stdout.puts last_stdout
+        $stderr.puts last_stderr
+        raise e
+      end
     end
 
     def copy_base_files
