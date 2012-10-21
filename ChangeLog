@@ -1,3 +1,8 @@
+=== Release 0.4.5
+*	Enhancements
+  * Sends back additional information back about TextViews (text, hint and content description)
+  * Sends back additional information back about ImageViews (hasDrawable, drawableRect)
+
 ===	Release 0.4.4 / 2012-10-18
 *	Enhancements
 	*	Updated robotium from 3.3 -> 3.5.1
