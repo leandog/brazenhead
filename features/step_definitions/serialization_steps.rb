@@ -28,3 +28,14 @@ end
 Then /^the text for the view should be returned$/ do
   @driver.json_response.should have_key "text"
 end
+
+When /^I call a method that returns an image view$/ do
+  @driver.get_image 0
+end
+
+Then /^information about the image should be returned$/ do
+  response = @driver.json_response
+  response.should have_key "hasDrawable"
+  response.should have_key "drawableRect"
+end
+
