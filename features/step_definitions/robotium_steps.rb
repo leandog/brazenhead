@@ -14,6 +14,10 @@ When /^I call a method with a string$/ do
   @driver.search_button('will not find')
 end
 
+When /^I call a method with a long$/ do
+  @driver.wait_for_text('Views', 1, 5000)
+end
+
 When /^I call a method with a float$/ do 
   @driver.click_on_screen(100.0, 100.0)
 end

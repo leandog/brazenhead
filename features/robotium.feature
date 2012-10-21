@@ -1,3 +1,4 @@
+@wip
 Feature:  Calling Robotium methods
 
   Scenario: Getting a result from a parameterless method
@@ -14,6 +15,10 @@ Feature:  Calling Robotium methods
 
   Scenario:  Calling a method with floats
     When I call a method with a float
+    Then I should receive a successful result
+
+  Scenario: Calling a method with longs
+    When I call a method with a long
     Then I should receive a successful result
 
   Scenario:  Calling a method with booleans

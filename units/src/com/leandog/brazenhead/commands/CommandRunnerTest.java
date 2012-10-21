@@ -43,6 +43,12 @@ public class CommandRunnerTest {
         commandRunner.execute(new Command("clearEditText", 3));
         verify(solo).clearEditText(3);
     }
+    
+    @Test
+    public void itCanInvokeMethodsTakingLongs() throws Exception{
+        commandRunner.execute(new Command("waitForDialogToClose", 1000));
+        verify(solo).waitForDialogToClose(1000L);
+    }
 
     @Test
     public void itCanInvokeMethodsTakingFloats() throws Exception {

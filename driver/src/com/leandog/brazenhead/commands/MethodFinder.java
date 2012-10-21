@@ -21,24 +21,24 @@ public class MethodFinder {
     }
 
     public Method with(final Class<?>[] argumentTypes) throws CommandNotFoundException {
-        for(final Method candidate : candidatesFor(targetClass) ) {
-            if(parametersMatch(candidate, argumentTypes)) {
+        for (final Method candidate : candidatesFor(targetClass)) {
+            if (parametersMatch(candidate, argumentTypes)) {
                 return candidate;
             }
         }
-        
+
         throw new CommandNotFoundException(methodName, targetClass, argumentTypes);
     }
 
     private List<Method> candidatesFor(Class<?> clazz) {
         List<Method> methods = new ArrayList<Method>();
-        
-        for(final Method candidate : clazz.getMethods()) {
-            if( candidate.getName().equals(methodName) ) {
+
+        for (final Method candidate : clazz.getMethods()) {
+            if (candidate.getName().equals(methodName)) {
                 methods.add(candidate);
             }
         }
-        
+
         return methods;
     }
 
@@ -49,12 +49,19 @@ public class MethodFinder {
         }
 
         for (int index = 0; index < actualTypes.length; index++) {
-            if (!actualTypes[index].isAssignableFrom(expectedTypes[index])) {
+            final Class<?> actualType = actualTypes[index];
+            final Class<?> expectedType = expectedTypes[index];
+
+            if (!actualType.isAssignableFrom(expectedType) && !areLongsAndIntegers(actualType, expectedType)) {
                 return false;
             }
         }
 
         return true;
+    }
+
+    private boolean areLongsAndIntegers(Class<?> actualType, Class<?> expectedType) {
+        return (actualType.equals(int.class) || actualType.equals(long.class)) && (expectedType.equals(int.class) || expectedType.equals(long.class));
     }
 
     private boolean argumentCountDiffers(Class<?>[] expectedTypes, final Class<?>[] actualTypes) {
