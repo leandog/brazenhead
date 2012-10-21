@@ -5,15 +5,23 @@ import android.widget.TextView;
 @SuppressWarnings("unused")
 public class TextViewSummary extends ViewSummary {
 
-    private CharSequence text;
-    private CharSequence hint;
-    private CharSequence contentDescription;
+    private String text;
+    private String hint;
+    private String contentDescription;
 
     public TextViewSummary(TextView theView) {
         super(theView);
-        text = theView.getText();
-        hint = theView.getHint();
-        contentDescription = theView.getContentDescription();
+        text = string(theView.getText());
+        hint = string(theView.getHint());
+        contentDescription = string(theView.getContentDescription());
+    }
+
+    private String string(final CharSequence charSequence) {
+        if( charSequence != null) {
+            return charSequence.toString();
+        }
+        
+        return null;
     }
 
 }

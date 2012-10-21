@@ -89,7 +89,6 @@ public class BrazenheadRequestHandlerTest {
     }
     
     @Test
-    @Ignore(value = "Causing issues at the moment.  Will add back later.")
     public void itCanReturnTextViewResultsAsJson() throws Exception {
         when(textView.getText()).thenReturn("some text");
         when(textView.getHint()).thenReturn("some hint");
