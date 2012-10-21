@@ -12,8 +12,9 @@ import org.mockito.*;
 import org.mortbay.jetty.*;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.*;
 
 import com.google.brazenhead.gson.Gson;
 import com.jayway.android.robotium.solo.Solo;
@@ -102,6 +103,22 @@ public class BrazenheadRequestHandlerTest {
         
         assertIsJson(jsonArg);
         assertHasFields(jsonArg.getValue(), "text", "hint", "contentDescription");
+    }
+    
+    @Test
+    public void itCanReturnImageViewResultsAsJson() throws Exception {
+        final ImageView imageView = mock(ImageView.class);
+        final Drawable drawable = mock(Drawable.class);
+        when(imageView.getDrawable()).thenReturn(drawable);
+        when(commandRunner.theLastResult()).thenReturn(imageView);
+        
+        post(new Command("getImage", 0));
+        
+        ArgumentCaptor<String> jsonArg = ArgumentCaptor.forClass(String.class);
+        verify(responseWriter).print(jsonArg.capture());
+        
+        assertIsJson(jsonArg);
+        assertHasFields(jsonArg.getValue(), "hasDrawable");
     }
 
     @Test
