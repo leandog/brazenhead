@@ -49,10 +49,7 @@ public class MethodFinder {
         }
 
         for (int index = 0; index < actualTypes.length; index++) {
-            final Class<?> actualType = actualTypes[index];
-            final Class<?> expectedType = expectedTypes[index];
-
-            if (!actualType.isAssignableFrom(expectedType) && !areLongsAndIntegers(actualType, expectedType)) {
+            if (!isAssignable(actualTypes[index], expectedTypes[index])) {
                 return false;
             }
         }
@@ -60,11 +57,19 @@ public class MethodFinder {
         return true;
     }
 
-    private boolean areLongsAndIntegers(Class<?> actualType, Class<?> expectedType) {
-        return (actualType.equals(int.class) || actualType.equals(long.class)) && (expectedType.equals(int.class) || expectedType.equals(long.class));
-    }
-
     private boolean argumentCountDiffers(Class<?>[] expectedTypes, final Class<?>[] actualTypes) {
         return actualTypes.length != expectedTypes.length;
+    }
+
+    private boolean isAssignable(final Class<?> actualType, final Class<?> expectedType) {
+        return actualType.isAssignableFrom(expectedType) || areLongsOrIntegers(actualType, expectedType);
+    }
+
+    private boolean areLongsOrIntegers(Class<?> actualType, Class<?> expectedType) {
+        return isLongOrInteger(actualType) && isLongOrInteger(expectedType);
+    }
+
+    private boolean isLongOrInteger(final Class<?> type) {
+        return type.equals(int.class) || type.equals(long.class);
     }
 }
