@@ -1,4 +1,3 @@
-@wip
 Feature:  Calling Robotium methods
 
   Scenario: Getting a result from a parameterless method
