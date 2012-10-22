@@ -1,19 +1,13 @@
 package com.leandog.brazenhead;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.*;
-
-import java.util.ArrayList;
 
 import org.junit.*;
 import org.junit.runner.RunWith;
-import org.mockito.*;
+import org.mockito.Mock;
 
-import android.app.Instrumentation;
-import android.view.*;
-import android.widget.ListView;
+import android.view.View;
 
 import com.jayway.android.robotium.solo.Solo;
 import com.leandog.brazenhead.test.BrazenheadTestRunner;
@@ -21,107 +15,36 @@ import com.leandog.brazenhead.test.BrazenheadTestRunner;
 @RunWith(BrazenheadTestRunner.class)
 public class ListItemPresserTest {
     
-    @Spy InstrumentationStub instrumentation = new InstrumentationStub();
-    @Mock ArrayList<ListView> theLists;
-    @Mock ListView theFirstList;
-    @Mock ListView theSecondList;
     @Mock Solo solo;
+    @Mock ListItemFinder listItemFinder;
+    @Mock View theFoundItem;
     
     private ListItemPresser listItemPresser;
     
     @Before
     public void setUp() {
         initMocks();
-        listItemPresser = new ListItemPresser(instrumentation, solo);
+        listItemPresser = new ListItemPresser(solo, listItemFinder);
     }
-
+    
     @Test
-    public void itBringsTheListViewIntoFocusInitially() {
-        listItemPresser.pressListItem(0);
-        verify(solo, atLeastOnce()).waitForView(ListView.class);
-        verify(theFirstList).requestFocus();
-        verify(instrumentation).sendKeyDownUpSync(KeyEvent.KEYCODE_DPAD_DOWN);
-    }
-
-    @Test
-    public void itUsesTheFirstListByDefault() {
+    public void itCanPressUsingTheDefaultList() {
         listItemPresser.pressListItem(7);
-        verify(solo, atLeastOnce()).getCurrentListViews();
-        verify(theLists, atLeastOnce()).get(0);
+        verify(listItemFinder).findByIndex(7, 0);
+        verify(solo).clickOnView(theFoundItem);
     }
     
     @Test
-    public void itCanUseAnAlternateList() {
-        listItemPresser.pressListItem(7, 1);
-        verify(solo, atLeastOnce()).getCurrentListViews();
-        verify(theLists, atLeastOnce()).get(1);
-    }
-    
-    @Test
-    public void selectingListItemsAreOneBaseIndexed() {
-        listItemPresser.pressListItem(7);
-        verify(theFirstList).setSelection(6);
-    }
-    
-    @Test
-    public void listSelectionsAreDoneOnTheUiThread() {
-        listItemPresser.pressListItem(7);
-        verify(instrumentation).runOnMainSync(any(Runnable.class));
-    }
-    
-    @Test
-    public void theFirstItemIsBothIndexZeroAndOne() {
-        listItemPresser.pressListItem(0);
-        verify(theFirstList).setSelection(0);
-    }
-    
-    @Test
-    public void itSelectsTheItem() {
-        final View theSelectedItem = setupTheSelectedView();
-        listItemPresser.pressListItem(7);
-        verify(solo).clickOnView(theSelectedItem);
-    }
-    
-    @Test
-    public void itCanHandleInjectKeyEventExceptions() {
-        instrumentation.setToThrowOnKeyEvents();
-        listItemPresser.pressListItem(7);
-        assertThat("We should have gotten here", is(notNullValue()));
+    public void itCanPressUsingASpecificList() {
+        listItemPresser.pressListItem(7, 2);
+        verify(listItemFinder).findByIndex(7, 2);
+        verify(solo).clickOnView(theFoundItem);
     }
 
     private void initMocks() {
-        when(solo.getCurrentListViews()).thenReturn(theLists);
-        when(theLists.get(0)).thenReturn(theFirstList);
-        when(theLists.get(1)).thenReturn(theSecondList);
+        when(listItemFinder.findByIndex(anyInt()))
+            .thenReturn(theFoundItem);
+        when(listItemFinder.findByIndex(anyInt(), anyInt()))
+            .thenReturn(theFoundItem);
     }
-
-    private View setupTheSelectedView() {
-        final View theSelectedItem = mock(View.class);
-        when(theFirstList.getSelectedView())
-            .thenReturn(theSelectedItem);
-        return theSelectedItem;
-    }
-    
-    private class InstrumentationStub extends Instrumentation {
-        private boolean throwOnKeyEvents = false;
-
-        @Override
-        public void runOnMainSync(Runnable runner) {
-            runner.run();
-        }
-        
-        @Override
-        public void sendKeyDownUpSync(int key) {
-            if( throwOnKeyEvents ) {
-                throw new SecurityException();
-            }
-            
-            super.sendKeyDownUpSync(key);
-        }
-
-        public void setToThrowOnKeyEvents() {
-            throwOnKeyEvents = true;
-        }
-    }
-
 }

@@ -18,7 +18,7 @@ public class TheTest extends ActivityInstrumentationTestCase2 {
     @Override
     protected void setUp() throws Exception {
         TestRunInformation.setSolo(new Solo(getInstrumentation(), getActivity()));
-        TestRunInformation.setBrazenhead(new Brazenhead(getInstrumentation()));
+        TestRunInformation.setBrazenhead(new Brazenhead(getInstrumentation(), TestRunInformation.getSolo()));
         brazenheadServer = new BrazenheadServer(new JettyServer());
     }
 
