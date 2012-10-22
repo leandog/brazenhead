@@ -8,13 +8,16 @@ import android.widget.Spinner;
 public class Brazenhead {
 
     private final SpinnerPresser spinnerPresser;
+    private final ListItemFinder listItemFinder;
 
     public Brazenhead(final Instrumentation instrumentation) {
         spinnerPresser = new SpinnerPresser(instrumentation);
+        listItemFinder = new ListItemFinder();
     }
 
-    public Brazenhead(final Instrumentation instrumentation, final SpinnerPresser spinnerPresser) {
+    public Brazenhead(final Instrumentation instrumentation, final SpinnerPresser spinnerPresser, final ListItemFinder listItemFinder) {
         this.spinnerPresser = spinnerPresser;
+        this.listItemFinder = listItemFinder;
     }
 
     public int idFromName(final String namedId) {
@@ -29,8 +32,8 @@ public class Brazenhead {
         spinnerPresser.pressSpinnerItemById(spinnerId, itemIndex);
     }
     
-    public View listItemByText(final String itemText) {
-        return null;
+    public View listItemByText(final String itemText) throws Exception {
+        return listItemFinder.findByText(itemText);
     }
 
     private Activity theCurrentActivity() {

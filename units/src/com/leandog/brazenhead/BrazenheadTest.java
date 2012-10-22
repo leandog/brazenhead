@@ -23,13 +23,14 @@ public class BrazenheadTest {
     @Mock Activity activity;
     @Mock Resources resources;
     @Mock SpinnerPresser spinnerPresser;
+    @Mock ListItemFinder listItemFinder;
 
     private Brazenhead brazenhead;
 
     @Before
     public void setUp() throws IOException {
         initMocks();
-        brazenhead = new Brazenhead(instrumentation, spinnerPresser);
+        brazenhead = new Brazenhead(instrumentation, spinnerPresser, listItemFinder);
     }
 
     @Test
@@ -52,6 +53,12 @@ public class BrazenheadTest {
         final Spinner spinner = mock(Spinner.class);
         brazenhead.pressSpinnerItem(spinner, 7);
         verify(spinnerPresser).pressSpinnerItem(spinner, 7);
+    }
+    
+    @Test
+    public void itCanLocateListItemsByText() throws Exception {
+        brazenhead.listItemByText("Some text");
+        verify(listItemFinder).findByText("Some text");
     }
 
     private void initMocks() {

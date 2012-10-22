@@ -14,7 +14,6 @@ Feature: Using the Brazenhead target
     When I select item "6" from the spinner view with id "spinner1"
     Then the text "Uranus" is selected in the spinner
 
-  @wip
   Scenario: Finding list items by text
     Given I'm on the lists screen
     When I select the list item that contains "Lorem ipsum"
