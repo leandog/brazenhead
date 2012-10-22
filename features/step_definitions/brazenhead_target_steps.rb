@@ -7,9 +7,15 @@ Then /^I should receive an id value back from the Brazenhead module$/ do
 end
 
 Given /^I'm on the controls screen$/ do
-  @driver.click_on_text "Views"
-  @driver.click_on_text "Controls"
-  @driver.click_on_text "Light Theme"
+  @navigation.controls_screen
+end
+
+Given /^I'm on the lists screen$/ do
+  @navigation.lists_screen
+end
+
+Given /^I'm on the custom lists screen$/ do
+  @navigation.custom_lists_screen
 end
 
 When /^I select item "(.*?)" from the spinner with id "(.*?)"$/ do |index, id|
@@ -29,17 +35,6 @@ end
 
 Then /^the text "(.*?)" is selected in the spinner$/ do |spinner_text|
   @driver.is_spinner_text_selected(spinner_text).should be_true
-end
-
-Given /^I'm on the lists screen$/ do
-  @driver.click_on_text "Views"
-  @driver.click_on_text "^Lists$"
-end
-
-Given /^I'm on the custom lists screen$/ do
-  @driver.click_on_text "Views"
-  @driver.click_on_text "^Lists$"
-  @driver.click_on_text "18\. Custom items"
 end
 
 When /^I select the list item that contains "(.*?)"$/ do |item_text|

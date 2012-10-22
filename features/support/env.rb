@@ -29,6 +29,7 @@ end
 
 Before do
   @driver = Driver.new
+  @navigation = Navigation.new @driver
   server.start("ApiDemos")
 end
 
