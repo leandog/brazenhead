@@ -18,6 +18,10 @@ Given /^I'm on the custom lists screen$/ do
   @navigation.custom_lists_screen
 end
 
+Given /^I'm on the views list$/ do
+  @navigation.view_list
+end
+
 When /^I select item "(.*?)" from the spinner with id "(.*?)"$/ do |index, id|
   @driver.chain_calls do |device|
     device.id_from_name id, :variable => '@@the_id@@', :target => 'Brazenhead'
@@ -58,3 +62,12 @@ Then /^I should be on the "(.*?)" activity$/ do |activity|
   end
   @driver.last_json.should match(activity)
 end
+
+When /^I select the list item at index "(.*?)"$/ do |index|
+  @driver.list_item_by_index index.to_i, :target => 'Brazenhead'
+end
+
+Then /^the text of the found list item should be "(.*?)"$/ do |text|
+  @driver.last_json['text'].should eq(text)
+end
+

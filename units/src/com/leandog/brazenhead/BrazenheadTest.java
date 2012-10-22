@@ -8,9 +8,9 @@ import org.junit.*;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 
-import android.app.*;
+import android.app.Activity;
 import android.content.res.Resources;
-import android.widget.*;
+import android.widget.Spinner;
 
 import com.jayway.android.robotium.solo.Solo;
 import com.leandog.brazenhead.test.BrazenheadTestRunner;
@@ -59,6 +59,18 @@ public class BrazenheadTest {
     public void itCanLocateListItemsByText() throws Exception {
         brazenhead.listItemByText("Some text");
         verify(listItemFinder).findByText("Some text");
+    }
+    
+    @Test
+    public void itCanLocateListItemsByIndexInTheDefaultList() {
+        brazenhead.listItemByIndex(7);
+        verify(listItemFinder).findByIndex(7);
+    }
+    
+    @Test
+    public void itCanLocateListItemsByIndex() {
+        brazenhead.listItemByIndex(7, 1);
+        verify(listItemFinder).findByIndex(7, 1);
     }
     
     @Test

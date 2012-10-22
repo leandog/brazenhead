@@ -40,12 +40,20 @@ public class Brazenhead {
     public View listItemByText(final String itemText) throws Exception {
         return listItemFinder.findByText(itemText);
     }
+    
+    public View listItemByIndex(final int itemIndex) {
+        return listItemFinder.findByIndex(itemIndex);
+    }
+    
+    public View listItemByIndex(final int itemIndex, final int whichList) {
+        return listItemFinder.findByIndex(itemIndex, whichList);
+    }
 
     public void pressListItemByIndex(final int itemIndex) {
         listItemPresser.pressListItem(itemIndex);
     }
 
-    public void pressListItemByIndex(final int itemIndex, int whichList) {
+    public void pressListItemByIndex(final int itemIndex, final int whichList) {
         listItemPresser.pressListItem(itemIndex, whichList);
     }
 

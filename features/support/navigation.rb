@@ -3,6 +3,10 @@ class Navigation
     @driver = driver
   end
 
+  def view_list
+    views
+  end
+
   def controls_screen
     views
     controls
