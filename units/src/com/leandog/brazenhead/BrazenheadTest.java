@@ -10,7 +10,7 @@ import org.mockito.Mock;
 
 import android.app.*;
 import android.content.res.Resources;
-import android.widget.Spinner;
+import android.widget.*;
 
 import com.jayway.android.robotium.solo.Solo;
 import com.leandog.brazenhead.test.BrazenheadTestRunner;

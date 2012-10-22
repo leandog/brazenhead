@@ -2,6 +2,7 @@ package com.leandog.brazenhead;
 
 import android.app.*;
 import android.content.res.Resources;
+import android.view.View;
 import android.widget.Spinner;
 
 public class Brazenhead {
@@ -26,6 +27,10 @@ public class Brazenhead {
     
     public void pressSpinnerItemById(int spinnerId, int itemIndex) {
         spinnerPresser.pressSpinnerItemById(spinnerId, itemIndex);
+    }
+    
+    public View listItemByText(final String itemText) {
+        return null;
     }
 
     private Activity theCurrentActivity() {
