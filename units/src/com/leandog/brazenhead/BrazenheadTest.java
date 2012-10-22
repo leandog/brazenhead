@@ -64,14 +64,14 @@ public class BrazenheadTest {
     
     @Test
     public void itCanPressListItemsByIndex() throws Exception {
-        brazenhead.pressListItem(7);
+        brazenhead.pressListItemByIndex(7);
         verify(listItemPresser).pressListItem(7);
     }
     
     @Test
     public void itCanPressASpecificListsItems() {
         int whichList = 1;
-        brazenhead.pressListItem(7, whichList);
+        brazenhead.pressListItemByIndex(7, whichList);
         verify(listItemPresser).pressListItem(7, whichList);
     }
 

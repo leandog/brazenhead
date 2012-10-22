@@ -51,7 +51,7 @@ Then /^the found list item should be a "(.*?)"$/ do |class_type|
 end
 
 Then /^I can select list item "(.*?)" even if it is off of the screen$/ do |index|
-  @driver.press_list_item index.to_i, :target => 'Brazenhead'
+  @driver.press_list_item_by_index index.to_i, :target => 'Brazenhead'
   @driver.last_response.code.should eq('200')
 end
 

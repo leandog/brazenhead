@@ -39,11 +39,11 @@ public class Brazenhead {
         return listItemFinder.findByText(itemText);
     }
     
-    public void pressListItem(final int itemIndex) {
+    public void pressListItemByIndex(final int itemIndex) {
         listItemPresser.pressListItem(itemIndex);
     }
 
-    public void pressListItem(final int itemIndex, int whichList) {
+    public void pressListItemByIndex(final int itemIndex, int whichList) {
         listItemPresser.pressListItem(itemIndex, whichList);
     }
 
