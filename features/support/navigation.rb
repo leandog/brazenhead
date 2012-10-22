@@ -20,24 +20,37 @@ class Navigation
   end
 
   private
+  def press_list_item(locator)
+    press_by_text(locator[:text]) if locator[:text]
+    press_by_index(locator[:index]) if locator[:index]
+  end
+
+  def press_by_text(text)
+    @driver.click_on_text text
+  end
+
+  def press_by_index(index)
+    @driver.press_list_item_by_index index, :target => 'Brazenhead' 
+  end
+
   def views
-    @driver.click_on_text 'Views'
+    press_list_item(:index => 11)
   end
 
   def controls
-    @driver.click_on_text 'Controls'
+    press_list_item(:text => 'Controls')
   end
 
   def light_theme
-    @driver.click_on_text 'Light Theme'
+    press_list_item(:text => 'Light Theme')
   end
 
   def lists
-    @driver.click_on_text '^Lists$'
+    press_list_item(:index => 21)
   end
 
   def custom_list_items
-    @driver.click_on_text "18\. Custom items"
+    press_list_item(:index => 18)
   end
 
 end
