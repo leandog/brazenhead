@@ -19,7 +19,6 @@ import com.leandog.brazenhead.test.BrazenheadTestRunner;
 public class BrazenheadTest {
     
     @Mock Solo solo;
-    @Mock Instrumentation instrumentation;
     @Mock Activity activity;
     @Mock Resources resources;
     @Mock SpinnerPresser spinnerPresser;
@@ -31,7 +30,7 @@ public class BrazenheadTest {
     @Before
     public void setUp() throws IOException {
         initMocks();
-        brazenhead = new Brazenhead(instrumentation, spinnerPresser, listItemFinder, listItemPresser);
+        brazenhead = new Brazenhead(spinnerPresser, listItemFinder, listItemPresser);
     }
 
     @Test

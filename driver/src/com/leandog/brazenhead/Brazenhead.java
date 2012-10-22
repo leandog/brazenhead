@@ -12,12 +12,10 @@ public class Brazenhead {
     private ListItemPresser listItemPresser;
 
     public Brazenhead(final Instrumentation instrumentation) {
-        spinnerPresser = new SpinnerPresser(instrumentation);
-        listItemFinder = new ListItemFinder();
-        listItemPresser = new ListItemPresser(instrumentation, TestRunInformation.getSolo());
+        this(new SpinnerPresser(instrumentation), new ListItemFinder(), new ListItemPresser(instrumentation, TestRunInformation.getSolo()));
     }
 
-    public Brazenhead(final Instrumentation instrumentation, final SpinnerPresser spinnerPresser, final ListItemFinder listItemFinder, final ListItemPresser listItemPresser) {
+    public Brazenhead(final SpinnerPresser spinnerPresser, final ListItemFinder listItemFinder, final ListItemPresser listItemPresser) {
         this.spinnerPresser = spinnerPresser;
         this.listItemFinder = listItemFinder;
         this.listItemPresser = listItemPresser;
@@ -26,19 +24,19 @@ public class Brazenhead {
     public int idFromName(final String namedId) {
         return getResources().getIdentifier(namedId, "id", targetPackage());
     }
-    
+
     public void pressSpinnerItem(final Spinner spinner, int itemIndex) {
         spinnerPresser.pressSpinnerItem(spinner, itemIndex);
     }
-    
+
     public void pressSpinnerItemById(int spinnerId, int itemIndex) {
         spinnerPresser.pressSpinnerItemById(spinnerId, itemIndex);
     }
-    
+
     public View listItemByText(final String itemText) throws Exception {
         return listItemFinder.findByText(itemText);
     }
-    
+
     public void pressListItemByIndex(final int itemIndex) {
         listItemPresser.pressListItem(itemIndex);
     }
