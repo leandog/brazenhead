@@ -9,10 +9,12 @@ public class Brazenhead {
 
     private final SpinnerPresser spinnerPresser;
     private final ListItemFinder listItemFinder;
+    private ListItemPresser listItemPresser;
 
     public Brazenhead(final Instrumentation instrumentation) {
         spinnerPresser = new SpinnerPresser(instrumentation);
         listItemFinder = new ListItemFinder();
+        listItemPresser = new ListItemPresser(instrumentation, TestRunInformation.getSolo());
     }
 
     public Brazenhead(final Instrumentation instrumentation, final SpinnerPresser spinnerPresser, final ListItemFinder listItemFinder) {
@@ -34,6 +36,10 @@ public class Brazenhead {
     
     public View listItemByText(final String itemText) throws Exception {
         return listItemFinder.findByText(itemText);
+    }
+    
+    public void pressListItem(final int itemIndex) {
+        listItemPresser.pressListItem(itemIndex);
     }
 
     private Activity theCurrentActivity() {

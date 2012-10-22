@@ -12,7 +12,7 @@ import org.junit.runner.RunWith;
 import org.mockito.*;
 
 import android.app.Instrumentation;
-import android.view.KeyEvent;
+import android.view.*;
 import android.widget.ListView;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -38,21 +38,23 @@ public class ListItemPresserTest {
     @Test
     public void itBringsTheListViewIntoFocusInitially() {
         listItemPresser.pressListItem(0);
+        verify(solo, atLeastOnce()).waitForView(ListView.class);
+        verify(theFirstList).requestFocus();
         verify(instrumentation).sendKeyDownUpSync(KeyEvent.KEYCODE_DPAD_DOWN);
     }
 
     @Test
     public void itUsesTheFirstListByDefault() {
         listItemPresser.pressListItem(7);
-        verify(solo).getCurrentListViews();
-        verify(theLists).get(0);
+        verify(solo, atLeastOnce()).getCurrentListViews();
+        verify(theLists, atLeastOnce()).get(0);
     }
     
     @Test
     public void itCanUseAnAlternateList() {
         listItemPresser.pressListItem(7, 1);
-        verify(solo).getCurrentListViews();
-        verify(theLists).get(1);
+        verify(solo, atLeastOnce()).getCurrentListViews();
+        verify(theLists, atLeastOnce()).get(1);
     }
     
     @Test
@@ -75,8 +77,9 @@ public class ListItemPresserTest {
     
     @Test
     public void itSelectsTheItem() {
+        final View theSelectedItem = setupTheSelectedView();
         listItemPresser.pressListItem(7);
-        verify(instrumentation).sendKeyDownUpSync(KeyEvent.KEYCODE_ENTER);
+        verify(solo).clickOnView(theSelectedItem);
     }
     
     @Test
@@ -90,6 +93,13 @@ public class ListItemPresserTest {
         when(solo.getCurrentListViews()).thenReturn(theLists);
         when(theLists.get(0)).thenReturn(theFirstList);
         when(theLists.get(1)).thenReturn(theSecondList);
+    }
+
+    private View setupTheSelectedView() {
+        final View theSelectedItem = mock(View.class);
+        when(theFirstList.getSelectedView())
+            .thenReturn(theSelectedItem);
+        return theSelectedItem;
     }
     
     private class InstrumentationStub extends Instrumentation {

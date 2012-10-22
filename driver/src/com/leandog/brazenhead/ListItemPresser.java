@@ -22,9 +22,9 @@ public class ListItemPresser {
 
     public void pressListItem(int itemIndex, final int listIndex) {
         itemIndex = normalize(itemIndex);
-        setTheFocus();
+        setTheFocus(listIndex);
         setTheSelection(itemIndex, listIndex);
-        sendKey(KeyEvent.KEYCODE_ENTER);
+        clickOnItem(listIndex);
     }
 
     private void setTheSelection(final int itemIndex, final int listIndex) {
@@ -38,11 +38,17 @@ public class ListItemPresser {
     }
 
     private ListView theListAt(final int listIndex) {
+        solo.waitForView(ListView.class);
         return solo.getCurrentListViews().get(listIndex);
     }
 
-    private void setTheFocus() {
+    private void setTheFocus(final int listIndex) {
+        theListAt(listIndex).requestFocus();
         sendKey(KeyEvent.KEYCODE_DPAD_DOWN);
+    }
+
+    private void clickOnItem(final int listIndex) {
+        solo.clickOnView(theListAt(listIndex).getSelectedView());
     }
 
     private int normalize(int itemIndex) {
