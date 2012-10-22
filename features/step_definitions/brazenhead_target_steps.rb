@@ -30,3 +30,19 @@ end
 Then /^the text "(.*?)" is selected in the spinner$/ do |spinner_text|
   @driver.is_spinner_text_selected(spinner_text).should be_true
 end
+
+Given /^I'm on the lists screen$/ do
+  @driver.click_on_text "Views"
+  @driver.click_on_text "^Lists$"
+  @driver.click_on_text "18\. Custom items"
+  sleep 5
+end
+
+When /^I select the list item that contains "(.*?)"$/ do |item_text|
+  @driver.list_item_by_text item_text, :target => 'Brazenhead'
+end
+
+Then /^the found list item should be a "(.*?)"$/ do |class_type|
+  @driver.last_json["classType"].should eq(class_type)
+end
+

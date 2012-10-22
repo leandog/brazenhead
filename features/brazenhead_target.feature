@@ -13,3 +13,9 @@ Feature: Using the Brazenhead target
     Given I'm on the controls screen
     When I select item "6" from the spinner view with id "spinner1"
     Then the text "Uranus" is selected in the spinner
+
+  @wip
+  Scenario: Finding list items by text
+    Given I'm on the lists screen
+    When I select the list item that contains "Lorem ipsum"
+    Then the found list item should be a "android.widget.RelativeLayout"
