@@ -15,6 +15,11 @@ Feature: Using the Brazenhead target
     Then the text "Uranus" is selected in the spinner
 
   Scenario: Finding list items by text
-    Given I'm on the lists screen
+    Given I'm on the custom lists screen
     When I select the list item that contains "Lorem ipsum"
     Then the found list item should be a "android.widget.RelativeLayout"
+
+  Scenario: Pressing list items by index
+    When I'm on the lists screen
+    Then I can select list item "18" even if it is off of the screen
+    And I should see "Views.Lists.18. Custom items"

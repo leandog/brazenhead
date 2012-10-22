@@ -43,6 +43,6 @@ end
 
 Then /^I should see "(.*?)"$/ do |text|
   @driver.search_text text
-  @last_response.body.should eq 'true'
+  @driver.last_json.should be_true
 end
 

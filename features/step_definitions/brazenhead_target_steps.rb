@@ -34,8 +34,12 @@ end
 Given /^I'm on the lists screen$/ do
   @driver.click_on_text "Views"
   @driver.click_on_text "^Lists$"
+end
+
+Given /^I'm on the custom lists screen$/ do
+  @driver.click_on_text "Views"
+  @driver.click_on_text "^Lists$"
   @driver.click_on_text "18\. Custom items"
-  sleep 5
 end
 
 When /^I select the list item that contains "(.*?)"$/ do |item_text|
@@ -46,3 +50,16 @@ Then /^the found list item should be a "(.*?)"$/ do |class_type|
   @driver.last_json["classType"].should eq(class_type)
 end
 
+Then /^I can select list item "(.*?)" even if it is off of the screen$/ do |index|
+  @driver.press_list_item index.to_i, :target => 'Brazenhead'
+  @driver.last_response.code.should eq('200')
+end
+
+Then /^I should be on the "(.*?)" activity$/ do |activity|
+  @driver.chain_calls do |device|
+    device.get_current_activity
+    device.get_class
+    device.to_string
+  end
+  @driver.last_json.should match(activity)
+end
