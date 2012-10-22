@@ -17,9 +17,10 @@ public class Brazenhead {
         listItemPresser = new ListItemPresser(instrumentation, TestRunInformation.getSolo());
     }
 
-    public Brazenhead(final Instrumentation instrumentation, final SpinnerPresser spinnerPresser, final ListItemFinder listItemFinder) {
+    public Brazenhead(final Instrumentation instrumentation, final SpinnerPresser spinnerPresser, final ListItemFinder listItemFinder, final ListItemPresser listItemPresser) {
         this.spinnerPresser = spinnerPresser;
         this.listItemFinder = listItemFinder;
+        this.listItemPresser = listItemPresser;
     }
 
     public int idFromName(final String namedId) {
@@ -40,6 +41,10 @@ public class Brazenhead {
     
     public void pressListItem(final int itemIndex) {
         listItemPresser.pressListItem(itemIndex);
+    }
+
+    public void pressListItem(final int itemIndex, int whichList) {
+        listItemPresser.pressListItem(itemIndex, whichList);
     }
 
     private Activity theCurrentActivity() {

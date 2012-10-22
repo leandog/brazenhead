@@ -24,13 +24,14 @@ public class BrazenheadTest {
     @Mock Resources resources;
     @Mock SpinnerPresser spinnerPresser;
     @Mock ListItemFinder listItemFinder;
+    @Mock ListItemPresser listItemPresser;
 
     private Brazenhead brazenhead;
 
     @Before
     public void setUp() throws IOException {
         initMocks();
-        brazenhead = new Brazenhead(instrumentation, spinnerPresser, listItemFinder);
+        brazenhead = new Brazenhead(instrumentation, spinnerPresser, listItemFinder, listItemPresser);
     }
 
     @Test
@@ -59,6 +60,19 @@ public class BrazenheadTest {
     public void itCanLocateListItemsByText() throws Exception {
         brazenhead.listItemByText("Some text");
         verify(listItemFinder).findByText("Some text");
+    }
+    
+    @Test
+    public void itCanPressListItemsByIndex() throws Exception {
+        brazenhead.pressListItem(7);
+        verify(listItemPresser).pressListItem(7);
+    }
+    
+    @Test
+    public void itCanPressASpecificListsItems() {
+        int whichList = 1;
+        brazenhead.pressListItem(7, whichList);
+        verify(listItemPresser).pressListItem(7, whichList);
     }
 
     private void initMocks() {
