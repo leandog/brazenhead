@@ -13,14 +13,14 @@ public class ListItemFinder {
 
         final TextView theFoundText = solo().getText(itemText);
 
-        View foundListItem = null;
+        View foundListItem = theFoundText;
         View theParent = theParentOf(theFoundText);
         
         while( atTheRootViewFor(theParent)) {
             foundListItem = theParent;
             theParent = theParentOf(theParent);
         }
-
+        
         assertWasAListItem(foundListItem, theParent);
         return foundListItem;
     }

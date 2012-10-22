@@ -60,6 +60,12 @@ public class ListItemFinderTest {
             setViewHierarchy("To find", RelativeLayout.class, ListView.class);
             assertThat(listItemFinder.findByText("To find"), is(instanceOf(RelativeLayout.class)));
         }
+        
+        @Test
+        public void theFoundItemCanBeTheParent() throws Exception {
+            setViewHierarchy("To find", ListView.class);
+            assertThat(listItemFinder.findByText("To find"), is(instanceOf(TextView.class)));
+        }
 
         @Test(expected = IsNotAListViewItem.class)
         public void itIndicatesIfItIsNotPartOfAList() throws Exception {
