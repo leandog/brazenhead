@@ -38,7 +38,7 @@ class Navigation
   end
 
   def views
-    press_list_item(:index => 11)
+    press_list_item(:text => 'Views')
   end
 
   def controls
@@ -50,11 +50,11 @@ class Navigation
   end
 
   def lists
-    press_list_item(:index => 21)
+    press_list_item(:text => '^Lists$')
   end
 
   def custom_list_items
-    press_list_item(:index => 18)
+    press_list_item(:text => "18\..*Custom")
   end
 
 end
