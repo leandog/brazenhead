@@ -4,23 +4,25 @@ import android.app.Instrumentation;
 import android.view.*;
 import android.widget.*;
 
-import com.jayway.android.robotium.solo.Solo;
+import com.jayway.android.robotium.solo.*;
 import com.leandog.brazenhead.exceptions.IsNotAListViewItem;
 
 public class ListItemFinder {
-    
+
     private final Solo solo;
     private final Instrumentation instrumentation;
+    private final BrazenheadSleeper sleeper;
 
-    public ListItemFinder(final Instrumentation instrumentation, final Solo solo) {
+    public ListItemFinder(final Instrumentation instrumentation, final Solo solo, final BrazenheadSleeper sleeper) {
         this.instrumentation = instrumentation;
         this.solo = solo;
+        this.sleeper = sleeper;
     }
-    
+
     public View findByIndex(int itemIndex) {
-       return findByIndex(itemIndex, 0); 
+        return findByIndex(itemIndex, 0);
     }
-    
+
     public View findByIndex(int itemIndex, final int listIndex) {
         itemIndex = normalize(itemIndex);
         setTheFocus(listIndex);
@@ -35,16 +37,16 @@ public class ListItemFinder {
 
         View foundListItem = theFoundText;
         View theParent = theParentOf(theFoundText);
-        
-        while( atTheRootViewFor(theParent)) {
+
+        while (atTheRootViewFor(theParent)) {
             foundListItem = theParent;
             theParent = theParentOf(theParent);
         }
-        
+
         assertWasAListItem(foundListItem, theParent);
         return foundListItem;
     }
-    
+
     private View theParentOf(final View view) {
         return (View) view.getParent();
     }
@@ -82,6 +84,7 @@ public class ListItemFinder {
 
     private void setTheFocus(final int listIndex) {
         theListAt(listIndex).requestFocus();
+        sleeper.sleepMini();
         sendKey(KeyEvent.KEYCODE_DPAD_DOWN);
     }
 

@@ -3,10 +3,6 @@ class Navigation
     @driver = driver
   end
 
-  def view_list
-    views
-  end
-
   def controls_screen
     views
     controls
@@ -21,6 +17,16 @@ class Navigation
   def custom_lists_screen
     lists_screen
     custom_list_items
+  end
+
+  def arrays_list
+    lists_screen
+    arrays
+  end
+
+  def image_view_screen
+    views
+    image_view
   end
 
   private
@@ -55,6 +61,14 @@ class Navigation
 
   def custom_list_items
     press_list_item(:text => "18\..*Custom")
+  end
+
+  def arrays
+    press_list_item(:text => "01\. Array")
+  end
+
+  def image_view
+    press_list_item(:text => 'ImageView')
   end
 
 end

@@ -17,7 +17,7 @@ import android.app.Instrumentation;
 import android.view.*;
 import android.widget.*;
 
-import com.jayway.android.robotium.solo.Solo;
+import com.jayway.android.robotium.solo.*;
 import com.leandog.brazenhead.exceptions.IsNotAListViewItem;
 import com.leandog.brazenhead.test.BrazenheadTestRunner;
 
@@ -31,13 +31,14 @@ public class ListItemFinderTest {
         @Mock ListView theFirstList;
         @Mock ListView theSecondList;
         @Mock Solo solo;
+        @Mock BrazenheadSleeper sleeper;
 
         private ListItemFinder listItemFinder;
 
         @Before
         public void setUp() {
             initMocks();
-            listItemFinder = new ListItemFinder(instrumentation, solo);
+            listItemFinder = new ListItemFinder(instrumentation, solo, sleeper);
         }
 
         @Test
@@ -45,6 +46,7 @@ public class ListItemFinderTest {
             listItemFinder.findByIndex(0);
             verify(solo, atLeastOnce()).waitForView(ListView.class);
             verify(theFirstList).requestFocus();
+            verify(sleeper).sleepMini();
             verify(instrumentation).sendKeyDownUpSync(KeyEvent.KEYCODE_DPAD_DOWN);
         }
 
@@ -121,6 +123,7 @@ public class ListItemFinderTest {
         @Mock Instrumentation instrumentation;
         @Mock Solo solo;
         @Mock TextView theFoundText;
+        @Mock BrazenheadSleeper sleeper;
 
         private ListItemFinder listItemFinder;
 
@@ -128,7 +131,7 @@ public class ListItemFinderTest {
         public void setUp() {
             TestRunInformation.setSolo(solo);
             when(solo.waitForText(anyString())).thenReturn(true);
-            listItemFinder = new ListItemFinder(instrumentation, solo);
+            listItemFinder = new ListItemFinder(instrumentation, solo, sleeper);
         }
 
         @Test

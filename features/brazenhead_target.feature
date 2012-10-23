@@ -19,12 +19,12 @@ Feature: Using the Brazenhead target
     When I select the list item that contains "Lorem ipsum"
     Then the found list item should be a "android.widget.RelativeLayout"
 
-#  Scenario: Finding list items by index
-#    Given I'm on the views list
-#    When I select the list item at index "16"
-#    Then the text of the found list item should be "ImageButton"
-#
-#  Scenario: Pressing list items by index
-#    When I'm on the lists screen
-#    Then I can select list item "18" even if it is off of the screen
-#    And I should see "Views.Lists.18. Custom items"
+  Scenario: Finding list items by index
+    Given I'm on the arrays list
+    When I select the list item at index "12"
+    Then the text of the found list item should be "Aisy Cendre"
+
+  Scenario: Pressing list items by index
+    When I'm on the lists screen
+    Then I can select list item "18" even if it is off of the screen
+    And I should see "Views.Lists.18. Custom items"

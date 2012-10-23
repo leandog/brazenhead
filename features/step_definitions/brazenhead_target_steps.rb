@@ -22,6 +22,15 @@ Given /^I'm on the views list$/ do
   @navigation.view_list
 end
 
+Given /^I'm on the arrays list$/ do
+  @navigation.arrays_list
+end
+
+Given /^I'm on the image view screen$/ do
+  @navigation.image_view_screen
+end
+
+
 When /^I select item "(.*?)" from the spinner with id "(.*?)"$/ do |index, id|
   @driver.chain_calls do |device|
     device.id_from_name id, :variable => '@@the_id@@', :target => 'Brazenhead'

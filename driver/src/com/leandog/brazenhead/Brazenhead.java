@@ -5,7 +5,7 @@ import android.content.res.Resources;
 import android.view.View;
 import android.widget.Spinner;
 
-import com.jayway.android.robotium.solo.Solo;
+import com.jayway.android.robotium.solo.*;
 
 public class Brazenhead {
 
@@ -15,7 +15,7 @@ public class Brazenhead {
 
     public Brazenhead(final Instrumentation instrumentation, final Solo solo) {
         this.spinnerPresser = new SpinnerPresser(instrumentation);
-        this.listItemFinder = new ListItemFinder(instrumentation, solo);
+        this.listItemFinder = new ListItemFinder(instrumentation, solo, new BrazenheadSleeper());
         this.listItemPresser = new ListItemPresser(solo, listItemFinder);
     }
 
