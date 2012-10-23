@@ -9,5 +9,6 @@ Feature:  Serializing Information
     Then the text for the view should be returned
 
   Scenario: Getting image view information
+    Given I'm on the image view screen
     When I call a method that returns an image view
     Then information about the image should be returned
