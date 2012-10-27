@@ -1,13 +1,13 @@
-=== Release 0.4.5
-*	Enhancements
+=== Release 0.4.5 / 2012-10-27
+* Enhancements
   * Sends back additional information back about TextViews (text, hint and content description)
   * Sends back additional information back about ImageViews (hasDrawable, drawableRect)
 
-===	Release 0.4.4 / 2012-10-18
-*	Enhancements
-	*	Updated robotium from 3.3 -> 3.5.1
-		*	ability to wait on fragments
-		*	various scrolling methods for views as well as lists
+=== Release 0.4.4 / 2012-10-18
+* Enhancements
+  * Updated robotium from 3.3 -> 3.5.1
+  * ability to wait on fragments
+  * various scrolling methods for views as well as lists
 
 === Release 0.4.3 / 2012-10-11
 * Enhancements
