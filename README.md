@@ -15,6 +15,8 @@ Before being able to instrument your application, you will need to add the `INTE
 <uses-permission android:name="android.permission.INTERNET" />
 ```
 
+You must also have [adb](http://developer.android.com/tools/help/adb.html) in your path
+
 ### Starting Instrumentation
 
 To start instrumenting an application you must create an instance of the `Brazenhead::Server` by giving it the path to your android application (apk) an optionally some keystore information.  (**_note:_** _If no keystore information is provided, the `debug.keystore` will be used instead._)
