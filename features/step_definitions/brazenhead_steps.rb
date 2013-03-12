@@ -32,21 +32,21 @@ When /^I call "(.*?)" passing the argument "(.*?)" and saving it into the variab
   @first_call = {:name => method, :arguments => argument, :variable => variable}
 end
 
-When /^then I call "(.*?)" using teh variable "(.*?)" using the target "(.*?)"$/ do |method, argument, target|
+When /^then I call "(.*?)" using the variable "(.*?)" using the target "(.*?)"$/ do |method, argument, target|
   @driver.chain_calls do |driver|
     driver.send @first_call[:name], @first_call[:arguments], {:variable => @first_call[:variable]}
     driver.send method, argument, {:target => target}
   end
 end
 
-When /^then I call "(.*?)" using teh variable "(.*?)" using the target "(.*?)" on the same driver$/ do |method, argument, target|
+When /^then I call "(.*?)" using the variable "(.*?)" using the target "(.*?)" on the same driver$/ do |method, argument, target|
   @driver.chain_calls do |driver|
     driver.send @first_call[:name], @first_call[:arguments], {:variable => @first_call[:variable]}
     driver.send method, argument, {:target => target}
   end
 end
 
-Then /^I should see "(.*?)" from teh Brazenhead module$/ do |value|
+Then /^I should see "(.*?)" from the Brazenhead module$/ do |value|
   @driver.search_text value
   @driver.last_response.body.should == 'true'
 end

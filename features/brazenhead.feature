@@ -24,12 +24,12 @@ Feature: Functionality provided by the Brazenhead module
 
   Scenario: Chaining two method calls using a variable
     When I call "get_text" passing the argument "Graphics" and saving it into the variable "@@graphics@@"
-    And then I call "click_on_view" using teh variable "@@graphics@@" using the target "Robotium"
-    Then I should see "AlphaBitmap" from teh Brazenhead module
+    And then I call "click_on_view" using the variable "@@graphics@@" using the target "Robotium"
+    Then I should see "AlphaBitmap" from the Brazenhead module
 
   Scenario: Chaining twice
     When I chain together the methods "getCurrentViews" and "size" on the Brazenhead module
     And I call "get_text" passing the argument "Graphics" and saving it into the variable "@@graphics@@"
-    And then I call "click_on_view" using teh variable "@@graphics@@" using the target "Robotium" on the same driver
-    Then I should see "AlphaBitmap" from teh Brazenhead module
+    And then I call "click_on_view" using the variable "@@graphics@@" using the target "Robotium" on the same driver
+    Then I should see "AlphaBitmap" from the Brazenhead module
 
