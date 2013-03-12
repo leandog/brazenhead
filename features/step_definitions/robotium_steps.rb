@@ -37,8 +37,8 @@ When /^I call "(.*?)" and then I call "(.*?)"$/ do |first_method, next_method|
   end
 end
 
-Then /^the result should be "(.*?)"$/ do |result|
-  @driver.last_response.body.should eq result
+Then /^the result should match "(.*?)"$/ do |result|
+  @driver.last_response.body.should match Regexp.new(result)
 end
 
 Then /^I should see "(.*?)"$/ do |text|

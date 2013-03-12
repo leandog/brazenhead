@@ -27,4 +27,4 @@ Feature:  Calling Robotium methods
   Scenario: Chaining method calls
     When I call "getCurrentViews" and then I call "size"
     Then I should receive a successful result
-    And the result should be "26"
+    And the result should match "\d+"

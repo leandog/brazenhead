@@ -17,8 +17,8 @@ Then /^I should receive a successful result from the Brazenhead module$/ do
   @driver.last_response.code.should == '200'
 end
 
-Then /^the result from the chained calls should be "(.*?)"$/ do |result|
-  @driver.last_response.body.should == result
+Then /^the result from the chained calls should match "(.*?)"$/ do |result|
+  @driver.last_response.body.should match Regexp.new(result)
 end
 
 When /^I chain together the methods "(.*?)" and "(.*?)" on the Brazenhead module$/ do |first_method, second_method|

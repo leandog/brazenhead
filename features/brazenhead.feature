@@ -15,12 +15,12 @@ Feature: Functionality provided by the Brazenhead module
   Scenario: Chaining two method calls together with second call on result of first
     When I chain together the methods "getCurrentViews" and "size" using the target "LastResultOrRobotium"
     Then I should receive a successful result from the Brazenhead module
-    And the result from the chained calls should be "26"
+    And the result from the chained calls should match "\d+"
 
   Scenario: Chaining two method calls should use "LastResultOrRobotium" target by default
     When I chain together the methods "getCurrentViews" and "size" on the Brazenhead module
     Then I should receive a successful result from the Brazenhead module
-    And the result from the chained calls should be "26"
+    And the result from the chained calls should match "\d+"
 
   Scenario: Chaining two method calls using a variable
     When I call "get_text" passing the argument "Graphics" and saving it into the variable "@@graphics@@"
