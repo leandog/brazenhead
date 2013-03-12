@@ -25,6 +25,6 @@ Feature:  Calling Robotium methods
     Then I should receive a successful result
 
   Scenario: Chaining method calls
-    When I call "getCurrentListViews" and then I call "size"
+    When I call "getCurrentViews" and then I call "size"
     Then I should receive a successful result
-    And the result should be "1"
+    And the result should be "26"

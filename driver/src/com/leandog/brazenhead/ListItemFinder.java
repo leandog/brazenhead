@@ -79,7 +79,7 @@ public class ListItemFinder {
 
     private ListView theListAt(final int listIndex) {
         solo.waitForView(ListView.class);
-        return solo.getCurrentListViews().get(listIndex);
+        return solo.getCurrentViews(ListView.class).get(listIndex);
     }
 
     private void setTheFocus(final int listIndex) {

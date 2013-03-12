@@ -53,14 +53,14 @@ public class ListItemFinderTest {
         @Test
         public void itUsesTheFirstListByDefault() {
             listItemFinder.findByIndex(7);
-            verify(solo, atLeastOnce()).getCurrentListViews();
+            verify(solo, atLeastOnce()).getCurrentViews(ListView.class);
             verify(theLists, atLeastOnce()).get(0);
         }
 
         @Test
         public void itCanUseAnAlternateList() {
             listItemFinder.findByIndex(7, 1);
-            verify(solo, atLeastOnce()).getCurrentListViews();
+            verify(solo, atLeastOnce()).getCurrentViews(ListView.class);
             verify(theLists, atLeastOnce()).get(1);
         }
 
@@ -90,7 +90,7 @@ public class ListItemFinderTest {
         }
 
         private void initMocks() {
-            when(solo.getCurrentListViews()).thenReturn(theLists);
+            when(solo.getCurrentViews(ListView.class)).thenReturn(theLists);
             when(theLists.get(0)).thenReturn(theFirstList);
             when(theLists.get(1)).thenReturn(theSecondList);
         }
