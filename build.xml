@@ -48,6 +48,9 @@
       <entry key="sdk.dir" value="${basedir}/tmp/sdk/android-sdk-linux/"/>
     </propertyfile>
     <copy file="./driver/local.properties" todir="./units" />
+    <exec executable="sudo">
+      <arg line="apt-get install -qq --force-yes libgd2-xpm ia32-libs ia32-libs-multiarch" />
+    </exec>
   </target>
 
 </project>
