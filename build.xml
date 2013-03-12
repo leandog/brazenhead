@@ -26,9 +26,6 @@
   </target>
 
   <target name="prepare-travis-ci" description="Prepare for travis ci build">
-    <exec executable="sudo">
-      <arg line="apt-get install ia32-libs" />
-    </exec>
     <mkdir dir="tmp"/>
     <get src="http://dl.google.com/android/android-sdk_r20.0.3-linux.tgz" dest="tmp" skipexisting="true"/>
     <untar src="tmp/android-sdk_r20.0.3-linux.tgz" compression="gzip" dest="tmp/sdk"/>
