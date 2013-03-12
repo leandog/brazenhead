@@ -1,3 +1,8 @@
+=== Release 0.4.6
+* Enhancements
+	*	Updated robotium from 3.5.1 -> 4.0
+		*	now will support api level 17
+
 === Release 0.4.5 / 2012-10-27
 * Enhancements
   * Sends back additional information back about TextViews (text, hint and content description)
