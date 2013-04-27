@@ -9,3 +9,5 @@ Gemfile.lock
 driver/tests
 driver/*.apk
 .idea/
+local.properties
+.settings/
