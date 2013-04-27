@@ -8,4 +8,4 @@ script:
   - ant test
   - bundle install
   - bundle exec rake spec
-install: ant prepare-travis-ci -q
+install: ant prepare-travis-ci
