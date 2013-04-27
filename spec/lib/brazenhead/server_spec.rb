@@ -50,10 +50,17 @@ describe Brazenhead::Server do
   end
 
   context "instrumenting the application" do
-    let(:runner) { 'com.leandog.brazenhead/com.leandog.brazenhead.BrazenheadInstrumentation' }
+    let(:brazenhead_instrumentation) { 'com.leandog.brazenhead.BrazenheadInstrumentation' }
+    let(:runner) { "com.example.brazenhead/#{brazenhead_instrumentation}" }
 
     it "should use the package from the target manifest" do
       manifest.should_receive(:package)
+      server.start(activity)
+    end
+
+    it "should base our package off of theirs" do
+      manifest.stub(:package).and_return('com.their.package')
+      server.should_receive(:instrument).with("com.their.package.brazenhead/#{brazenhead_instrumentation}", anything)
       server.start(activity)
     end
 

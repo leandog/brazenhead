@@ -85,6 +85,16 @@ describe Brazenhead::Builder do
         server.build_for(apk, keystore)
       end
 
+      it "should base our package off of theirs" do
+        the_target_package = "the.target.package"
+        File.should_receive(:read).and_return("ignore the first", "package=\"this.will.be.replaced\"")
+        manifest_info.should_receive(:package).and_return(the_target_package)
+        File.should_receive(:write).with("AndroidManifest.xml", "ignore the first")
+
+        File.should_receive(:write).with("AndroidManifest.xml", "package=\"#{the_target_package}.brazenhead\"")
+        server.build_for(apk, keystore)
+      end
+
       it "should package the modified manifest back into the test package" do 
         manifest_info.should_receive(:target_sdk).and_return(10)
         server.should_receive(:update_manifest).with("#{driver_apk}", "AndroidManifest.xml", 10)

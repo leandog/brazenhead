@@ -56,6 +56,7 @@ module Brazenhead
 
     def update_test_manifest
       replace android_manifest, /\btargetPackage="[^"]+"/,  "targetPackage=\"#{the_target}\""
+      replace android_manifest, /\bpackage="[^"]+"/,  "package=\"#{the_target}.brazenhead\""
       update_manifest test_apk, android_manifest, manifest_info.target_sdk
     end
 

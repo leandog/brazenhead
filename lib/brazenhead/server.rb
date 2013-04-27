@@ -43,11 +43,15 @@ module Brazenhead
     end
 
     def runner
-      "#{leandog}/#{leandog}.BrazenheadInstrumentation"
+      "#{leandog_package}/#{leandog}.BrazenheadInstrumentation"
     end
 
     def leandog
       'com.leandog.brazenhead'
+    end
+
+    def leandog_package
+      "#{their_package}.brazenhead"
     end
 
   end
