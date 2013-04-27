@@ -1,4 +1,9 @@
-=== Release 0.4.6
+===	Release 0.4.7
+*	Enhancements
+	*	bases the brazenhead package name off of the package it is testing (i.e.
+	com.your.app.brazenhead rather than com.leandog.brazenhead)
+
+=== Release 0.4.6 / 2012-3-13
 * Enhancements
 	*	Updated robotium from 3.5.1 -> 4.0
 		*	now will support api level 17
