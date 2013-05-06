@@ -1,17 +1,25 @@
 package com.leandog.brazenhead;
 
 import static org.mockito.Mockito.*;
+import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import org.junit.*;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 
 import android.app.Activity;
 import android.content.res.Resources;
 import android.widget.Spinner;
 
+import com.apple.jobjc.ID;
+import com.jayway.android.robotium.solo.By;
 import com.jayway.android.robotium.solo.Solo;
 import com.leandog.brazenhead.test.BrazenheadTestRunner;
 
@@ -85,11 +93,50 @@ public class BrazenheadTest {
         brazenhead.pressListItemByIndex(7, whichList);
         verify(listItemPresser).pressListItem(7, whichList);
     }
+    
+    @Test
+	public void itCanFindWebViewsByVariousProperties() {
+		final HashMap<String, String> hows = new HashMap<String, String>() {
+			{
+				put("id", "Id");
+				put("xpath", "Xpath");
+				put("cssSelector", "CssSelector");
+				put("name", "Name");
+				put("className", "ClassName");
+				put("textContent", "Text");
+				put("tagName", "TagName");
+			}
+		};
+		
+		for(final Map.Entry<String, String> how : hows.entrySet()) {
+			brazenhead.getWebViewsBy(how.getKey(), "does not matter");
+			
+			final ArgumentCaptor<By> byArgument = ArgumentCaptor.forClass(By.class);
+			verify(solo).getCurrentWebElements(byArgument.capture());
+			assertThat(byArgument.getValue().getClass().getName(), is(by(how.getValue())));
+			
+			reset(solo);
+		}
 
-    private void initMocks() {
+	}
+    
+    @Test
+    public void itCanFindWebViewsByName() {
+    	brazenhead.getWebViewsBy("name", "blar");
+    	
+    	final ArgumentCaptor<By> byArgument = ArgumentCaptor.forClass(By.class);
+    	verify(solo).getCurrentWebElements(byArgument.capture());
+    	assertThat(byArgument.getValue().getClass().getName(), is(by("Name")));
+    }
+
+	private void initMocks() {
         TestRunInformation.setSolo(solo);
         when(solo.getCurrentActivity()).thenReturn(activity);
         when(activity.getResources()).thenReturn(resources);
     }
+
+    private String by(final String how) {
+    	return String.format("com.jayway.android.robotium.solo.By$%s", how);
+	}
 
 }

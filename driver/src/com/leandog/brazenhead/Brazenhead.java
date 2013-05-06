@@ -1,8 +1,13 @@
 package com.leandog.brazenhead;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.*;
 import android.content.res.Resources;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Spinner;
 
 import com.jayway.android.robotium.solo.*;
@@ -55,6 +60,15 @@ public class Brazenhead {
 
     public void pressListItemByIndex(final int itemIndex, final int whichList) {
         listItemPresser.pressListItem(itemIndex, whichList);
+    }
+    
+    public ArrayList<WebElement> getWebViewsBy(final String how, final String what) {
+    	try {
+			final By byHow =  (By) By.class.getDeclaredMethod(how, String.class).invoke(null, what);
+			return TestRunInformation.getSolo().getCurrentWebElements(byHow);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
     }
 
     private Activity theCurrentActivity() {
