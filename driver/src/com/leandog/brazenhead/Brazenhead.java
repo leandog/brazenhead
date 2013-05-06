@@ -67,7 +67,7 @@ public class Brazenhead {
 			final By byHow =  (By) By.class.getDeclaredMethod(how, String.class).invoke(null, what);
 			return TestRunInformation.getSolo().getCurrentWebElements(byHow);
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			throw new RuntimeException(String.format("Unable to locate a WebView by \"%s\"", how));
 		}
     }
 

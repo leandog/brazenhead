@@ -91,3 +91,12 @@ Then(/^I should be able to find web views with these properties:$/) do |web_prop
     @driver.last_json.should_not be_empty, "Expected to find web views by '#{row['property']}' with '#{row['value']}' but found none"
   end
 end
+
+Then(/^it should be clear why I cannot get a web view by "([^"]*)"$/) do |invalid_manner|
+  begin
+    @driver.get_web_views_by(invalid_manner, 'no matter', :target => :Brazenhead)
+  rescue Exception => e
+    json = JSON.parse(e.message)
+    json['theCause']['errorMessage'].should eq("Unable to locate a WebView by \"#{invalid_manner}\"")
+  end
+end
