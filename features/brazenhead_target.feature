@@ -34,8 +34,6 @@ Feature: Using the Brazenhead target
     Then I should be able to find web views with these properties:
       | property    | value                   |
       | id          | home-feature            |
-      | xpath       | //*[@id="home-feature"] |
       | cssSelector | div.navsection          |
-      | className   | navsection              |
       | textContent | Mobile                  |
       | tagName     | div                     |
