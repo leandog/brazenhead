@@ -28,3 +28,14 @@ Feature: Using the Brazenhead target
     When I'm on the lists screen
     Then I can select list item "18" even if it is off of the screen
     And I should see "Views.Lists.18. Custom items"
+
+  Scenario: Getting web views in different ways
+    When I'm on the web views screen
+    Then I should be able to find web views with these properties:
+      | property    | value                   |
+      | id          | home-feature            |
+      | xpath       | //*[@id="home-feature"] |
+      | cssSelector | div.navsection          |
+      | className   | navsection              |
+      | textContent | Mobile                  |
+      | tagName     | div                     |

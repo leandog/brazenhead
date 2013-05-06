@@ -80,3 +80,13 @@ Then /^the text of the found list item should be "(.*?)"$/ do |text|
   @driver.last_json['text'].should eq(text)
 end
 
+When(/^I'm on the web views screen$/) do
+  @navigation.web_views_screen
+end
+
+Then(/^I should be able to find web views with these properties:$/) do |web_properties_table|
+  web_properties_table.hashes.each do |row|
+    @driver.get_web_views_by row['property'], row['value']
+    @driver.last_json.should_not be_empty, "Expected to find web views by #{row['property']} with '#{row['value']}'"
+  end
+end

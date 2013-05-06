@@ -14,6 +14,11 @@ class Navigation
     lists
   end
 
+  def web_views_screen
+    views
+    web_views
+  end
+
   def custom_lists_screen
     lists_screen
     custom_list_items
@@ -69,6 +74,10 @@ class Navigation
 
   def image_view
     press_list_item(:text => 'ImageView')
+  end
+
+  def web_views
+    press_list_item(:text => 'WebView')
   end
 
 end
