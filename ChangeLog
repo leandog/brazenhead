@@ -2,6 +2,8 @@
 *	Enhancements
 	*	bases the brazenhead package name off of the package it is testing (i.e.
 	com.your.app.brazenhead rather than com.leandog.brazenhead)
+	*	added a getWebViewsBy method to the Brazenhead target to find web views by
+	their various properties
 
 === Release 0.4.6 / 2012-3-13
 * Enhancements
