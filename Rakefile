@@ -23,7 +23,8 @@ end
 
 desc 'Build the release api'
 task :release_apk do
-  `ant -f ./driver/build.xml release`
+  output = `ant -f ./driver/build.xml release`
+  raise "Error building release apk:  #{output}" unless $?.success?
   FileUtils.copy_file("./driver/bin/brazenhead-release-unsigned.apk", "./driver/brazenhead-release-unsigned.apk")
 end
 
