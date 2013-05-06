@@ -86,7 +86,7 @@ end
 
 Then(/^I should be able to find web views with these properties:$/) do |web_properties_table|
   web_properties_table.hashes.each do |row|
-    @driver.get_web_views_by row['property'], row['value']
-    @driver.last_json.should_not be_empty, "Expected to find web views by #{row['property']} with '#{row['value']}'"
+    @driver.get_web_views_by row['property'], row['value'], :target => :Brazenhead
+    @driver.last_json.should_not be_empty, "Expected to find web views by '#{row['property']}' with '#{row['value']}' but found none"
   end
 end
