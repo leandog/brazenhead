@@ -8,4 +8,6 @@ script:
   - ant test
   - bundle install
   - bundle exec rake spec
-install: ant prepare-travis-ci -q
+install:
+  - sudo apt-get install -qq --force-yes libgd2-xpm ia32-libs ia32-libs-multiarch
+  - ant prepare-travis-ci -q
