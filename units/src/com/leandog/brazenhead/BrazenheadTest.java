@@ -1,15 +1,18 @@
 package com.leandog.brazenhead;
 
-import static org.mockito.Mockito.*;
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
@@ -18,7 +21,6 @@ import android.app.Activity;
 import android.content.res.Resources;
 import android.widget.Spinner;
 
-import com.apple.jobjc.ID;
 import com.jayway.android.robotium.solo.By;
 import com.jayway.android.robotium.solo.Solo;
 import com.leandog.brazenhead.test.BrazenheadTestRunner;
