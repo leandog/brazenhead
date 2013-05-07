@@ -98,17 +98,14 @@ public class BrazenheadTest {
     
     @Test
 	public void itCanFindWebViewsByVariousProperties() {
-		final HashMap<String, String> hows = new HashMap<String, String>() {
-			{
-				put("id", "Id");
-				put("xpath", "Xpath");
-				put("cssSelector", "CssSelector");
-				put("name", "Name");
-				put("className", "ClassName");
-				put("textContent", "Text");
-				put("tagName", "TagName");
-			}
-		};
+		final HashMap<String, String> hows = new HashMap<String, String>();
+		hows.put("id", "Id");
+		hows.put("xpath", "Xpath");
+		hows.put("cssSelector", "CssSelector");
+		hows.put("name", "Name");
+		hows.put("className", "ClassName");
+		hows.put("textContent", "Text");
+		hows.put("tagName", "TagName");
 		
 		for(final Map.Entry<String, String> how : hows.entrySet()) {
 			brazenhead.getWebViewsBy(how.getKey(), "does not matter");
