@@ -1,16 +1,17 @@
 package com.leandog.brazenhead;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.List;
 
-import android.app.*;
+import android.app.Activity;
+import android.app.Instrumentation;
 import android.content.res.Resources;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.Spinner;
 
-import com.jayway.android.robotium.solo.*;
+import com.jayway.android.robotium.solo.BrazenheadSleeper;
+import com.jayway.android.robotium.solo.By;
+import com.jayway.android.robotium.solo.Solo;
+import com.jayway.android.robotium.solo.WebElement;
 
 public class Brazenhead {
 
