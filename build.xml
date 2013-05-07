@@ -27,8 +27,8 @@
 
   <target name="prepare-travis-ci" description="Prepare for travis ci build">
     <mkdir dir="tmp"/>
-    <get src="http://dl.google.com/android/android-sdk_r20.0.3-linux.tgz" dest="tmp" skipexisting="true"/>
-    <untar src="tmp/android-sdk_r20.0.3-linux.tgz" compression="gzip" dest="tmp/sdk"/>
+    <get src="http://dl.google.com/android/android-sdk_r21-linux.tgz" dest="tmp" skipexisting="true"/>
+    <untar src="tmp/android-sdk_r21-linux.tgz" compression="gzip" dest="tmp/sdk"/>
     <echo file="tmp/install-sdk">#!/bin/sh -e
       ANDROID="tmp/sdk/android-sdk-linux/tools/android"
       chmod +x $ANDROID
@@ -42,7 +42,7 @@
     <chmod file="tmp/install-sdk" perm="u+x"/>
     <exec executable="tmp/install-sdk"/>
     <propertyfile file="tmp/sdk/android-sdk-linux/tools/source.properties">
-      <entry key="Pkg.Revision" value="20.0.3"/>
+      <entry key="Pkg.Revision" value="21"/>
     </propertyfile>
     <echo file="./driver/local.properties">sdk.dir=</echo>
     <propertyfile file="./driver/local.properties">
