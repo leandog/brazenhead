@@ -126,7 +126,7 @@
 
     <target name="units" depends="compile-tests">
       <mkdir dir="${reports.tests}" />
-      <junit fork="yes" forkmode="once" printsummary="withOutAndErr" haltonfailure="${fail.on.broken.tests}">
+      <junit maxmemory="128m" fork="yes" forkmode="once" printsummary="withOutAndErr" haltonfailure="${fail.on.broken.tests}">
         <formatter type="xml" />
         <formatter type="plain" usefile="false" />
         <classpath refid="classpath.test" />
