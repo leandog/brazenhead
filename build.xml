@@ -26,6 +26,12 @@
   </target>
 
   <target name="prepare-travis-ci" description="Prepare for travis ci build">
+    <exec executable="sudo" failonerror="true">
+      <arg line="apt-get update" />
+    </exec>
+    <exec executable="sudo" failonerror="true">
+      <arg line="apt-get install -qq --force-yes libgd2-xpm ia32-libs ia32-libs-multiarch" />
+    </exec>
     <mkdir dir="tmp"/>
     <get src="http://dl.google.com/android/android-sdk_r21-linux.tgz" dest="tmp" skipexisting="true"/>
     <untar src="tmp/android-sdk_r21-linux.tgz" compression="gzip" dest="tmp/sdk"/>
