@@ -3,7 +3,10 @@
 	*	bases the brazenhead package name off of the package it is testing (i.e.
 	com.your.app.brazenhead rather than com.leandog.brazenhead)
 	*	added a getWebViewsBy method to the Brazenhead target to find web views by
+	*	added a webViewBy method to assist in getting a Solo.By class instance
 	their various properties
+	*	updated robotium from 4.0 -> 4.1
+		* more support for web views
 
 === Release 0.4.6 / 2012-3-13
 * Enhancements
