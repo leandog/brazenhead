@@ -64,13 +64,16 @@ public class Brazenhead {
     }
     
     public ArrayList<WebElement> getWebViewsBy(final String how, final String what) {
-    	try {
-			final By byHow =  (By) By.class.getDeclaredMethod(how, String.class).invoke(null, what);
-			return TestRunInformation.getSolo().getCurrentWebElements(byHow);
+    	return TestRunInformation.getSolo().getCurrentWebElements(webViewBy(how, what));
+    }
+
+	public By webViewBy(final String how, final String what) {
+		try {
+			return (By) By.class.getDeclaredMethod(how, String.class).invoke(null, what);
 		} catch (Exception e) {
 			throw new RuntimeException(String.format("Unable to locate a WebView by \"%s\"", how));
 		}
-    }
+	}
 
     private Activity theCurrentActivity() {
         return TestRunInformation.getSolo().getCurrentActivity();

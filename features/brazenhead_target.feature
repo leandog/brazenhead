@@ -41,3 +41,11 @@ Feature: Using the Brazenhead target
   Scenario: Trying to get a web view in a way that cannot be got
     When I'm on the web views screen
     Then it should be clear why I cannot get a web view by "someInvalidManner"
+
+  Scenario: Simplifying how to get a Solo.By instance
+    Then I should be able to get a By instance via:
+      | how         |
+      | id          |
+      | cssSelector |
+      | textContent |
+      | tagName     |

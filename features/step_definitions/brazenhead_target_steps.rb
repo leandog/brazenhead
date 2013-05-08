@@ -100,3 +100,14 @@ Then(/^it should be clear why I cannot get a web view by "([^"]*)"$/) do |invali
     json['theCause']['errorMessage'].should eq("Unable to locate a WebView by \"#{invalid_manner}\"")
   end
 end
+
+Then(/^I should be able to get a By instance via:$/) do |by_how|
+  by_how.hashes.each do |row|
+    @driver.chain_calls do |device|
+      device.web_view_by row['how'], 'expected value', :target => :Brazenhead
+      device.get_value
+    end
+    @driver.last_json.should eq('expected value')
+  end
+end
+
