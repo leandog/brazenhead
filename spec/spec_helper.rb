@@ -16,3 +16,5 @@ require 'brazenhead/server'
 require 'net/http'
 require 'childprocess'
 require 'tempfile'
+require 'coveralls'
+Coveralls.wear!

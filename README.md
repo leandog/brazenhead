@@ -1,5 +1,6 @@
 # Brazenhead
 [![Build Status](https://secure.travis-ci.org/leandog/brazenhead.png?branch=master)](http://travis-ci.org/leandog/brazenhead)
+[![Coverage Status](https://coveralls.io/repos/leandog/brazenhead/badge.png)](https://coveralls.io/r/leandog/brazenhead)
 
 A low-level driver for testing android applications.
 
