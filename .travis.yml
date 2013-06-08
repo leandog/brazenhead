@@ -5,6 +5,7 @@ notifications:
     - levi@leviwilson.com
     - jeff.morgan@leandog.com
 script:
+  - rake release_apk
   - ant test
   - bundle install
   - bundle exec rake spec
