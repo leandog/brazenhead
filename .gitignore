@@ -11,3 +11,4 @@ driver/*.apk
 .idea/
 local.properties
 .settings/
+coverage
