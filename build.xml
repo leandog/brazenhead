@@ -43,7 +43,7 @@
       { s=s "," int($1) } \
       END { print substr(s, 2, length(s)) }' \
       )
-      $ANDROID update sdk --no-ui --all --filter $SDKS
+      echo 'y' | $ANDROID update sdk --no-ui --all --filter $SDKS
     </echo>
     <chmod file="tmp/install-sdk" perm="u+x"/>
     <exec executable="tmp/install-sdk"/>
