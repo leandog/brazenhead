@@ -1,3 +1,11 @@
+=== Release 0.4.8 / 2013-8-20
+*	Enhancements
+	*	Updated robotium from 4.1 -> 4.2
+
+*	Bug Fixes
+	*	Fixed an issue that could have caused problems with apps that use
+	android.support.v4 within them
+
 ===	Release 0.4.7 / 2013-6-8
 *	Enhancements
 	*	bases the brazenhead package name off of the package it is testing (i.e.

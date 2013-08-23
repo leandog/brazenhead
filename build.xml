@@ -33,23 +33,20 @@
       <arg line="apt-get install -qq --force-yes libgd2-xpm ia32-libs ia32-libs-multiarch" />
     </exec>
     <mkdir dir="tmp"/>
-    <get src="http://dl.google.com/android/android-sdk_r21-linux.tgz" dest="tmp" skipexisting="true"/>
-    <untar src="tmp/android-sdk_r21-linux.tgz" compression="gzip" dest="tmp/sdk"/>
+    <get src="http://dl.google.com/android/android-sdk_r22.0.1-linux.tgz" dest="tmp" skipexisting="true"/>
+    <untar src="tmp/android-sdk_r22.0.1-linux.tgz" compression="gzip" dest="tmp/sdk"/>
     <echo file="tmp/install-sdk">#!/bin/sh -e
       ANDROID="tmp/sdk/android-sdk-linux/tools/android"
       chmod +x $ANDROID
       SDKS=$($ANDROID list sdk --all | awk \
-      '/Android SDK Tools.*/ || /Android SDK Platform-tools.*/ || /SDK Platform.* API 1[05]/ || /Google APIs, Android API 1[05].*/ \
+      '/Android SDK Tools.*/ || /Android SDK Build-tools.*/ || /Android SDK Platform-tools.*/ || /SDK Platform.* API 1[05]/ || /Google APIs, Android API 1[05].*/ \
       { s=s "," int($1) } \
       END { print substr(s, 2, length(s)) }' \
       )
-      $ANDROID update sdk --no-ui --all --filter $SDKS
+      echo 'y' | $ANDROID update sdk --no-ui --all --filter $SDKS
     </echo>
     <chmod file="tmp/install-sdk" perm="u+x"/>
     <exec executable="tmp/install-sdk"/>
-    <propertyfile file="tmp/sdk/android-sdk-linux/tools/source.properties">
-      <entry key="Pkg.Revision" value="21"/>
-    </propertyfile>
     <echo file="./driver/local.properties">sdk.dir=</echo>
     <propertyfile file="./driver/local.properties">
       <entry key="sdk.dir" value="${basedir}/tmp/sdk/android-sdk-linux/"/>
