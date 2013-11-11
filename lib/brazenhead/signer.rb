@@ -7,9 +7,18 @@ module Brazenhead
 
     def sign(apk, keystore)
       @keystore = keystore
-      jarsign(apk)
-      verify(apk)
-      process.run(*zipalign(apk), *signed(apk))
+	  
+  	  begin
+  	    jarsign(apk)
+        verify(apk)
+  	  rescue ChildProcess::LaunchError
+  	    $stderr.print "\nERROR: Could not execute jarsigner command.  Perhaps jarsigner is not in your path?\n"
+  	  end
+  	  begin
+          process.run(*zipalign(apk), *signed(apk))
+  	  rescue ChildProcess::LaunchError
+  	      $stderr.print "\nERROR: Could not execute zipalign command.  Perhaps zipalign is not in your path?\n"
+  	  end
     end
 
     private

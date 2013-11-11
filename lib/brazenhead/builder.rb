@@ -55,9 +55,13 @@ module Brazenhead
     end
 
     def update_test_manifest
-      replace android_manifest, /\btargetPackage="[^"]+"/,  "targetPackage=\"#{the_target}\""
-      replace android_manifest, /\bpackage="[^"]+"/,  "package=\"#{the_target}.brazenhead\""
-      update_manifest test_apk, android_manifest, manifest_info.target_sdk
+      begin
+        replace android_manifest, /\btargetPackage="[^"]+"/,  "targetPackage=\"#{the_target}\""
+        replace android_manifest, /\bpackage="[^"]+"/,  "package=\"#{the_target}.brazenhead\""
+        update_manifest test_apk, android_manifest, manifest_info.target_sdk
+      rescue ChildProcess::LaunchError
+        $stderr.print "\nERROR: Could not load manifest with aapt.  Perhaps aapt is not in your path?\n"
+      end
     end
 
     def replace(file, match, replacement)
