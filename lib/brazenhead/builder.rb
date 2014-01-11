@@ -29,19 +29,26 @@ module Brazenhead
         copy_base_files
         update_test_manifest
         sign test_apk, @keystore
-        reinstall test_apk
-        reinstall @source_apk
+        reinstall the_test_target, test_apk
+        reinstall the_target, @source_apk
       end
     end
 
-    def reinstall(apk, timeout=90)
+    def reinstall(package, apk, timeout=90)
       begin
-        install apk, "-r", {}, timeout
+        remove package, timeout
+        install apk, nil, {}, timeout
       rescue ADB::ADBError => e
         $stdout.puts last_stdout
         $stderr.puts last_stderr
         raise e
       end
+    end
+
+    def remove(package, timeout)
+      uninstall package, {}, timeout
+    rescue ADB::ADBError
+      # may not be there
     end
 
     def copy_base_files
@@ -56,7 +63,7 @@ module Brazenhead
 
     def update_test_manifest
       replace android_manifest, /\btargetPackage="[^"]+"/,  "targetPackage=\"#{the_target}\""
-      replace android_manifest, /\bpackage="[^"]+"/,  "package=\"#{the_target}.brazenhead\""
+      replace android_manifest, /\bpackage="[^"]+"/,  "package=\"#{the_test_target}\""
       update_manifest test_apk, android_manifest, manifest_info.target_sdk
     end
 
@@ -66,6 +73,10 @@ module Brazenhead
 
     def the_target
       @the_target ||= manifest_info.package
+    end
+
+    def the_test_target
+      "#{the_target}.brazenhead"
     end
 
     def manifest_info

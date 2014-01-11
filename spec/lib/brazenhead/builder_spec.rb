@@ -23,8 +23,9 @@ describe Brazenhead::Builder do
     FileUtils.stub(:cp)
     File.stub(:read).and_return('')
     File.stub(:write)
-    stub_all server, :update_manifest, :sign, :install
+    stub_all server, :update_manifest, :sign, :install, :uninstall
 
+    manifest_info.stub(:package).and_return('com.test.package')
     Brazenhead::ManifestInfo.stub(:new).with(expanded_apk).and_return(manifest_info)
     Brazenhead::Process.stub(:new).and_return(process)
   end
@@ -112,13 +113,20 @@ describe Brazenhead::Builder do
 
     context "installing the test server" do
       it "should reinstall the test server to the device" do
-        server.should_receive(:install).with("#{driver_apk}", "-r", {}, 90)
+        server.should_receive(:uninstall).with('com.test.package.brazenhead', {}, 90)
+        server.should_receive(:install).with(driver_apk, nil, {}, 90)
         server.build_for(apk, keystore)
       end
 
       it "should reinstall the target package to the device" do
-        server.should_receive(:install).with(expanded_apk, "-r", {}, 90)
+        server.should_receive(:uninstall).with('com.test.package', {}, 90)
+        server.should_receive(:install).with(expanded_apk, nil, {}, 90)
         server.build_for(apk, keystore)
+      end
+
+      it 'silently fails if the package is not already there' do
+        server.should_receive(:uninstall).and_raise ADB::ADBError
+        expect { server.build_for(apk, keystore) }.to_not raise_error ADB::ADBError
       end
 
     end
