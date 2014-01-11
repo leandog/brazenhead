@@ -8,10 +8,7 @@ import android.content.res.Resources;
 import android.view.View;
 import android.widget.Spinner;
 
-import com.jayway.android.robotium.solo.BrazenheadSleeper;
-import com.jayway.android.robotium.solo.By;
-import com.jayway.android.robotium.solo.Solo;
-import com.jayway.android.robotium.solo.WebElement;
+import com.robotium.solo.*;
 
 public class Brazenhead {
 

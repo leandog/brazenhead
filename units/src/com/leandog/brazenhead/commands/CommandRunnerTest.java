@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import org.junit.*;
 import org.mockito.*;
 
-import com.jayway.android.robotium.solo.Solo;
 import com.leandog.brazenhead.*;
 import com.leandog.brazenhead.commands.Command.Target;
+import com.robotium.solo.Solo;
 
 public class CommandRunnerTest {
 

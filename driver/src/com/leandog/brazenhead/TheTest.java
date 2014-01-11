@@ -2,8 +2,8 @@ package com.leandog.brazenhead;
 
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.jayway.android.robotium.solo.Solo;
 import com.leandog.brazenhead.server.JettyServer;
+import com.robotium.solo.Solo;
 
 @SuppressWarnings("rawtypes")
 public class TheTest extends ActivityInstrumentationTestCase2 {

@@ -17,11 +17,11 @@ import android.view.View;
 import android.widget.*;
 
 import com.google.brazenhead.gson.Gson;
-import com.jayway.android.robotium.solo.Solo;
 import com.leandog.brazenhead.commands.*;
 import com.leandog.brazenhead.exceptions.CommandNotFoundException;
 import com.leandog.brazenhead.json.ExceptionSerializer.ExceptionSummary;
 import com.leandog.brazenhead.test.BrazenheadTestRunner;
+import com.robotium.solo.Solo;
 
 @RunWith(BrazenheadTestRunner.class)
 public class BrazenheadRequestHandlerTest {

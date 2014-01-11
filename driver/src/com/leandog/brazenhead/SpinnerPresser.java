@@ -4,7 +4,8 @@ import android.app.Instrumentation;
 import android.view.KeyEvent;
 import android.widget.Spinner;
 
-import com.jayway.android.robotium.solo.*;
+import com.robotium.solo.BrazenheadSleeper;
+import com.robotium.solo.Solo;
 
 public class SpinnerPresser {
 

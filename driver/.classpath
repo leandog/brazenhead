@@ -3,14 +3,15 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
-	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="lib" path="libs/jetty-6.1.26.jar"/>
 	<classpathentry kind="lib" path="libs/jetty-util-6.1.26.jar"/>
 	<classpathentry kind="lib" path="libs/servlet-api-2.5-20081211.jar"/>
 	<classpathentry kind="lib" path="libs/brazenhead-gson-2.2.2.jar"/>
-	<classpathentry kind="lib" path="libs/robotium-solo-4.2.jar">
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
+	<classpathentry kind="lib" path="libs/robotium-solo-5.0.1.jar">
 		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/brazenhead/libs/robotium-solo-4.2-javadoc.jar!/"/>
+			<attribute name="javadoc_location" value="jar:platform:/resource/brazenhead/libs/robotium-solo-5.0.1-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="output" path="bin/classes"/>

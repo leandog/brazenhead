@@ -21,9 +21,9 @@ import android.app.Activity;
 import android.content.res.Resources;
 import android.widget.Spinner;
 
-import com.jayway.android.robotium.solo.By;
-import com.jayway.android.robotium.solo.Solo;
 import com.leandog.brazenhead.test.BrazenheadTestRunner;
+import com.robotium.solo.By;
+import com.robotium.solo.Solo;
 
 @RunWith(BrazenheadTestRunner.class)
 public class BrazenheadTest {
@@ -135,7 +135,7 @@ public class BrazenheadTest {
     }
 
     private String by(final String how) {
-    	return String.format("com.jayway.android.robotium.solo.By$%s", how);
+    	return String.format("com.robotium.solo.By$%s", how);
 	}
 
 }

@@ -4,8 +4,9 @@ import android.app.Instrumentation;
 import android.view.*;
 import android.widget.*;
 
-import com.jayway.android.robotium.solo.*;
 import com.leandog.brazenhead.exceptions.IsNotAListViewItem;
+import com.robotium.solo.BrazenheadSleeper;
+import com.robotium.solo.Solo;
 
 public class ListItemFinder {
 

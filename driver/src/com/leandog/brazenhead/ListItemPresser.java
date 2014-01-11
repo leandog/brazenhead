@@ -1,6 +1,6 @@
 package com.leandog.brazenhead;
 
-import com.jayway.android.robotium.solo.Solo;
+import com.robotium.solo.Solo;
 
 public class ListItemPresser {
 

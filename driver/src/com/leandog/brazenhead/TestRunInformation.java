@@ -1,8 +1,8 @@
 package com.leandog.brazenhead;
 
-import android.os.Bundle;
+import com.robotium.solo.Solo;
 
-import com.jayway.android.robotium.solo.Solo;
+import android.os.Bundle;
 
 public class TestRunInformation {
     

@@ -11,8 +11,8 @@ import org.mockito.Mock;
 import android.app.Activity;
 import android.os.Bundle;
 
-import com.jayway.android.robotium.solo.Solo;
 import com.leandog.brazenhead.test.BrazenheadTestRunner;
+import com.robotium.solo.Solo;
 
 @RunWith(BrazenheadTestRunner.class)
 public class TheTestTests {

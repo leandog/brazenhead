@@ -11,8 +11,9 @@ import android.app.Instrumentation;
 import android.view.KeyEvent;
 import android.widget.Spinner;
 
-import com.jayway.android.robotium.solo.*;
 import com.leandog.brazenhead.test.BrazenheadTestRunner;
+import com.robotium.solo.BrazenheadSleeper;
+import com.robotium.solo.Solo;
 
 @RunWith(Enclosed.class)
 public class SpinnerPresserTest {
