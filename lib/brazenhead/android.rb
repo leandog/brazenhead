@@ -32,7 +32,7 @@ module Brazenhead
     end
 
     def android_jar_missing(sdk)
-      raise Exception, "the path to android-#{sdk} was not found"
+      raise Brazenhead::Environment, "the path to android-#{sdk} was not found"
     end
   end
 end
