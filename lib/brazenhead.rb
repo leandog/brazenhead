@@ -4,6 +4,7 @@ require 'brazenhead/request'
 require 'brazenhead/call_accumulator'
 require 'brazenhead/server'
 require 'brazenhead/core_ext/string'
+require 'brazenhead/environment'
 
 module Brazenhead
   def method_missing(method, *args)

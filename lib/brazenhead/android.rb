@@ -15,6 +15,7 @@ module Brazenhead
 
     private
     def android_home
+      raise Brazenhead::Environment, 'ANDROID_HOME is missing from your environment' unless ENV['ANDROID_HOME']
       ENV['ANDROID_HOME']
     end
 

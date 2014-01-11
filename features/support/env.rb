@@ -13,8 +13,6 @@ keystore = {
   :keystore_password => 'android'
 }
 
-server = Brazenhead::Server.new('features/support/ApiDemos.apk', keystore)
-
 class Driver
   include Brazenhead
 
@@ -30,9 +28,13 @@ end
 Before do
   @driver = Driver.new
   @navigation = Navigation.new @driver
-  server.start("ApiDemos")
+  @server = Brazenhead::Server.new('features/support/ApiDemos.apk', keystore)
 end
 
-After do
-  server.stop
+Before('~@environment') do
+  @server.start :ApiDemos
+end
+
+After('~@environment') do
+  @server.stop
 end
