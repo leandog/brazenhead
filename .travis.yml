@@ -20,5 +20,6 @@ before_install:
   - echo y | android update sdk --filter ${FLAVORS} --no-ui --force
   - echo y | android update sdk --filter ${AVDS} --no-ui --force
   - echo no | android create avd --force -n test -t android-19 --abi armeabi-v7a
+  - android update project -p driver
   - emulator -avd test -no-skin -no-audio -no-window &
   - adb wait-for-device
