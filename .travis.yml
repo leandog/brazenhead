@@ -9,7 +9,8 @@ script:
   - ant test
   - bundle exec rake test
 before_install:
-  - export FLAVORS=platform-tools,build-tools-19.0.1,android-10,android-15,android-19,sysimg-19,extra-android-support
+  - export FLAVORS=platform-tools,build-tools-19.0.1,android-10,android-15,android-19,extra-android-support
+  - export AVDS=sysimg-19
   - sudo apt-get update -qq
   - sudo apt-get install -qq libstdc++6:i386 lib32z1
   - wget http://dl.google.com/android/android-sdk_r22.3-linux.tgz
@@ -17,6 +18,7 @@ before_install:
   - export ANDROID_HOME=`pwd`/android-sdk-linux
   - export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/build-tools/19.0.1
   - echo y | android update sdk --filter ${FLAVORS} --no-ui --force
+  - echo y | android update sdk --filter ${AVDS} --no-ui --force
   - echo no | android create avd --force -n test -t android-19 --abi armeabi-v7a
   - emulator -avd test -no-skin -no-audio -no-window &
   - adb wait-for-device
